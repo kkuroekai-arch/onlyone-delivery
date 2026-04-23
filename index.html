@@ -3,20 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Only One Delivery | もう迷わない、想いが伝わるギフト。</title>
+<title>Only One Delivery | 誰でも、かんたんに、想いが伝わるギフトが作れる。</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@200;300;400&family=Cormorant+Garamond:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Shippori+Mincho:wght@400;500;600&family=Noto+Sans+JP:wght@200;300;400&family=Cormorant+Garamond:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{--cream:#FAF8F4;--cream-mid:#F3EFE8;--cream-dark:#E8E2D8;--ink:#1C1917;--ink-mid:#3D3530;--ink-light:#7A7168;--gold:#9A7B3E;--gold-hi:#B8965A;--gold-light:#D4B483;--gold-rule:rgba(154,123,62,.18);--white:#FFFFFF;--serif:'Playfair Display',Georgia,serif;--serif-jp:'Shippori Mincho','Yu Mincho',serif;--sans-jp:'Noto Sans JP',sans-serif;--pad:clamp(80px,10vw,140px)}
 html{scroll-behavior:smooth}
-body{background:var(--cream);color:var(--ink);font-family:var(--sans-jp);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{background:var(--cream);color:var(--ink);font-family:var(--sans-jp);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 #intro{position:fixed;inset:0;z-index:9999;background:var(--cream);display:flex;align-items:center;justify-content:center;transition:opacity 1.2s ease,visibility 1.2s ease}
 #intro.hide{opacity:0;visibility:hidden}
-#intro svg{width:min(520px,85vw)}
 #main{opacity:0;transition:opacity 1s ease}
 #main.show{opacity:1}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease}
@@ -31,30 +30,31 @@ body{background:var(--cream);color:var(--ink);font-family:var(--sans-jp);font-we
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:28px 56px;display:flex;justify-content:space-between;align-items:center;transition:all .5s ease}
 .nav-right{display:flex;align-items:center;gap:40px}
 nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding:18px 56px;border-bottom:1px solid var(--gold-rule)}
-.logo-text{display:inline-flex;align-items:center;gap:10px;text-decoration:none;transition:opacity .3s ease}
-.logo-text:hover{opacity:.75}
+.logo-text{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
 .logo-text-icon{flex-shrink:0}
 .logo-tagline{font-family:var(--serif-jp);font-size:9px;font-weight:400;letter-spacing:.18em;color:var(--ink-light);margin-top:4px;display:block}
 .logo-text-words{font-family:'Cormorant Garamond','Playfair Display',Georgia,serif;font-size:11px;font-weight:500;letter-spacing:.35em;color:var(--gold);line-height:1.7;text-align:left;display:inline-block}
 .nav-cta{font-family:var(--sans-jp);font-size:10px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--ink);text-decoration:none;border:1px solid rgba(28,25,23,.25);padding:11px 28px;transition:all .3s ease;display:flex;align-items:center;gap:8px;white-space:nowrap}
 .nav-cta:hover{border-color:var(--gold);color:var(--gold);background:rgba(154,123,62,.04)}
-.hero{height:100vh;min-height:700px;position:relative;display:flex;align-items:center;padding:0 56px;overflow:hidden}
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:0 56px;overflow:hidden}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(250,248,244,.82) 0%,rgba(250,248,244,.35) 45%,rgba(250,248,244,.05) 100%)}
-.hero-overlay::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(250,248,244,.45) 0%,transparent 60%)}
-.hero-content{position:relative;z-index:1;max-width:560px;padding-top:80px;flex:1}
+.hero-content{position:relative;z-index:1;max-width:640px;padding-top:80px;flex:1}
 .hero-eyebrow{font-size:9px;font-weight:300;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:24px;opacity:0;animation:fadeUp .8s ease .3s forwards}
-.hero h1{font-family:var(--serif-jp);font-size:clamp(34px,5vw,68px);font-weight:500;line-height:1.25;letter-spacing:.02em;color:var(--ink);margin-bottom:32px;opacity:0;animation:fadeUp .8s ease .55s forwards}
-.hero h1 em{font-style:normal;color:var(--gold)}
-.hero-sub{font-family:var(--serif-jp);font-size:15px;font-weight:400;letter-spacing:.08em;line-height:2.6;color:var(--ink-mid);margin-bottom:52px;opacity:0;animation:fadeUp .8s ease .8s forwards}
-.hero-actions{display:flex;align-items:center;gap:36px;opacity:0;animation:fadeUp .8s ease 1s forwards}
+.hero h1{font-family:var(--serif-jp);font-size:clamp(28px,4.2vw,56px);font-weight:500;line-height:1.35;letter-spacing:.02em;color:var(--ink);margin-bottom:36px;opacity:0;animation:fadeUp .8s ease .55s forwards}
+.hero h1 em{font-style:normal;color:var(--gold);background:linear-gradient(transparent 64%,rgba(154,123,62,.2) 64%);padding:0 4px}
+.hero-pain{display:flex;flex-wrap:wrap;gap:10px 12px;margin-bottom:32px;opacity:0;animation:fadeUp .8s ease .85s forwards}
+.hero-pain span{font-family:var(--serif-jp);font-size:12px;font-weight:400;letter-spacing:.05em;color:var(--ink-light);padding:7px 14px;border:1px solid var(--gold-rule);border-radius:100px;background:rgba(255,255,255,.6)}
+.hero-cta-text{font-family:var(--serif-jp);font-size:15px;font-weight:500;line-height:1.9;color:var(--ink);margin-bottom:40px;opacity:0;animation:fadeUp .8s ease 1.05s forwards;letter-spacing:.04em}
+.hero-cta-text em{font-style:normal;color:var(--gold);background:linear-gradient(transparent 60%,rgba(154,123,62,.18) 60%);padding:0 4px}
+.hero-actions{display:flex;align-items:center;gap:36px;opacity:0;animation:fadeUp .8s ease 1.2s forwards}
 .btn-dark{display:inline-flex;align-items:center;gap:10px;font-size:10px;font-weight:300;letter-spacing:.25em;text-transform:uppercase;color:var(--white);background:var(--ink);padding:16px 40px;text-decoration:none;transition:all .3s ease;white-space:nowrap}
 .btn-dark:hover{background:var(--gold);transform:translateY(-1px)}
 .btn-ghost{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ink-light);text-decoration:none;border-bottom:1px solid rgba(28,25,23,.2);padding-bottom:2px;transition:all .3s ease;white-space:nowrap}
 .btn-ghost:hover{color:var(--gold);border-color:var(--gold)}
-.hero-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:40px;width:100%;max-width:1140px;margin:0 auto;padding-top:80px}
-.hero-gift{flex:0 0 460px;display:flex;align-items:center;justify-content:center;opacity:0;animation:fadeIn 1.2s ease 1.2s forwards}
-@media(max-width:960px){.hero-gift{display:none}.hero-inner{flex-direction:column;padding-top:120px}}
-.hero-scroll{position:absolute;bottom:36px;right:56px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeIn 1s ease 1.8s forwards}
+.hero-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;gap:60px;width:100%;max-width:1200px;margin:0 auto;padding:100px 0 60px}
+.hero-gift{flex:0 0 380px;display:flex;align-items:center;justify-content:center;opacity:0;animation:fadeIn 1.2s ease 1.4s forwards}
+@media(max-width:960px){.hero-gift{display:none}.hero-inner{flex-direction:column;padding-top:100px}.hero-content{padding-top:20px}}
+.hero-scroll{position:absolute;bottom:36px;right:56px;display:flex;flex-direction:column;align-items:center;gap:10px;opacity:0;animation:fadeIn 1s ease 2s forwards}
 .hero-scroll span{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--ink-light);writing-mode:vertical-rl}
 .scroll-bar{width:1px;height:52px;background:linear-gradient(to bottom,var(--gold),transparent);animation:scrollPulse 2.2s ease infinite}
 .intro-sec{padding:var(--pad) 56px;background:var(--white);border-top:1px solid var(--gold-rule);scroll-margin-top:80px}
@@ -80,8 +80,6 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .scene-img{width:100%;height:100%;object-fit:cover;filter:brightness(.82) saturate(.95);transition:transform .8s ease,filter .6s ease}
 .scene-card:hover .scene-img{transform:scale(1.04);filter:brightness(.92) saturate(1)}
 .scene-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,23,.82) 0%,rgba(28,25,23,.15) 60%,transparent 100%)}
-.scene-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--gold-hi),transparent);transform:scaleX(0);transition:transform .5s ease}
-.scene-card:hover::after{transform:scaleX(1)}
 .scene-info{position:absolute;bottom:0;left:0;right:0;padding:28px 28px 32px}
 .scene-num{font-family:var(--serif);font-size:11px;font-style:italic;letter-spacing:.2em;color:var(--gold-light);display:block;margin-bottom:6px}
 .scene-name{font-family:var(--serif-jp);font-size:18px;font-weight:400;color:#fff;margin-bottom:6px}
@@ -95,6 +93,67 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .step h3{font-family:var(--serif-jp);font-size:15px;font-weight:500;color:var(--ink);margin-bottom:14px;line-height:1.8}
 .step p{font-size:12px;line-height:2.2;color:var(--ink-light)}
 .step::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.process-tagline{max-width:640px;margin:72px auto 0;text-align:center;padding:48px 40px;border-top:1px solid var(--gold-rule);position:relative}
+.process-tagline::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.process-tagline p{font-family:var(--serif-jp);font-size:clamp(16px,2vw,22px);font-weight:500;color:var(--ink);line-height:2.2;letter-spacing:.1em}
+.process-tagline p em{font-style:normal;color:var(--gold)}
+.process-tagline small{font-family:var(--serif);font-size:11px;letter-spacing:.3em;color:var(--gold-light);display:block;margin-top:14px;font-style:italic}
+.line-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--cream-mid);border-top:1px solid var(--gold-rule);border-bottom:1px solid var(--gold-rule);position:relative;overflow:hidden}
+.line-inner{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.line-text{padding:20px 0}
+.line-label{font-size:9px;font-weight:300;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:block}
+.line-title{font-family:var(--serif-jp);font-size:clamp(24px,3vw,38px);font-weight:500;line-height:1.6;color:var(--ink);margin-bottom:28px;letter-spacing:.04em}
+.line-title em{font-style:normal;color:var(--gold)}
+.line-desc{font-family:var(--serif-jp);font-size:14px;line-height:2.4;letter-spacing:.06em;color:var(--ink-mid);margin-bottom:36px}
+.line-highlight{display:inline-block;font-family:var(--serif-jp);font-size:clamp(18px,2.2vw,24px);font-weight:500;color:var(--ink);background:linear-gradient(transparent 60%,rgba(154,123,62,.18) 60%);padding:0 4px;letter-spacing:.05em}
+.line-chat-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:60px 80px}
+/* PHONE FRAME - Enhanced */
+.phone-frame{width:min(100%,320px);background:#1C1917;border-radius:44px;padding:10px;box-shadow:0 30px 60px rgba(154,123,62,.22),0 6px 20px rgba(28,25,23,.12);position:relative;z-index:2}
+.phone-frame::before{content:'';position:absolute;left:-3px;top:100px;width:3px;height:30px;background:#1C1917;border-radius:2px 0 0 2px}
+.phone-frame::after{content:'';position:absolute;left:-3px;top:145px;width:3px;height:50px;background:#1C1917;border-radius:2px 0 0 2px;box-shadow:0 70px 0 #1C1917,0 70px 0 0 #1C1917}
+.phone-power{position:absolute;right:-3px;top:130px;width:3px;height:60px;background:#1C1917;border-radius:0 2px 2px 0}
+.phone-notch{width:110px;height:28px;background:#1C1917;border-radius:0 0 18px 18px;position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:3}
+.phone-screen{background:#F7F7F7;border-radius:34px;overflow:hidden;position:relative}
+.phone-status-bar{background:#fff;padding:10px 24px 6px;display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:700;color:#111;border-bottom:none;padding-top:16px}
+.phone-status-time{letter-spacing:.02em}
+.phone-status-icons{display:flex;align-items:center;gap:5px}
+.phone-status-icons svg{width:13px;height:13px}
+.chat-header{background:#fff;padding:10px 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #eee}
+.chat-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#9A7B3E,#B8965A);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:13px;font-weight:500}
+.chat-header-info{flex:1}
+.chat-header-name{font-size:11px;font-weight:600;color:#333;letter-spacing:.04em}
+.chat-header-status{font-size:9px;color:#06C755;margin-top:2px}
+.chat-body{background:#8CACD1;padding:14px 10px 18px;height:440px;overflow:hidden;display:flex;flex-direction:column;gap:6px;position:relative}
+.chat-msg{max-width:82%;display:flex;flex-direction:column;opacity:0;animation:msgIn .5s ease forwards;align-self:flex-end;align-items:flex-end}
+.chat-msg.d1{animation-delay:.2s}
+.chat-msg.d2{animation-delay:.8s}
+.chat-msg.d3{animation-delay:1.4s}
+.chat-msg.d4{animation-delay:2s}
+.chat-msg.d5{animation-delay:2.7s}
+.chat-msg.d6{animation-delay:3.3s}
+.chat-msg.d7{animation-delay:4s}
+.chat-msg.d8{animation-delay:4.6s}
+.chat-bubble{background:#87E55E;padding:7px 11px;border-radius:12px;font-size:10.5px;line-height:1.55;color:#111;letter-spacing:.02em}
+.chat-time{font-size:8px;color:#fff;margin-top:2px;padding:0 6px;opacity:.85}
+.chat-photo{width:120px;height:88px;border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.chat-photo.p1{background:linear-gradient(135deg,#D4B483,#9A7B3E)}
+.chat-photo.p2{background:linear-gradient(135deg,#8CACD1,#5678A0)}
+.chat-photo.p3{background:linear-gradient(135deg,#E8A87C,#C38D5E)}
+.chat-photo.p4{background:linear-gradient(135deg,#A8C5A0,#6B8E5E)}
+.chat-photo svg{width:24px;height:24px;opacity:.85}
+.chat-video{width:120px;height:88px;background:linear-gradient(135deg,#7A7168,#3D3530);border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.chat-video::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.15)}
+.chat-video svg{width:26px;height:26px;fill:#fff;z-index:1;position:relative}
+.chat-photo-row{display:flex;gap:4px}
+.chat-photo-row .chat-photo{width:74px;height:74px}
+.chat-typing-indicator{align-self:flex-start;padding:7px 12px;background:rgba(255,255,255,.7);border-radius:100px;font-size:9px;color:#666;display:flex;align-items:center;gap:6px;opacity:0;animation:msgIn .5s ease 5.3s forwards;margin-top:4px;letter-spacing:.04em}
+.chat-typing-indicator span{width:4px;height:4px;background:#999;border-radius:50%;animation:typingDot 1.2s ease-in-out infinite}
+.chat-typing-indicator span:nth-child(2){animation-delay:.2s}
+.chat-typing-indicator span:nth-child(3){animation-delay:.4s}
+.phone-home-bar{background:#1C1917;width:110px;height:4px;border-radius:100px;margin:10px auto 8px;opacity:.9}
+/* POINT CALLOUTS */
+@media(max-width:1100px){.line-chat-wrap{padding:40px 40px}}
+@media(max-width:960px){.line-chat-wrap{padding:20px}}
 .pricing-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--cream-mid);border-top:1px solid var(--gold-rule);border-bottom:1px solid var(--gold-rule)}
 .pricing-inner{max-width:920px;margin:0 auto;text-align:center}
 .pricing-header{margin-bottom:52px}
@@ -125,15 +184,15 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .coming-soon-title{font-family:var(--serif-jp);font-size:clamp(16px,2vw,20px);font-weight:500;color:var(--ink);margin-bottom:28px;letter-spacing:.1em;line-height:1.8}
 .coming-soon-divider{width:32px;height:1px;background:var(--gold-rule);margin:0 auto 28px}
 .coming-soon-desc{font-family:var(--serif-jp);font-size:13px;font-weight:400;line-height:2.4;letter-spacing:.08em;color:var(--ink-light);max-width:420px;margin:0 auto}
-.cta-sec{padding:var(--pad) 56px;text-align:center;position:relative;overflow:hidden;min-height:580px;display:flex;align-items:center;justify-content:center}
+.cta-sec{padding:var(--pad) 56px;text-align:center;position:relative;overflow:hidden;min-height:620px;display:flex;align-items:center;justify-content:center}
 .cta-bg{position:absolute;inset:0}
 .cta-bg-img{width:100%;height:100%;object-fit:cover;filter:brightness(.58) saturate(.75)}
 .cta-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,23,.5) 0%,transparent 60%)}
-.cta-inner{position:relative;z-index:1;max-width:600px}
+.cta-inner{position:relative;z-index:1;max-width:820px}
 .cta-label{font-size:9px;letter-spacing:.5em;text-transform:uppercase;color:var(--gold-light);margin-bottom:36px;display:block}
-.cta-inner h2{font-family:var(--serif-jp);font-size:clamp(36px,5.5vw,68px);font-weight:500;line-height:1.2;color:#fff;margin-bottom:24px}
-.cta-inner h2 em{font-style:normal;color:var(--gold-light)}
-.cta-inner p{font-family:var(--serif-jp);font-size:14px;font-weight:400;letter-spacing:.1em;color:rgba(255,255,255,.7);max-width:380px;margin:0 auto 52px;line-height:2.4}
+.cta-inner h2{font-family:var(--serif-jp);font-size:clamp(28px,4.5vw,52px);font-weight:500;line-height:1.4;color:#fff;margin-bottom:24px}
+.cta-inner h2 em{font-style:normal;color:var(--gold-light);background:linear-gradient(transparent 64%,rgba(212,180,131,.25) 64%);padding:0 4px}
+.cta-inner p{font-family:var(--serif-jp);font-size:14px;font-weight:400;letter-spacing:.1em;color:rgba(255,255,255,.7);max-width:420px;margin:0 auto 52px;line-height:2.4}
 .btn-white{display:inline-flex;align-items:center;gap:10px;font-size:10px;letter-spacing:.25em;text-transform:uppercase;color:var(--ink);background:#fff;padding:16px 44px;text-decoration:none;transition:all .3s ease;white-space:nowrap}
 .btn-white:hover{background:var(--gold-light);color:#fff;transform:translateY(-1px)}
 footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold-rule);display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center}
@@ -143,21 +202,6 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 .footer-link{font-size:10px;letter-spacing:.15em;color:var(--ink-light);text-decoration:none;transition:color .3s ease;white-space:nowrap}
 .footer-link:hover{color:var(--gold)}
 .footer-note{font-size:10px;letter-spacing:.15em;color:var(--ink-light)}
-@keyframes firefly{0%,100%{opacity:0}30%,70%{opacity:1}}
-.sp1{animation:firefly 3.8s ease-in-out infinite}
-.sp2{animation:firefly 4.6s ease-in-out 1.2s infinite}
-.sp3{animation:firefly 5.2s ease-in-out 2.8s infinite}
-.sp4{animation:firefly 4.1s ease-in-out .6s infinite}
-.sp5{animation:firefly 5.8s ease-in-out 1.9s infinite}
-.sp6{animation:firefly 4.4s ease-in-out 3.2s infinite}
-.sp7{animation:firefly 3.6s ease-in-out .9s infinite}
-.sp8{animation:firefly 4.7s ease-in-out 2.7s infinite}
-.sp9{animation:firefly 5.3s ease-in-out .5s infinite}
-.sp10{animation:firefly 3.9s ease-in-out 3.1s infinite}
-.sp11{animation:firefly 4.3s ease-in-out 1.7s infinite}
-.sp12{animation:firefly 5.6s ease-in-out .3s infinite}
-.sp13{animation:firefly 4.0s ease-in-out 2.3s infinite}
-.sp14{animation:firefly 3.5s ease-in-out 1.4s infinite}
 .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none;z-index:200}
 .hamburger span{display:block;width:22px;height:1.5px;background:var(--ink);transition:all .3s ease}
 .hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
@@ -165,15 +209,15 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 .hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
 .mobile-menu{position:fixed;inset:0;z-index:150;background:rgba(250,248,244,.98);backdrop-filter:blur(20px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:48px;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease}
 .mobile-menu.open{opacity:1;visibility:visible}
-.mobile-menu a{font-family:var(--serif-jp);font-size:18px;font-weight:400;letter-spacing:.2em;color:var(--ink);text-decoration:none;transition:color .3s ease}
-.mobile-menu a:hover{color:var(--gold)}
-.mobile-menu .mobile-cta{font-family:var(--sans-jp);font-size:11px;letter-spacing:.25em;color:var(--white);background:var(--ink);padding:14px 40px;text-decoration:none;transition:background .3s ease;margin-top:16px}
-.mobile-menu .mobile-cta:hover{background:var(--gold)}
+.mobile-menu a{font-family:var(--serif-jp);font-size:18px;font-weight:400;letter-spacing:.2em;color:var(--ink);text-decoration:none}
+.mobile-menu .mobile-cta{font-family:var(--sans-jp);font-size:11px;letter-spacing:.25em;color:var(--white);background:var(--ink);padding:14px 40px;text-decoration:none;margin-top:16px}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.nav-links{display:none}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start;justify-content:center}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr;gap:2px}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:repeat(2,1fr);gap:2px}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:440px}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}}
-@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:88px}.hero h1{font-size:clamp(32px,9vw,52px);margin-bottom:24px}.hero-sub{font-size:13px;margin-bottom:36px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all;overflow-wrap:normal}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr;gap:2px}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr;gap:2px}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:380px}.cta-inner h2{font-size:clamp(28px,8vw,48px)}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}#hero-text-anim{width:100% !important;padding:20px 0 !important}#hero-line1,#hero-line2{justify-content:flex-start}}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}}
+@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(24px,7vw,40px);margin-bottom:28px}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(22px,6.5vw,34px)}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.phone-frame{width:min(100%,290px)}.process-tagline p{font-size:15px}.chat-body{height:410px}.chat-bubble{font-size:10px}}
 </style>
 </head>
 <body>
@@ -183,7 +227,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 <div id="main">
 
 <nav id="nav">
-  <a href="#" class="nav-logo"><span class="logo-text"><svg class="logo-text-icon" width="32" height="40" viewBox="292 62 96 132" xmlns="http://www.w3.org/2000/svg"><rect x="292" y="68" width="96" height="118" rx="1" fill="none" stroke="#9A7B3E" stroke-width="1.4"/><line x1="308" y1="68" x2="308" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><rect x="314" y="76" width="68" height="102" rx="0" fill="none" stroke="#9A7B3E" stroke-width="0.9"/><line x1="292" y1="188" x2="388" y2="188" stroke="#9A7B3E" stroke-width="2.2"/><line x1="294" y1="191" x2="386" y2="191" stroke="#9A7B3E" stroke-width="1.2"/><line x1="296" y1="194" x2="384" y2="194" stroke="#9A7B3E" stroke-width="0.6"/><line x1="340" y1="68" x2="340" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><line x1="292" y1="127" x2="388" y2="127" stroke="#9A7B3E" stroke-width="1.4"/><path d="M340 127 C328 111 310 109 308 119 C306 129 322 135 338 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M340 127 C352 111 370 109 372 119 C374 129 358 135 342 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M338 130 C332 137 324 143 318 141" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round"/><path d="M342 130 C348 137 356 143 362 141" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round"/><circle cx="340" cy="127" r="4.5" fill="transparent" stroke="#9A7B3E" stroke-width="1.4"/></svg><span class="logo-text-words">ONLY ONE<br>DELIVERY</span><span class="logo-tagline">送るだけ、あとはおまかせ。</span></span></a>
+  <a href="#" class="nav-logo"><span class="logo-text"><svg class="logo-text-icon" width="32" height="40" viewBox="292 62 96 132" xmlns="http://www.w3.org/2000/svg"><rect x="292" y="68" width="96" height="118" rx="1" fill="none" stroke="#9A7B3E" stroke-width="1.4"/><line x1="308" y1="68" x2="308" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><rect x="314" y="76" width="68" height="102" rx="0" fill="none" stroke="#9A7B3E" stroke-width="0.9"/><line x1="292" y1="188" x2="388" y2="188" stroke="#9A7B3E" stroke-width="2.2"/><line x1="340" y1="68" x2="340" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><line x1="292" y1="127" x2="388" y2="127" stroke="#9A7B3E" stroke-width="1.4"/><path d="M340 127 C328 111 310 109 308 119 C306 129 322 135 338 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M340 127 C352 111 370 109 372 119 C374 129 358 135 342 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="340" cy="127" r="4.5" fill="transparent" stroke="#9A7B3E" stroke-width="1.4"/></svg><span class="logo-text-words">ONLY ONE<br>DELIVERY</span><span class="logo-tagline">送るだけ、あとはおまかせ。</span></span></a>
   <div class="nav-right">
   <ul class="nav-links">
     <li><a href="#reviews">お客様の声</a></li>
@@ -211,19 +255,21 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <div class="hero-inner">
     <div class="hero-content">
       <span class="hero-eyebrow">Only One Delivery — Photobook Gift Service</span>
-      <h1>もう迷わない、<br>想いが<em>伝わる</em><br>ギフト。</h1>
-      <p class="hero-sub">LINEで写真・動画・エピソードを送るだけ。<br>あとは全部おまかせ。</p>
+      <h1><em>誰でも、かんたんに、</em><br>想いが伝わるギフトが作れる。</h1>
+      <div class="hero-pain">
+        <span>時間がない</span>
+        <span>言葉にできない</span>
+        <span>自分で作る自信がない</span>
+      </div>
+      <p class="hero-cta-text">そんなあなたも、<br><em>LINEでつぶやくだけ。</em></p>
       <div class="hero-actions">
         <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>LINEでギフトを作る</span></a>
         <a href="#process" class="btn-ghost">How it works</a>
       </div>
     </div>
     <div class="hero-gift">
-      <div id="hero-text-anim" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;width:460px;padding:40px 0">
-        <svg width="280" height="280" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:16px">
-        <path class="sp1" d="M250 94 L252 102 L260 104 L252 106 L250 114 L248 106 L240 104 L248 102 Z" fill="#B8965A" opacity=".5"/>
-        <path class="sp2" d="M152 152 L153.5 158 L160 159.5 L153.5 161 L152 167 L150.5 161 L144 159.5 L150.5 158 Z" fill="#B8965A" opacity=".4"/>
-        <path class="sp3" d="M346 140 L347.3 146 L354 147.5 L347.3 149 L346 155 L344.7 149 L338 147.5 L344.7 146 Z" fill="#B8965A" opacity=".4"/>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:380px;padding:30px 0">
+        <svg width="260" height="260" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect x="90" y="248" width="320" height="210" rx="1" fill="rgba(154,123,62,.03)" stroke="#B8965A" stroke-width="1.2"/>
         <rect x="232" y="248" width="22" height="210" fill="rgba(154,123,62,.05)"/>
         <line x1="232" y1="248" x2="232" y2="458" stroke="#B8965A" stroke-width="1"/>
@@ -234,8 +280,6 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
         <g transform="rotate(-18, 90, 248) translate(0, -48)">
           <rect x="74" y="210" width="352" height="40" rx="1" fill="rgba(154,123,62,.04)" stroke="#B8965A" stroke-width="1.2"/>
           <rect x="232" y="210" width="22" height="40" fill="rgba(154,123,62,.06)"/>
-          <line x1="232" y1="210" x2="232" y2="250" stroke="#B8965A" stroke-width="1"/>
-          <line x1="254" y1="210" x2="254" y2="250" stroke="#B8965A" stroke-width="1"/>
           <path d="M243 210 C228 182 192 172 188 190 C185 206 208 213 240 202" fill="none" stroke="#B8965A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
           <path d="M243 210 C258 182 294 172 298 190 C301 206 278 213 246 202" fill="none" stroke="#B8965A" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="243" cy="210" r="5.5" fill="#FAF8F4" stroke="#B8965A" stroke-width="1.2"/>
@@ -243,8 +287,6 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
         </g>
         <ellipse cx="250" cy="470" rx="120" ry="7" fill="rgba(154,123,62,.08)"/>
         </svg>
-        <div id="hero-line1" style="display:flex;gap:0;overflow:hidden;padding:4px 0"></div>
-        <div id="hero-line2" style="display:flex;gap:0;overflow:hidden;padding:4px 0"></div>
       </div>
     </div>
   </div>
@@ -261,7 +303,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
       <div class="coming-soon-icon">
         <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
           <circle cx="14" cy="14" r="11" stroke="#9A7B3E" stroke-width="1.2"/>
-          <polyline points="14,7 14,14 19,17" stroke="#9A7B3E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="14,7 14,14 19,17" stroke="#9A7B3E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         </svg>
       </div>
       <span class="coming-soon-label">Coming Soon</span>
@@ -276,13 +318,13 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <div class="intro-grid">
     <div class="intro-heading reveal">
       <span class="sec-label">The Gift</span>
-      <h2 class="sec-title" style="font-size:clamp(28px,3.5vw,50px)">手間なく、<em>想いが伝わる。</em><br>それが、<span class="sp-br"></span><em>Only One Delivery。</em></h2>
+      <h2 class="sec-title" style="font-size:clamp(28px,3.5vw,50px)">気付いたら、<em>ギフトができてる。</em><br>それが、<span class="sp-br"></span><em>Only One Delivery。</em></h2>
     </div>
     <div class="intro-points">
       <div class="intro-point reveal">
         <div class="intro-icon">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 8 Q6 6 8 6 L28 6 Q30 6 30 8 L30 22 Q30 24 28 24 L20 24 L14 30 L14 24 L8 24 Q6 24 6 22 Z" stroke="#9A7B3E" stroke-width="1.2" stroke-linejoin="round"/>
+            <path d="M6 8 Q6 6 8 6 L28 6 Q30 6 30 8 L30 22 Q30 24 28 24 L20 24 L14 30 L14 24 L8 24 Q6 24 6 22 Z" stroke="#9A7B3E" stroke-width="1.2" stroke-linejoin="round" fill="none"/>
             <circle cx="13" cy="15" r="1.5" fill="#9A7B3E"/>
             <circle cx="18" cy="15" r="1.5" fill="#9A7B3E"/>
             <circle cx="23" cy="15" r="1.5" fill="#9A7B3E"/>
@@ -294,7 +336,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
       <div class="intro-point reveal reveal-delay-1">
         <div class="intro-icon">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="8" y="5" width="20" height="26" rx="1" stroke="#9A7B3E" stroke-width="1.2"/>
+            <rect x="8" y="5" width="20" height="26" rx="1" stroke="#9A7B3E" stroke-width="1.2" fill="none"/>
             <line x1="10" y1="5" x2="10" y2="31" stroke="#9A7B3E" stroke-width="1.2"/>
             <line x1="8" y1="18" x2="28" y2="18" stroke="#9A7B3E" stroke-width="1.2"/>
             <circle cx="18" cy="18" r="2.5" fill="white" stroke="#9A7B3E" stroke-width="1.1"/>
@@ -306,8 +348,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
       <div class="intro-point reveal reveal-delay-2">
         <div class="intro-icon">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="18" cy="18" r="11" stroke="#9A7B3E" stroke-width="1.2"/>
-            <polyline points="18,10 18,18 23,22" stroke="#9A7B3E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="18" cy="18" r="11" stroke="#9A7B3E" stroke-width="1.2" fill="none"/>
+            <polyline points="18,10 18,18 23,22" stroke="#9A7B3E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
         </div>
         <h3>約2週間でお届け</h3>
@@ -373,6 +415,93 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
       <div class="step reveal reveal-delay-2"><div class="step-num">Step 03</div><h3>プレビューを<br>確認する</h3><p>数ページのプレビューを<br>お送りします。<br>ご確認後、<br>お支払いへ。</p></div>
       <div class="step reveal reveal-delay-3"><div class="step-num">Step 04</div><h3>約2週間で<br>お届け</h3><p>心を込めて仕上げた一冊を、<br>丁寧にお届けします。</p></div>
     </div>
+    <div class="process-tagline reveal">
+      <p>LINEで送るだけ。<br><em>気付いたら、ギフトができてる。</em></p>
+      <small>That's Only One Delivery.</small>
+    </div>
+  </div>
+</section>
+
+<section class="line-sec">
+  <div class="line-inner">
+    <div class="line-text reveal">
+      <span class="line-label">Just Like a Tweet</span>
+      <h2 class="line-title">写真と、動画と、ひとこと。<br><em>それだけで、完成。</em></h2>
+      <p class="line-desc">
+        撮った写真を送る。<br>
+        「この写真に"ありがとう"って入れて」<br>
+        「温かい感じで」——<br>
+        思いついたままつぶやくだけで、<br>
+        一冊のフォトブックが形になっていきます。
+      </p>
+      <span class="line-highlight">忙しくても、想いは伝わる。</span>
+    </div>
+    <div class="line-chat-wrap reveal reveal-delay-1">
+      <!-- Phone Frame -->
+      <div class="phone-frame">
+        <div class="phone-power"></div>
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="phone-status-bar">
+            <span class="phone-status-time">9:41</span>
+            <div class="phone-status-icons">
+              <svg viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg"><path d="M1 10h2v1H1zm3-2h2v3H4zm3-2h2v5H7zm3-2h2v7h-2zm3-2h2v9h-2z" fill="#111"/></svg>
+              <svg viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><path d="M8 2C4.5 2 2 4 1 5l1 1c1-1 3-2.5 6-2.5S13 5 14 6l1-1c-1-1-3.5-3-7-3z" fill="#111"/><circle cx="8" cy="9" r="1.5" fill="#111"/></svg>
+              <svg viewBox="0 0 24 12" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="2" width="20" height="8" rx="1.5" stroke="#111" fill="none"/><rect x="3" y="4" width="14" height="4" fill="#111"/><rect x="21.5" y="4.5" width="1.5" height="3" rx=".5" fill="#111"/></svg>
+            </div>
+          </div>
+          <div class="chat-header">
+            <div class="chat-avatar">O</div>
+            <div class="chat-header-info">
+              <div class="chat-header-name">Only One Delivery</div>
+              <div class="chat-header-status">● オンライン</div>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="chat-msg d1">
+              <div class="chat-photo p1"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+              <span class="chat-time">13:42</span>
+            </div>
+            <div class="chat-msg d2">
+              <div class="chat-bubble">これ表紙にしたい!</div>
+              <span class="chat-time">13:43</span>
+            </div>
+            <div class="chat-msg d3">
+              <div class="chat-photo p2"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+              <span class="chat-time">13:44</span>
+            </div>
+            <div class="chat-msg d4">
+              <div class="chat-bubble">これに「いつもありがとう」<br>って入れて🙏</div>
+              <span class="chat-time">13:45</span>
+            </div>
+            <div class="chat-msg d5">
+              <div class="chat-photo-row">
+                <div class="chat-photo p3"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+                <div class="chat-photo p4"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+              </div>
+              <span class="chat-time">13:47</span>
+            </div>
+            <div class="chat-msg d6">
+              <div class="chat-bubble">この2枚、見開きで並べて!</div>
+              <span class="chat-time">13:48</span>
+            </div>
+            <div class="chat-msg d7">
+              <div class="chat-video"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><polygon points="8,5 19,12 8,19" fill="#fff"/></svg></div>
+              <span class="chat-time">13:50</span>
+            </div>
+            <div class="chat-msg d8">
+              <div class="chat-bubble">温かい感じで、<br>明朝体がいいな〜</div>
+              <span class="chat-time">13:51</span>
+            </div>
+            <div class="chat-typing-indicator">
+              <span></span><span></span><span></span>
+              <span style="background:none;animation:none;margin-left:4px">入力中…</span>
+            </div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -421,7 +550,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   </div>
   <div class="cta-inner reveal">
     <span class="cta-label">Start Now</span>
-    <h2>もう迷わない、<br><em>想いが伝わる</em><br>ギフト。</h2>
+    <h2><em>誰でも、かんたんに、</em><br>想いが伝わるギフトが作れる。</h2>
     <p>あとは全部、Only One Deliveryにおまかせ。</p>
     <a href="https://lin.ee/7d2v7ga" class="btn-white"><span>LINEでギフトを作る</span></a>
   </div>
@@ -455,16 +584,12 @@ document.querySelectorAll('.mobile-nav-link,.mobile-cta').forEach(function(link)
 window.addEventListener('scroll',function(){
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
 });
-
-// イントロを確実に3秒後に閉じる
 setTimeout(function(){
   var intro = document.getElementById('intro');
   var main = document.getElementById('main');
   if(intro) intro.classList.add('hide');
   if(main) main.classList.add('show');
-},3000);
-
-// イントロロゴの描画
+},1500);
 setTimeout(function(){
   var ns='http://www.w3.org/2000/svg';
   var G='#9A7B3E';
@@ -497,45 +622,9 @@ setTimeout(function(){
   var intro = document.getElementById('intro');
   if(intro) intro.appendChild(svg);
   els.concat([t1,t2]).forEach(function(el,i){
-    setTimeout(function(){el.style.transition='opacity .4s ease';el.style.opacity='1';},100+i*150);
+    setTimeout(function(){el.style.transition='opacity .4s ease';el.style.opacity='1';},50+i*100);
   });
-},100);
-
-// ヒーローテキストアニメーション
-setTimeout(function(){
-  var line1='ONLY ONE';
-  var line2='DELIVERY';
-  var baseStyle={
-    fontFamily:"'Cormorant Garamond','Playfair Display',Georgia,serif",
-    fontSize:'clamp(20px,2.4vw,38px)',
-    fontWeight:'500',
-    letterSpacing:'.28em',
-    color:'#9A7B3E',
-    opacity:'0',
-    transform:'translateY(18px)',
-    transition:'opacity .7s ease, transform .7s ease',
-    display:'inline-block',
-    lineHeight:'1'
-  };
-  function buildLine(id, text, baseDelay){
-    var el=document.getElementById(id);
-    if(!el) return;
-    text.split('').forEach(function(c,i){
-      var span=document.createElement('span');
-      span.textContent=c===' '?' ':c;
-      Object.assign(span.style, baseStyle);
-      el.appendChild(span);
-      setTimeout(function(){
-        span.style.opacity='1';
-        span.style.transform='translateY(0)';
-      }, baseDelay + i*120);
-    });
-  }
-  buildLine('hero-line1', line1, 3200);
-  buildLine('hero-line2', line2, 3200 + line1.length*120 + 100);
-},100);
-
-// 要素のスクロール出現アニメーション
+},50);
 var obs=new IntersectionObserver(function(entries){
   entries.forEach(function(e){
     if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}
