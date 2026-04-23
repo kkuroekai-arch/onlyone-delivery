@@ -183,12 +183,13 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .price-delivery{font-size:11px;letter-spacing:.2em;color:var(--gold);margin-bottom:32px;display:block;text-align:center}
 .pricing-cta{text-align:center}
 .reviews-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--white);border-top:1px solid var(--gold-rule)}
-.review-card{max-width:720px;margin:0 auto;background:var(--cream);border:1px solid var(--gold-rule);padding:72px 60px 64px;text-align:center;position:relative}
+.reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1140px;margin:0 auto;align-items:stretch}
+.review-card{background:var(--cream);border:1px solid var(--gold-rule);padding:64px 48px 52px;text-align:center;position:relative;display:flex;flex-direction:column}
 .review-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
 .review-card::after{content:'';position:absolute;top:12px;left:12px;right:12px;bottom:12px;border:1px solid rgba(154,123,62,.1);pointer-events:none}
 .review-stars{display:flex;justify-content:center;gap:6px;margin-bottom:32px}
 .review-stars span{color:var(--gold);font-size:16px;letter-spacing:.1em}
-.review-text{font-family:var(--serif-jp);font-size:clamp(16px,2vw,20px);font-weight:500;line-height:2.1;color:var(--ink);letter-spacing:.08em;margin-bottom:40px}
+.review-text{font-family:var(--serif-jp);font-size:clamp(16px,2vw,19px);font-weight:500;line-height:2.1;color:var(--ink);letter-spacing:.08em;margin-bottom:40px;flex:1;display:flex;align-items:center;justify-content:center}
 .review-divider{width:32px;height:1px;background:var(--gold-rule);margin:0 auto 28px}
 .review-meta{display:flex;flex-direction:column;align-items:center;gap:6px}
 .review-name{font-family:var(--serif-jp);font-size:14px;font-weight:500;color:var(--ink);letter-spacing:.15em}
@@ -254,7 +255,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 @keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
-@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}}
+@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}.reviews-grid{grid-template-columns:1fr;max-width:640px;gap:20px}}
 @media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(22px,6.2vw,34px);margin-bottom:28px;line-height:1.45}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(20px,5.8vw,30px);line-height:1.6}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.phone-frame{width:min(100%,290px)}.process-tagline p{font-size:15px}.chat-body{height:410px}.chat-bubble{font-size:10px}br.pc-br{display:none}.review-card{padding:52px 28px 44px}.review-text{font-size:15px;line-height:2.05;letter-spacing:.04em;margin-bottom:32px}.review-stars{margin-bottom:24px;gap:4px}.review-stars span{font-size:14px}.review-name{font-size:13px}.review-name-sub{font-size:10px}}
 </style>
 </head>
@@ -369,15 +370,28 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
       <span class="sec-label">Reviews</span>
       <h2 class="sec-title">お客様の<em>声。</em></h2>
     </div>
-    <div class="review-card reveal">
-      <div class="review-stars">
-        <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+    <div class="reviews-grid">
+      <div class="review-card reveal">
+        <div class="review-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="review-text">なかなか自分では作れないので、<br class="pc-br">自分の好きな写真を送るだけで<br class="pc-br">作ってくれるのはすごく嬉しい！</p>
+        <div class="review-divider"></div>
+        <div class="review-meta">
+          <span class="review-name">hina <span class="review-name-sub">さん</span></span>
+          <span class="review-date">2026.04</span>
+        </div>
       </div>
-      <p class="review-text">なかなか自分では作れないので、<br class="pc-br">自分の好きな写真を送るだけで<br class="pc-br">作ってくれるのはすごく嬉しい！</p>
-      <div class="review-divider"></div>
-      <div class="review-meta">
-        <span class="review-name">hina <span class="review-name-sub">さん</span></span>
-        <span class="review-date">2026.04</span>
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-stars">
+          <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+        </div>
+        <p class="review-text">全ての思い出が詰め込まれた<br class="pc-br">素敵な一冊が出来上がり、<br class="pc-br">大変満足です。</p>
+        <div class="review-divider"></div>
+        <div class="review-meta">
+          <span class="review-name">M.K <span class="review-name-sub">さん</span></span>
+          <span class="review-date">2026.04</span>
+        </div>
       </div>
     </div>
   </div>
