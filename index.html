@@ -90,7 +90,7 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .scene-card:hover .scene-img{transform:scale(1.04);filter:brightness(.92) saturate(1)}
 .scene-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,25,23,.82) 0%,rgba(28,25,23,.15) 60%,transparent 100%)}
 .scene-info{position:absolute;bottom:0;left:0;right:0;padding:28px 28px 32px}
-.scene-num{font-family:var(--serif);font-size:11px;font-style:italic;letter-spacing:.2em;color:var(--gold-light);display:block;margin-bottom:6px}
+.scene-num{display:none}
 .scene-name{font-family:var(--serif-jp);font-size:18px;font-weight:400;color:#fff;margin-bottom:6px}
 .scene-desc{font-size:11px;line-height:1.9;color:rgba(255,255,255,.65)}
 .process-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--white)}
@@ -132,7 +132,9 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .chat-header-info{flex:1}
 .chat-header-name{font-size:11px;font-weight:600;color:#333;letter-spacing:.04em}
 .chat-header-status{font-size:9px;color:#06C755;margin-top:2px}
-.chat-body{background:#8CACD1;padding:14px 10px 18px;height:440px;overflow:hidden;display:flex;flex-direction:column;gap:6px;position:relative}
+.chat-body{background:#8CACD1;padding:14px 10px 18px;height:440px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;position:relative}
+.chat-body::-webkit-scrollbar{width:0;display:none}
+.chat-body{scrollbar-width:none}
 .chat-msg{max-width:82%;display:flex;flex-direction:column;opacity:0;animation:msgIn .5s ease forwards;align-self:flex-end;align-items:flex-end}
 .chat-msg.d1{animation-delay:.2s}
 .chat-msg.d2{animation-delay:.8s}
@@ -167,7 +169,65 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .pricing-inner{max-width:920px;margin:0 auto;text-align:center}
 .pricing-header{margin-bottom:52px}
 .plans-label{font-family:var(--serif);font-size:clamp(36px,5vw,64px);font-weight:400;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);display:block;line-height:1.2}
-.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:44px}
+.pricing-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:44px;max-width:720px;margin-left:auto;margin-right:auto;align-items:stretch}
+.pricing-header{text-align:center;margin-bottom:48px}
+.plans-sub{font-family:var(--serif-jp);font-size:clamp(14px,1.6vw,17px);color:var(--ink-light);line-height:2;letter-spacing:.1em;margin-top:16px;font-weight:500}
+.plans-sub em{font-style:normal;font-family:var(--serif);font-weight:500;color:var(--gold);letter-spacing:.05em}
+.price-main{background:linear-gradient(180deg,#FDFBF6 0%,var(--white) 100%);border:2px solid var(--gold);padding:80px 64px 64px;position:relative;transform:scale(1);box-shadow:0 12px 48px rgba(154,123,62,.12),0 2px 8px rgba(154,123,62,.06)}
+.price-main::before{background:linear-gradient(to right,transparent,var(--gold),transparent);height:2px;width:120px}
+.price-main::after{content:'';position:absolute;top:14px;left:14px;right:14px;bottom:14px;border:1px solid rgba(154,123,62,.18);pointer-events:none}
+.price-main .price-eyebrow{color:var(--gold);font-weight:500;letter-spacing:.4em;font-size:13px}
+.price-main .price-amount{font-size:60px;color:var(--ink);font-weight:500}
+.price-main .price-amount sup{font-size:42px}
+.price-main .price-note{color:var(--ink-mid);font-size:12px;letter-spacing:.2em}
+.price-main .price-rule{width:64px;height:1px;background:var(--gold);margin:24px auto 32px;opacity:.6}
+.price-main .price-feature-label{color:var(--gold);font-size:11px;letter-spacing:.35em}
+.price-main .usecase-cat{font-weight:500}
+.price-sub{padding:56px 56px 52px;background:var(--white);border:1px solid var(--gold-rule)}
+.price-sub::before{background:linear-gradient(to right,transparent,rgba(154,123,62,.5),transparent);height:1px;width:64px}
+.price-sub .price-amount{font-size:40px}
+.price-sub .price-amount sup{font-size:30px}
+.price-sub .price-eyebrow{color:var(--ink-mid);letter-spacing:.32em}
+.price-sub .price-list li{color:var(--ink-light)}
+.price-badge{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#B8965A 0%,#9A7B3E 100%);color:var(--white);font-family:var(--serif);font-size:11px;font-weight:500;letter-spacing:.4em;padding:8px 24px 8px 28px;white-space:nowrap;box-shadow:0 4px 16px rgba(154,123,62,.3),0 1px 3px rgba(154,123,62,.2)}
+.price-badge::before{content:'';position:absolute;top:50%;left:10px;transform:translateY(-50%);width:5px;height:5px;background:var(--white);opacity:.7;border-radius:50%}
+.price-feature{margin-bottom:28px}
+.price-feature-label{display:block;font-family:var(--serif);font-size:10px;font-style:italic;color:var(--gold);letter-spacing:.3em;margin-bottom:16px;text-transform:uppercase}
+.price-usecase{border-top:1px solid var(--gold-rule);padding-top:24px;margin-top:8px}
+.usecase-group{margin-bottom:32px}
+.usecase-group:last-child{margin-bottom:0}
+.usecase-cat{display:block;font-family:var(--serif-jp);font-size:12px;font-weight:500;color:var(--gold);letter-spacing:.22em;margin-bottom:18px;padding-bottom:10px;border-bottom:1px solid rgba(154,123,62,.15)}
+.usecase-item{margin-bottom:18px;text-align:left}
+.usecase-item:last-child{margin-bottom:0}
+.usecase-title{font-family:var(--serif-jp);font-size:15px;font-weight:500;color:var(--ink);letter-spacing:.06em;line-height:1.5;margin:0 0 6px 0}
+.usecase-desc{font-family:var(--serif-jp);font-size:12px;font-weight:400;color:var(--ink-light);letter-spacing:.08em;line-height:1.7;margin:0}
+.price-sub .usecase-cat{color:var(--gold);opacity:.85}
+.price-divider{display:flex;align-items:center;justify-content:center;gap:24px;padding:8px 0}
+.price-divider-line{flex:1;max-width:120px;height:1px;background:var(--gold-rule)}
+.price-divider-text{font-family:var(--serif);font-size:14px;font-style:italic;color:var(--ink-light);letter-spacing:.2em;text-transform:lowercase}
+.price-sub .usecase-title{color:var(--ink)}
+.price-sub .usecase-desc{color:var(--ink-light)}
+.price-sub .price-list li{color:var(--ink)}
+/* Series section */
+.series-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--cream);border-top:1px solid var(--gold-rule)}
+.series-inner{max-width:1200px;margin:0 auto}
+.series-header{text-align:center;margin-bottom:64px}
+.series-lead{font-family:var(--serif-jp);font-size:clamp(14px,1.7vw,17px);color:var(--ink-light);line-height:2;letter-spacing:.1em;margin-top:20px;font-weight:500}
+.series-lead em{font-style:normal;font-family:var(--serif);color:var(--gold);letter-spacing:.05em}
+.series-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px;margin-bottom:56px}
+.series-card{background:var(--white);border:1px solid var(--gold-rule);padding:56px 44px;position:relative;transition:all .6s ease;display:flex;flex-direction:column}
+.series-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:72px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.series-card::after{content:'';position:absolute;top:10px;left:10px;right:10px;bottom:10px;border:1px solid rgba(154,123,62,.08);pointer-events:none}
+.series-card:hover{background:#FDFBF6;border-color:rgba(154,123,62,.35);transform:translateY(-2px)}
+.series-card-inner{position:relative;z-index:1}
+.series-num{font-family:var(--serif);font-size:13px;font-style:italic;color:var(--gold);letter-spacing:.2em;display:block;margin-bottom:16px}
+.series-name{font-family:var(--serif);font-size:clamp(24px,2.6vw,32px);font-weight:500;color:var(--ink);letter-spacing:.04em;line-height:1.2;margin-bottom:10px}
+.series-name-jp{font-family:var(--serif-jp);font-size:13px;font-weight:500;color:var(--ink-light);letter-spacing:.2em;display:block;margin-bottom:24px}
+.series-rule{width:40px;height:1px;background:var(--gold-rule);margin-bottom:28px}
+.series-list{list-style:none;padding:0;display:flex;flex-direction:column;gap:14px}
+.series-list li{font-family:var(--serif-jp);font-size:14px;font-weight:400;color:var(--ink);letter-spacing:.08em;line-height:1.6;padding-left:18px;position:relative}
+.series-list li::before{content:'';position:absolute;left:0;top:10px;width:8px;height:1px;background:var(--gold)}
+.series-footer{text-align:center;font-family:var(--serif-jp);font-size:13px;color:var(--ink-light);letter-spacing:.1em;line-height:2;font-weight:500;padding-top:32px;border-top:1px solid var(--gold-rule);margin-top:0}
 .price-card{border:1px solid rgba(154,123,62,.25);padding:48px 36px;background:var(--white);position:relative}
 .price-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:64px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
 .price-card::after{content:'';position:absolute;top:8px;left:8px;right:8px;bottom:8px;border:1px solid rgba(154,123,62,.07);pointer-events:none}
@@ -184,6 +244,7 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .pricing-cta{text-align:center}
 .reviews-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--white);border-top:1px solid var(--gold-rule)}
 .reviews-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px;max-width:1140px;margin:0 auto;align-items:stretch}
+.reviews-swipe-hint{display:none}
 .review-card{background:var(--cream);border:1px solid var(--gold-rule);padding:64px 48px 52px;text-align:center;position:relative;display:flex;flex-direction:column}
 .review-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
 .review-card::after{content:'';position:absolute;top:12px;left:12px;right:12px;bottom:12px;border:1px solid rgba(154,123,62,.1);pointer-events:none}
@@ -255,8 +316,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 @keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
 @keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
-@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}.reviews-grid{grid-template-columns:1fr;max-width:640px;gap:20px}}
-@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(22px,6.2vw,34px);margin-bottom:28px;line-height:1.45}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(20px,5.8vw,30px);line-height:1.6}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.phone-frame{width:min(100%,290px)}.process-tagline p{font-size:15px}.chat-body{height:410px}.chat-bubble{font-size:10px}br.pc-br{display:none}.review-card{padding:52px 28px 44px}.review-text{font-size:15px;line-height:2.05;letter-spacing:.04em;margin-bottom:32px}.review-stars{margin-bottom:24px;gap:4px}.review-stars span{font-size:14px}.review-name{font-size:13px}.review-name-sub{font-size:10px}}
+@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.price-main{padding:48px 32px 44px}.price-main .price-amount{font-size:40px}.series-sec{padding:72px 24px}.series-grid{grid-template-columns:1fr;gap:20px}.series-card{padding:44px 32px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}.reviews-grid{display:flex;grid-template-columns:none;max-width:none;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:0 24px 12px;margin:0 -24px;scrollbar-width:none}.reviews-grid::-webkit-scrollbar{display:none}.review-card{flex:0 0 85%;scroll-snap-align:center;min-width:0}.reviews-swipe-hint{display:block;text-align:center;font-family:var(--serif);font-size:11px;font-style:italic;color:var(--ink-light);letter-spacing:.3em;margin-top:18px;opacity:.6}}
+@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(22px,6.2vw,34px);margin-bottom:28px;line-height:1.45}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-main{padding:60px 28px 48px}.price-main .price-amount{font-size:46px}.price-main .price-amount sup{font-size:32px}.price-main .price-eyebrow{font-size:11px;letter-spacing:.32em}.price-badge{font-size:10px;letter-spacing:.32em;padding:6px 18px 6px 22px}.price-feature{margin-bottom:24px}.price-feature-label{font-size:9px;letter-spacing:.28em;margin-bottom:14px}.usecase-group{margin-bottom:26px}.usecase-cat{font-size:11px;letter-spacing:.2em;margin-bottom:14px;padding-bottom:8px}.usecase-item{margin-bottom:14px}.usecase-title{font-size:14px;line-height:1.45;margin-bottom:5px}.usecase-desc{font-size:11px;line-height:1.7}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(20px,5.8vw,30px);line-height:1.6}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.phone-frame{width:min(100%,290px)}.process-tagline p{font-size:15px}.chat-body{height:410px}.chat-bubble{font-size:10px}br.pc-br{display:none}.review-card{padding:52px 28px 44px}.review-text{font-size:15px;line-height:2.05;letter-spacing:.04em;margin-bottom:32px}.review-stars{margin-bottom:24px;gap:4px}.review-stars span{font-size:14px}.review-name{font-size:13px}.review-name-sub{font-size:10px}}
 </style>
 </head>
 <body>
@@ -394,6 +455,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
         </div>
       </div>
     </div>
+    <div class="reviews-swipe-hint">← swipe →</div>
   </div>
 </section>
 
@@ -592,31 +654,120 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <div class="pricing-inner">
     <div class="pricing-header reveal">
       <span class="plans-label">Plans</span>
+      <p class="plans-sub">贈るシーンに合わせて、選べる<em>2サイズ</em>。</p>
     </div>
     <div class="pricing-grid">
-      <div class="price-card reveal">
-        <span class="price-eyebrow">A5 Size</span>
-        <div class="price-amount"><sup>¥</sup>14,800</div>
-        <span class="price-note">税込・送料込</span>
-        <div class="price-rule"></div>
-        <ul class="price-list">
-          <li>A5サイズ・24ページ</li>
-          <li>文庫本より少し大きめ</li>
-          <li>普段使いに飾りやすい</li>
-          <li>友人・同僚への気軽なギフトに</li>
-        </ul>
-      </div>
-      <div class="price-card reveal reveal-delay-1">
+      <div class="price-card price-main reveal">
+        <span class="price-badge">RECOMMENDED</span>
         <span class="price-eyebrow">A4 Size</span>
         <div class="price-amount"><sup>¥</sup>19,800</div>
         <span class="price-note">税込・送料込</span>
         <div class="price-rule"></div>
-        <ul class="price-list">
-          <li>A4サイズ・24ページ</li>
-          <li>ひと回り大きく、迫力ある仕上がり</li>
-          <li>写真が大きく見やすい</li>
-          <li>大切な節目の贈り物に</li>
-        </ul>
+        <div class="price-feature">
+          <span class="price-feature-label">About</span>
+          <ul class="price-list">
+            <li>A4サイズ・24ページ</li>
+            <li>手に取った瞬間に伝わる、必ず喜ばれる定番のサイズ</li>
+            <li>写真一枚一枚が、思い出の主役になる大きさ</li>
+            <li>落ち込んだ日にそっと開きたくなる、そんな一冊</li>
+          </ul>
+        </div>
+        <div class="price-usecase">
+          <span class="price-feature-label">こんな時に</span>
+          <div class="usecase-group">
+            <span class="usecase-cat">お祝い・記念日に</span>
+            <div class="usecase-item">
+              <h4 class="usecase-title">大切な人への誕生日プレゼント</h4>
+              <p class="usecase-desc">これまでの思い出と「ありがとう」を一冊に</p>
+            </div>
+            <div class="usecase-item">
+              <h4 class="usecase-title">ご両親への記念日ギフト</h4>
+              <p class="usecase-desc">二人の歩みと、家族からの感謝の言葉を添えて</p>
+            </div>
+            <div class="usecase-item">
+              <h4 class="usecase-title">祖父母への長寿祝い</h4>
+              <p class="usecase-desc">孫の成長記録と、世代を超えた愛情を形にして</p>
+            </div>
+          </div>
+          <div class="usecase-group">
+            <span class="usecase-cat">職場・お世話になった方に</span>
+            <div class="usecase-item">
+              <h4 class="usecase-title">上司への退職祝い</h4>
+              <p class="usecase-desc">これまでの功績と、共に過ごした時間を一冊に</p>
+            </div>
+            <div class="usecase-item">
+              <h4 class="usecase-title">連名で贈る退職祝い</h4>
+              <p class="usecase-desc">チーム全員からの感謝のメッセージを集めて</p>
+            </div>
+            <div class="usecase-item">
+              <h4 class="usecase-title">お世話になった先生への感謝</h4>
+              <p class="usecase-desc">クラスの思い出と、生徒たちからの「ありがとう」</p>
+            </div>
+          </div>
+          <div class="usecase-group">
+            <span class="usecase-cat">人生の節目に</span>
+            <div class="usecase-item">
+              <h4 class="usecase-title">結婚祝い・出産祝い</h4>
+              <p class="usecase-desc">二人の歩み、または新しい家族の始まりを祝して</p>
+            </div>
+            <div class="usecase-item">
+              <h4 class="usecase-title">卒業・入学のお祝い</h4>
+              <p class="usecase-desc">これまでの成長と、新しい門出への想いを</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="price-divider">
+        <span class="price-divider-line"></span>
+        <span class="price-divider-text">or</span>
+        <span class="price-divider-line"></span>
+      </div>
+      <div class="price-card price-sub reveal reveal-delay-1">
+        <span class="price-eyebrow">A5 Size</span>
+        <div class="price-amount"><sup>¥</sup>14,800</div>
+        <span class="price-note">税込・送料込</span>
+        <div class="price-rule"></div>
+        <div class="price-feature">
+          <span class="price-feature-label">About</span>
+          <ul class="price-list">
+            <li>A5サイズ・24ページ</li>
+            <li>文庫本より少し大きめ</li>
+            <li>何冊も揃えて、思い出を重ねていける一冊</li>
+            <li>本棚にシリーズとして並べたくなる</li>
+          </ul>
+        </div>
+        <div class="price-usecase">
+          <span class="price-feature-label">こんな時に</span>
+          <div class="usecase-group">
+            <span class="usecase-cat">家族の成長を一冊ずつ</span>
+            <div class="usecase-item">
+              <h4 class="usecase-title">お子さまの成長記録</h4>
+              <p class="usecase-desc">一年ごと、一冊ずつ。本棚に並ぶ成長の軌跡</p>
+            </div>
+            <div class="usecase-item">
+              <h4 class="usecase-title">エコー写真・手形・足形の記録</h4>
+              <p class="usecase-desc">生まれる前から今日まで、命の軌跡を大切に</p>
+            </div>
+          </div>
+          <div class="usecase-group">
+            <span class="usecase-cat">大切な人との日々を</span>
+            <div class="usecase-item">
+              <h4 class="usecase-title">遠距離の大切な人へ</h4>
+              <p class="usecase-desc">会えない時間を、写真と言葉で埋めていく</p>
+            </div>
+            <div class="usecase-item">
+              <h4 class="usecase-title">「ありがとう」を伝えたい人へ</h4>
+              <p class="usecase-desc">普段なかなか言えない想いを、一冊に込めて</p>
+            </div>
+          </div>
+          <div class="usecase-group">
+            <span class="usecase-cat">気軽な贈り物に</span>
+            <div class="usecase-item">
+              <h4 class="usecase-title">友人・同僚へのちょっとしたプレゼント</h4>
+              <p class="usecase-desc">特別な日じゃなくても、想いを伝える小さな一冊</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <span class="price-delivery">ご注文から約2週間でお届け</span>
