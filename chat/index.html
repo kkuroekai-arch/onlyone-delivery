@@ -74,10 +74,22 @@ html, body {
   cursor: pointer;
   border-radius: 2px;
   transition: opacity 0.2s;
+  font-family: inherit;
 }
 
 .landing-button:hover {
   opacity: 0.85;
+}
+
+.landing-button.resume {
+  background: #5a4838;
+  margin-bottom: 12px;
+}
+
+.resume-info {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 24px;
 }
 
 /* ===== シーン選択画面 ===== */
@@ -141,7 +153,7 @@ html, body {
   line-height: 1.6;
 }
 
-/* ===== チャット画面(LINE風) ===== */
+/* ===== チャット画面 ===== */
 .chat {
   height: 100%;
   display: flex;
@@ -187,84 +199,73 @@ html, body {
   overflow-y: auto;
   padding: 16px 12px;
   -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
 }
 
-.message {
+/* ===== メッセージ(LINE風の左右配置) ===== */
+.message-row {
   display: flex;
   margin-bottom: 12px;
-  align-items: flex-start;
+  width: 100%;
 }
 
-.message.bot {
+.message-row.bot {
   justify-content: flex-start;
 }
 
-.message.user {
+.message-row.user {
   justify-content: flex-end;
 }
 
-.message-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: #1a1a1a;
-  color: #fff;
+.message-content {
+  max-width: 75%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
-  flex-shrink: 0;
-  margin-right: 8px;
+  flex-direction: column;
 }
 
-.message-content {
-  max-width: 70%;
+.message-row.bot .message-content {
+  align-items: flex-start;
+}
+
+.message-row.user .message-content {
+  align-items: flex-end;
 }
 
 .message-name {
   font-size: 11px;
   color: #888;
   margin-bottom: 4px;
+  padding: 0 4px;
 }
 
 .message-bubble {
   padding: 10px 14px;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
   white-space: pre-wrap;
   word-wrap: break-word;
   border-radius: 16px;
 }
 
-.message.bot .message-bubble {
+.message-row.bot .message-bubble {
   background: #fff;
   color: #1a1a1a;
   border-top-left-radius: 4px;
 }
 
-.message.user .message-bubble {
+.message-row.user .message-bubble {
   background: #1a1a1a;
   color: #fff;
   border-top-right-radius: 4px;
 }
 
-.message.user {
-  flex-direction: row-reverse;
-}
-
-.message.user .message-avatar {
-  display: none;
-}
-
-.message.user .message-content {
-  align-items: flex-end;
-}
-
+/* ===== タイピング表示 ===== */
 .typing-indicator {
   display: flex;
   gap: 4px;
   padding: 14px;
+  align-items: center;
 }
 
 .typing-dot {
@@ -402,6 +403,8 @@ html, body {
   grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
   gap: 4px;
   max-width: 240px;
+  padding: 4px !important;
+  background: transparent !important;
 }
 
 .image-message-item {
@@ -415,13 +418,6 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.image-uploading {
-  display: inline-block;
-  margin-left: 6px;
-  font-size: 11px;
-  color: var(--color-text-tertiary, #888);
 }
 
 /* ===== 構成案画面 ===== */
@@ -549,6 +545,7 @@ html, body {
   color: #555;
   margin-bottom: 32px;
   max-width: 320px;
+  white-space: pre-line;
 }
 
 /* ===== ユーティリティ ===== */
@@ -592,12 +589,10 @@ html, body {
     あなたが愛する誰かに、<br>
     感動を届けます。
   </div>
-  <div id="resume-area" class="hidden" style="margin-bottom: 16px;">
-    <button class="landing-button" onclick="resumeSession()" style="background: #5a4838; margin-bottom: 8px;">
-      続きから始める
-    </button>
-    <div id="resume-info" style="font-size: 11px; color: #888; margin-top: 4px;"></div>
-  </div>
+  <button id="resume-btn" class="landing-button resume hidden" onclick="resumeSession()">
+    続きから始める
+  </button>
+  <div id="resume-info" class="resume-info hidden"></div>
   <button class="landing-button" onclick="goToSceneSelect()">はじめる</button>
 </div>
 
@@ -708,9 +703,47 @@ html, body {
    設定
    ============================================ */
 
-// GAS APIエンドポイントのURL
-// セットアップ時に、実際のGASウェブアプリURLに書き換えてください
 const API_URL = 'https://script.google.com/macros/s/AKfycbzJe3gEXfCbcNy58HLllheGj0xe74h5LCVmyLqc35KUih3rDTAHKLdXAst5a2HFd5a9/exec';
+
+/* ============================================
+   オープニングメッセージ(HTML側に直接定義)
+   GAS との通信失敗の影響を受けないよう、ここで保持
+   ============================================ */
+
+const MAIN_OPENER =
+  'こんばんは、Only One Delivery です。\n\n' +
+  '最初に、お伝えしておきます。\n\n' +
+  '私は、AIです。\n' +
+  'ただし、あなたの想いを引き出すためだけに、\n' +
+  '特別に作られた存在です。\n\n' +
+  '人ではないからこそ、聞けることがあります。\n\n' +
+  '人前では言えない、\n' +
+  '照れくさかった、\n' +
+  '誰にも話せなかった想いを、\n' +
+  '私には、話せるかもしれません。\n\n' +
+  '引き出した想いを、本という形にする工程は、\n' +
+  '人の手で、一冊ずつ、心を込めて編みます。\n\n' +
+  'AIが想いを聞き、\n' +
+  '人が本に仕立てる。\n\n' +
+  'そうして生まれた一冊が、\n' +
+  'あなたの愛する誰かに、\n' +
+  '感動を届けます。\n\n' +
+  'ご一緒に、ゆっくり進めていきましょう。';
+
+const FIRST_QUESTIONS = {
+  kanreki: '\n\nまず、贈る相手はどなたですか?\nお母さま、お父さま、おじいさま、おばあさま、など、教えてください。',
+  wedding: '\n\nまず、どなたへのお祝いですか?\nどなたから、どなたへ贈るのか、教えてください。\n\n例:結婚するカップルから両親へ、孫から祖父母へ、友人として、同僚として、など。',
+  retirement: '\n\nまず、どなたへの贈り物ですか?\nどんな関係の方か教えてください。\n\n例:上司、先輩、先生、または定年を迎える家族(夫、妻、親)など。',
+  birthday: '\n\nまず、どなたへの贈り物ですか?\nお名前と関係性、特別な節目の年齢があれば、教えてください。',
+  newborn: '\n\nまず、どなたへの贈り物ですか?\n生まれたお子さまへ、または出産された親御さんへ、どちらでしょうか。\nお名前と贈り手の関係性を教えてください。',
+  anniversary: '\n\nまず、何の記念日ですか?\nそして、どなたへの贈り物か、関係性を教えてください。\n\n例:結婚記念日、付き合った記念日、創業記念、など。',
+  graduation: '\n\nまず、どなたへの贈り物ですか?\nどの節目(卒業、入学、就職など)を迎えるか、関係性とともに教えてください。',
+  elderly: '\n\nまず、どなたへの贈り物ですか?\nおじいさま、おばあさま、ご両親など、関係性を教えてください。'
+};
+
+function getOpener(scene) {
+  return MAIN_OPENER + (FIRST_QUESTIONS[scene] || FIRST_QUESTIONS['kanreki']);
+}
 
 /* ============================================
    状態管理
@@ -733,7 +766,7 @@ function generateSessionId() {
    ============================================ */
 
 const STORAGE_KEY = 'ood_session_v1';
-const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7日間で期限切れ
+const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 function saveSessionToStorage() {
   if (!currentScene || conversationHistory.length === 0) return;
@@ -758,7 +791,6 @@ function loadSessionFromStorage() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return null;
     const data = JSON.parse(saved);
-    // 期限切れチェック
     if (data.timestamp && (Date.now() - data.timestamp) > MAX_AGE_MS) {
       clearSessionStorage();
       return null;
@@ -787,29 +819,25 @@ function goToSceneSelect() {
   document.getElementById('scene-select').classList.remove('hidden');
 }
 
-async function selectScene(scene) {
+function selectScene(scene) {
   currentScene = scene;
   conversationHistory = [];
   sessionStartedAt = new Date().toISOString();
   currentStructure = '';
   notionPageId = null;
+  sessionId = generateSessionId();
 
   hideAll();
   document.getElementById('chat').classList.remove('hidden');
   document.getElementById('chat-area').innerHTML = '';
   hideError();
 
-  // タイピング表示(オープニング取得中)
-  showTyping();
-
-  // GASからオープニングを取得
-  const opener = await getSceneOpener(scene);
-
-  hideTyping();
+  // オープニングをHTML側で生成して直接表示(GAS通信不要)
+  const opener = getOpener(scene);
   addMessage('bot', opener);
   conversationHistory.push({ role: 'assistant', content: opener });
 
-  // Notionに新規ページ作成(バックグラウンド)
+  // Notionに新規ページ作成(バックグラウンド、失敗してもユーザーには影響なし)
   createNotionPage();
 
   setTimeout(() => {
@@ -817,8 +845,7 @@ async function selectScene(scene) {
   }, 200);
 }
 
-async function createNotionPage() {
-  // Fire and Forget方式:awaitしない、結果を待たずに先に進む
+function createNotionPage() {
   fetch(API_URL, {
     method: 'POST',
     mode: 'cors',
@@ -835,8 +862,6 @@ async function createNotionPage() {
     if (result.pageId) {
       notionPageId = result.pageId;
       console.log('Notion page created:', notionPageId);
-    } else if (result.error) {
-      console.warn('Notion page creation failed:', result.error);
     }
   })
   .catch(err => {
@@ -863,12 +888,12 @@ function resetAll() {
   clearSessionStorage();
   hideAll();
   document.getElementById('landing').classList.remove('hidden');
-  // 「続きから」ボタンを非表示に
-  document.getElementById('resume-area').classList.add('hidden');
+  document.getElementById('resume-btn').classList.add('hidden');
+  document.getElementById('resume-info').classList.add('hidden');
 }
 
 /* ============================================
-   セッション復元(続きから始める)
+   セッション復元
    ============================================ */
 
 function checkSavedSession() {
@@ -877,27 +902,19 @@ function checkSavedSession() {
     return;
   }
 
-  // 経過時間を計算
   const elapsedMs = Date.now() - (saved.timestamp || 0);
   const elapsedMin = Math.floor(elapsedMs / 60000);
   const elapsedHours = Math.floor(elapsedMin / 60);
   const elapsedDays = Math.floor(elapsedHours / 24);
 
   let elapsedText;
-  if (elapsedDays > 0) {
-    elapsedText = elapsedDays + '日前';
-  } else if (elapsedHours > 0) {
-    elapsedText = elapsedHours + '時間前';
-  } else if (elapsedMin > 0) {
-    elapsedText = elapsedMin + '分前';
-  } else {
-    elapsedText = 'たった今';
-  }
+  if (elapsedDays > 0) elapsedText = elapsedDays + '日前';
+  else if (elapsedHours > 0) elapsedText = elapsedHours + '時間前';
+  else if (elapsedMin > 0) elapsedText = elapsedMin + '分前';
+  else elapsedText = 'たった今';
 
-  // ラリー数を計算
   const userTurns = saved.history.filter(m => m.role === 'user').length;
 
-  // シーン名を日本語に
   const sceneNames = {
     kanreki: '還暦・長寿祝い',
     wedding: '結婚祝い',
@@ -910,8 +927,8 @@ function checkSavedSession() {
   };
   const sceneName = sceneNames[saved.scene] || saved.scene;
 
-  // 「続きから」ボタンを表示
-  document.getElementById('resume-area').classList.remove('hidden');
+  document.getElementById('resume-btn').classList.remove('hidden');
+  document.getElementById('resume-info').classList.remove('hidden');
   document.getElementById('resume-info').textContent =
     sceneName + ' / ' + userTurns + 'ラリー / ' + elapsedText;
 }
@@ -923,7 +940,6 @@ function resumeSession() {
     return;
   }
 
-  // 状態を復元
   currentScene = saved.scene;
   conversationHistory = saved.history || [];
   sessionId = saved.sessionId || generateSessionId();
@@ -931,13 +947,11 @@ function resumeSession() {
   sessionStartedAt = saved.sessionStartedAt || new Date().toISOString();
   currentStructure = saved.structure || '';
 
-  // チャット画面を表示
   hideAll();
   document.getElementById('chat').classList.remove('hidden');
   document.getElementById('chat-area').innerHTML = '';
   hideError();
 
-  // 過去の対話を画面に再描画
   conversationHistory.forEach(msg => {
     if (msg.role === 'user') {
       addMessage('user', msg.content);
@@ -951,102 +965,68 @@ function resumeSession() {
   }, 200);
 }
 
-// ページ読み込み時に保存データをチェック
 window.addEventListener('DOMContentLoaded', () => {
   checkSavedSession();
 });
 
 /* ============================================
-   シーン別オープニング(GASから取得する)
-   ============================================ */
-
-async function getSceneOpener(scene) {
-  // GASからオープニングを取得(LINE版でも同じ仕組みを共有するため)
-  try {
-    const result = await callAPI({
-      action: 'get_opener',
-      scene: scene
-    });
-    if (result && result.opener) {
-      return result.opener;
-    }
-  } catch (err) {
-    console.warn('Failed to get opener:', err.message);
-  }
-  // フォールバック(GAS取得失敗時の最低限のメッセージ)
-  return 'こんばんは、Only One Delivery です。\n\nご一緒に、ゆっくり進めていきましょう。\n\nまず、どなたへの贈り物ですか?';
-}
-
-/* ============================================
-   メッセージの送受信
+   メッセージ表示(LINE風 左右配置)
    ============================================ */
 
 function addMessage(role, text) {
   const chatArea = document.getElementById('chat-area');
 
-  const messageDiv = document.createElement('div');
-  messageDiv.className = 'message ' + role;
+  const row = document.createElement('div');
+  row.className = 'message-row ' + role;
+
+  const content = document.createElement('div');
+  content.className = 'message-content';
 
   if (role === 'bot') {
-    const avatar = document.createElement('div');
-    avatar.className = 'message-avatar';
-    avatar.textContent = 'O';
-    messageDiv.appendChild(avatar);
-  }
-
-  const contentDiv = document.createElement('div');
-  contentDiv.className = 'message-content';
-
-  if (role === 'bot') {
-    const nameDiv = document.createElement('div');
-    nameDiv.className = 'message-name';
-    nameDiv.textContent = 'Only One Delivery';
-    contentDiv.appendChild(nameDiv);
+    const name = document.createElement('div');
+    name.className = 'message-name';
+    name.textContent = 'Only One Delivery';
+    content.appendChild(name);
   }
 
   const bubble = document.createElement('div');
   bubble.className = 'message-bubble';
   bubble.textContent = text;
-  contentDiv.appendChild(bubble);
+  content.appendChild(bubble);
 
-  messageDiv.appendChild(contentDiv);
-  chatArea.appendChild(messageDiv);
+  row.appendChild(content);
+  chatArea.appendChild(row);
 
   setTimeout(() => {
     chatArea.scrollTop = chatArea.scrollHeight;
   }, 50);
 
-  return bubble;
+  return row;
 }
 
 function showTyping() {
   const chatArea = document.getElementById('chat-area');
 
-  const messageDiv = document.createElement('div');
-  messageDiv.className = 'message bot';
-  messageDiv.id = 'typing-message';
+  const row = document.createElement('div');
+  row.className = 'message-row bot';
+  row.id = 'typing-message';
 
-  const avatar = document.createElement('div');
-  avatar.className = 'message-avatar';
-  avatar.textContent = 'O';
-  messageDiv.appendChild(avatar);
+  const content = document.createElement('div');
+  content.className = 'message-content';
 
-  const contentDiv = document.createElement('div');
-  contentDiv.className = 'message-content';
-
-  const nameDiv = document.createElement('div');
-  nameDiv.className = 'message-name';
-  nameDiv.textContent = 'Only One Delivery';
-  contentDiv.appendChild(nameDiv);
+  const name = document.createElement('div');
+  name.className = 'message-name';
+  name.textContent = 'Only One Delivery';
+  content.appendChild(name);
 
   const bubble = document.createElement('div');
   bubble.className = 'message-bubble';
-  bubble.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
   bubble.style.padding = '4px 14px';
-  contentDiv.appendChild(bubble);
+  bubble.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  content.appendChild(bubble);
 
-  messageDiv.appendChild(contentDiv);
-  chatArea.appendChild(messageDiv);
+  row.appendChild(content);
+  chatArea.appendChild(row);
 
   setTimeout(() => {
     chatArea.scrollTop = chatArea.scrollHeight;
@@ -1068,6 +1048,10 @@ function hideError() {
   document.getElementById('error-banner').classList.add('hidden');
 }
 
+/* ============================================
+   メッセージ送信
+   ============================================ */
+
 async function sendMessage() {
   if (isProcessing) return;
 
@@ -1082,11 +1066,9 @@ async function sendMessage() {
   input.value = '';
   input.style.height = 'auto';
 
-  // ユーザーメッセージを表示
-  const userMessageDiv = addMessage('user', text);
+  const userRow = addMessage('user', text);
   conversationHistory.push({ role: 'user', content: text });
 
-  // タイピング表示
   showTyping();
 
   try {
@@ -1102,11 +1084,9 @@ async function sendMessage() {
     if (response.error) {
       showError('エラー: ' + response.error + '\nもう一度お試しください。');
       conversationHistory.pop();
-      // ユーザーメッセージを画面から削除
-      if (userMessageDiv && userMessageDiv.parentElement) {
-        userMessageDiv.parentElement.parentElement.remove();
+      if (userRow && userRow.parentElement) {
+        userRow.remove();
       }
-      // 入力欄にメッセージを戻す
       input.value = text;
       isProcessing = false;
       document.getElementById('send-btn').disabled = false;
@@ -1118,7 +1098,6 @@ async function sendMessage() {
 
     addMessage('bot', aiText);
 
-    // localStorage に保存
     saveSessionToStorage();
 
     if (response.isComplete) {
@@ -1126,7 +1105,6 @@ async function sendMessage() {
       document.getElementById('user-input').disabled = true;
       document.getElementById('send-btn').disabled = true;
 
-      // 構成案を生成
       setTimeout(() => {
         generateStructure();
       }, 1500);
@@ -1134,19 +1112,15 @@ async function sendMessage() {
       isProcessing = false;
       document.getElementById('send-btn').disabled = false;
       input.focus();
-
-      // Notionを更新(対話中ステータス、バックグラウンド)
       updateNotionPage('対話中');
     }
   } catch (err) {
     hideTyping();
     showError('通信エラーが発生しました。もう一度送信ボタンを押してください。');
     conversationHistory.pop();
-    // ユーザーメッセージを画面から削除
-    if (userMessageDiv && userMessageDiv.parentElement) {
-      userMessageDiv.parentElement.parentElement.remove();
+    if (userRow && userRow.parentElement) {
+      userRow.remove();
     }
-    // 入力欄にメッセージを戻す
     input.value = text;
     isProcessing = false;
     document.getElementById('send-btn').disabled = false;
@@ -1154,11 +1128,10 @@ async function sendMessage() {
 }
 
 /* ============================================
-   構成案の生成と表示
+   構成案生成
    ============================================ */
 
 async function generateStructure() {
-  // 構成案画面に遷移
   document.getElementById('structure-text').textContent = '構成案を作成中です...';
   document.getElementById('structure-screen').classList.remove('hidden');
 
@@ -1178,10 +1151,7 @@ async function generateStructure() {
     document.getElementById('structure-text').textContent = response.structure;
     currentStructure = response.structure;
 
-    // localStorage に保存
     saveSessionToStorage();
-
-    // Notionを「完了」ステータスで更新
     updateNotionPage('完了');
   } catch (err) {
     document.getElementById('structure-text').textContent =
@@ -1194,12 +1164,8 @@ async function generateStructure() {
    ============================================ */
 
 function updateNotionPage(status) {
-  if (!notionPageId) {
-    console.warn('Notion pageId not available, skipping update');
-    return;
-  }
+  if (!notionPageId) return;
 
-  // Fire and Forget方式:awaitしない、ユーザーの応答を待たせない
   fetch(API_URL, {
     method: 'POST',
     mode: 'cors',
@@ -1221,7 +1187,7 @@ function updateNotionPage(status) {
     }
   })
   .catch(err => {
-    console.warn('Notion更新失敗(無視):', err.message);
+    console.warn('Notion更新失敗:', err.message);
   });
 }
 
@@ -1230,22 +1196,16 @@ function updateNotionPage(status) {
    ============================================ */
 
 function proceedOrder() {
-  // 発注済ステータスでNotion更新
   updateNotionPage('発注済');
-
-  // 完了したのでlocalStorageをクリア
   clearSessionStorage();
 
   document.getElementById('completion-title').textContent = 'ありがとうございます';
   document.getElementById('completion-message').textContent =
-    '本番ではここから決済画面へ遷移します。\n\n' +
-    '価格:¥19,800(税送料込)\n納期:お申込みから3週間\n\n' +
-    'お渡しの日に、あなたの想いが届きます。';
+    '本番ではここから決済画面へ遷移します。\n\n価格:¥19,800(税送料込)\n納期:お申込みから3週間\n\nお渡しの日に、あなたの想いが届きます。';
   document.getElementById('completion-overlay').classList.remove('hidden');
 }
 
 function modifyStructure() {
-  // 修正中ステータスでNotion更新
   updateNotionPage('修正中');
 
   document.getElementById('structure-screen').classList.add('hidden');
@@ -1266,18 +1226,16 @@ function modifyStructure() {
 }
 
 function considerLater() {
-  // 発注検討中ステータスでNotion更新
   updateNotionPage('発注検討中');
 
   document.getElementById('completion-title').textContent = 'またお待ちしています';
   document.getElementById('completion-message').textContent =
-    'ゆっくり考えてください。\n\n' +
-    '本番では構成案を保存して、後日メッセージを送れる仕組みになります。';
+    'ゆっくり考えてください。\n\n本番では構成案を保存して、後日メッセージを送れる仕組みになります。';
   document.getElementById('completion-overlay').classList.remove('hidden');
 }
 
 /* ============================================
-   API呼び出し
+   API呼び出し(リトライ機能付き)
    ============================================ */
 
 async function callAPI(data, retryCount) {
@@ -1285,16 +1243,14 @@ async function callAPI(data, retryCount) {
   const MAX_RETRIES = 1;
 
   if (!API_URL || API_URL === 'YOUR_GAS_WEB_APP_URL_HERE') {
-    throw new Error('API_URLが設定されていません。HTMLファイルを編集してください。');
+    throw new Error('API_URLが設定されていません');
   }
 
   try {
     const response = await fetch(API_URL, {
       method: 'POST',
       mode: 'cors',
-      headers: {
-        'Content-Type': 'text/plain'
-      },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify(data)
     });
 
@@ -1304,9 +1260,8 @@ async function callAPI(data, retryCount) {
 
     return await response.json();
   } catch (err) {
-    // リトライ可能ならもう一度試す
     if (retryCount < MAX_RETRIES) {
-      console.warn('API call failed, retrying... (' + (retryCount + 1) + '/' + MAX_RETRIES + ')');
+      console.warn('API call failed, retrying...');
       await new Promise(resolve => setTimeout(resolve, 1000));
       return callAPI(data, retryCount + 1);
     }
@@ -1315,12 +1270,11 @@ async function callAPI(data, retryCount) {
 }
 
 /* ============================================
-   イベントリスナー
+   入力欄のイベント(Enter で改行、送信ボタンでのみ送信)
    ============================================ */
 
 document.getElementById('user-input').addEventListener('keydown', (e) => {
-  // PC環境でのみ Ctrl+Enter / Cmd+Enter で送信
-  // Enterキー単体は改行のみ(スマホ・PC共通)
+  // Ctrl+Enter / Cmd+Enter でのみ送信、それ以外は改行
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
     e.preventDefault();
     sendMessage();
@@ -1334,7 +1288,7 @@ document.getElementById('user-input').addEventListener('input', (e) => {
 });
 
 /* ============================================
-   画像アップロード機能
+   画像アップロード
    ============================================ */
 
 let pendingImages = [];
@@ -1343,13 +1297,10 @@ function handleImageSelect(event) {
   const files = Array.from(event.target.files);
   if (files.length === 0) return;
 
-  // 画像を圧縮してプレビュー表示
   Promise.all(files.map(file => compressImage(file))).then(compressedFiles => {
     pendingImages = pendingImages.concat(compressedFiles);
     renderImagePreviews();
-    // input をリセット(同じファイルを再選択できるように)
     event.target.value = '';
-    // 自動で送信開始
     if (pendingImages.length > 0) {
       uploadAndSendImages();
     }
@@ -1367,7 +1318,6 @@ function compressImage(file) {
     reader.onload = (e) => {
       const img = new Image();
       img.onload = () => {
-        // 最大幅・高さを1600pxに制限
         const MAX_DIMENSION = 1600;
         let width = img.width;
         let height = img.height;
@@ -1388,7 +1338,6 @@ function compressImage(file) {
         const ctx = canvas.getContext('2d');
         ctx.drawImage(img, 0, 0, width, height);
 
-        // JPEG 80%品質で圧縮
         const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
         const base64 = dataUrl.split(',')[1];
 
@@ -1441,14 +1390,11 @@ async function uploadAndSendImages() {
   document.getElementById('send-btn').disabled = true;
   document.getElementById('image-btn').disabled = true;
 
-  // ユーザーメッセージとして画像を表示
   addImageMessage(images);
 
-  // 対話履歴に追加(AIには「画像N枚送信した」と伝える)
   const imageInfoText = '[写真を' + images.length + '枚お送りしました]';
   conversationHistory.push({ role: 'user', content: imageInfoText });
 
-  // 各画像をアップロード(逐次処理)
   const uploadedFiles = [];
   for (let i = 0; i < images.length; i++) {
     const img = images[i];
@@ -1477,7 +1423,6 @@ async function uploadAndSendImages() {
 
   console.log('画像アップロード完了:', uploadedFiles.length + '枚');
 
-  // 写真受領時の応答メッセージを表示(AIを呼ばない、固定文)
   const acknowledgment = 'お写真、ありがとうございます。\n' +
     images.length + '枚、大切にお預かりしました。\n\n' +
     'お写真を見て感じたこと、もしよかったら教えてください。';
@@ -1485,10 +1430,7 @@ async function uploadAndSendImages() {
   addMessage('bot', acknowledgment);
   conversationHistory.push({ role: 'assistant', content: acknowledgment });
 
-  // localStorage に保存
   saveSessionToStorage();
-
-  // Notionを更新(対話中ステータスのまま)
   updateNotionPage('対話中');
 
   isProcessing = false;
@@ -1500,11 +1442,11 @@ async function uploadAndSendImages() {
 function addImageMessage(images) {
   const chatArea = document.getElementById('chat-area');
 
-  const messageDiv = document.createElement('div');
-  messageDiv.className = 'message user';
+  const row = document.createElement('div');
+  row.className = 'message-row user';
 
-  const contentDiv = document.createElement('div');
-  contentDiv.className = 'message-content';
+  const content = document.createElement('div');
+  content.className = 'message-content';
 
   const bubble = document.createElement('div');
   bubble.className = 'message-bubble image-message-bubble';
@@ -1518,9 +1460,9 @@ function addImageMessage(images) {
     bubble.appendChild(item);
   });
 
-  contentDiv.appendChild(bubble);
-  messageDiv.appendChild(contentDiv);
-  chatArea.appendChild(messageDiv);
+  content.appendChild(bubble);
+  row.appendChild(content);
+  chatArea.appendChild(row);
 
   setTimeout(() => {
     chatArea.scrollTop = chatArea.scrollHeight;
