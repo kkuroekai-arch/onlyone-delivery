@@ -586,9 +586,11 @@ html, body {
   <div class="landing-sub">一生忘れない、ギフト</div>
   <div class="landing-message">あなたの想いを、<br>24ページの本に。</div>
   <div class="landing-desc">
-    編集者ハナが、<br>
-    あなたから、相手への想いを引き出します。<br>
-    対話の最後に、本の構成案を作成します。
+    AIが想いを聞き、<br>
+    人が本に仕立てる。<br><br>
+    そうして生まれた一冊が、<br>
+    あなたが愛する誰かに、<br>
+    感動を届けます。
   </div>
   <button class="landing-button" onclick="goToSceneSelect()">はじめる</button>
 </div>
@@ -640,7 +642,7 @@ html, body {
   <div class="chat-header">
     <button class="chat-header-back" onclick="goToSceneSelect()">←</button>
     <div class="chat-header-info">
-      <div class="chat-header-name">編集者ハナ</div>
+      <div class="chat-header-name">Only One Delivery</div>
       <div class="chat-header-status" id="chat-status">対話中</div>
     </div>
   </div>
@@ -729,7 +731,7 @@ function goToSceneSelect() {
   document.getElementById('scene-select').classList.remove('hidden');
 }
 
-function selectScene(scene) {
+async function selectScene(scene) {
   currentScene = scene;
   conversationHistory = [];
   sessionStartedAt = new Date().toISOString();
@@ -741,7 +743,13 @@ function selectScene(scene) {
   document.getElementById('chat-area').innerHTML = '';
   hideError();
 
-  const opener = getSceneOpener(scene);
+  // タイピング表示(オープニング取得中)
+  showTyping();
+
+  // GASからオープニングを取得
+  const opener = await getSceneOpener(scene);
+
+  hideTyping();
   addMessage('bot', opener);
   conversationHistory.push({ role: 'assistant', content: opener });
 
@@ -798,46 +806,24 @@ function resetAll() {
 }
 
 /* ============================================
-   シーン別オープニング
+   シーン別オープニング(GASから取得する)
    ============================================ */
 
-function getSceneOpener(scene) {
-  const openers = {
-    kanreki:
-      'こんばんは。\n還暦・長寿祝いの本作りをサポートする、編集者のハナです。\n\n' +
-      'ここから、お母さま(またはお父さま)への本を、一緒に作っていきますね。\n' +
-      '焦らなくて大丈夫です。思い出しながら、ゆっくり進めましょう。\n\n' +
-      'まず、贈る相手はお母さまですか?お父さまですか?',
-    wedding:
-      'こんばんは。\n結婚祝いの本作りをサポートする、編集者のハナです。\n\n' +
-      'お二人の歩みを、24ページの物語にしていきましょう。\n\n' +
-      'まず、お二人のお名前を教えてください。\n(例:太郎さんと花子さん)',
-    retirement:
-      'こんばんは。\n退職祝いの本作りをサポートする、編集者のハナです。\n\n' +
-      'お世話になった方への感謝を、形に残しましょう。\n\n' +
-      'まず、贈る相手はどんな方ですか?\n(上司、同僚、先生など、関係性を教えてください)',
-    birthday:
-      'こんばんは。\n誕生日プレゼントの本作りをサポートする、編集者のハナです。\n\n' +
-      '何年分もの思い出を、特別な一冊にしていきます。\n\n' +
-      'まず、贈る相手のお名前と、どんな関係性か教えてください。',
-    newborn:
-      'こんばんは。\n出産祝いの本作りをサポートする、編集者のハナです。\n\n' +
-      '新しい命の誕生を、家族の喜びとして残していきましょう。\n\n' +
-      'まず、生まれたお子さまのお名前と、誰への贈り物かを教えてください。',
-    anniversary:
-      'こんばんは。\n記念日ギフトの本作りをサポートする、編集者のハナです。\n\n' +
-      'お二人の歩みを、特別な一冊にしましょう。\n\n' +
-      'まず、何の記念日ですか?\n結婚記念日、付き合った記念日、その他の記念日、どれでしょう。',
-    graduation:
-      'こんばんは。\n卒業・入学祝いの本作りをサポートする、編集者のハナです。\n\n' +
-      '人生の節目に贈る、かけがえのない一冊を作ります。\n\n' +
-      'まず、贈る相手のお名前と、どの節目を迎えるか教えてください。',
-    elderly:
-      'こんばんは。\n敬老ギフトの本作りをサポートする、編集者のハナです。\n\n' +
-      '祖父母やご両親への感謝を、家族の写真とともに一冊にしましょう。\n\n' +
-      'まず、贈る相手はどなたですか?'
-  };
-  return openers[scene] || openers['kanreki'];
+async function getSceneOpener(scene) {
+  // GASからオープニングを取得(LINE版でも同じ仕組みを共有するため)
+  try {
+    const result = await callAPI({
+      action: 'get_opener',
+      scene: scene
+    });
+    if (result && result.opener) {
+      return result.opener;
+    }
+  } catch (err) {
+    console.warn('Failed to get opener:', err.message);
+  }
+  // フォールバック(GAS取得失敗時の最低限のメッセージ)
+  return 'こんばんは、Only One Delivery です。\n\nご一緒に、ゆっくり進めていきましょう。\n\nまず、どなたへの贈り物ですか?';
 }
 
 /* ============================================
@@ -853,7 +839,7 @@ function addMessage(role, text) {
   if (role === 'bot') {
     const avatar = document.createElement('div');
     avatar.className = 'message-avatar';
-    avatar.textContent = 'ハ';
+    avatar.textContent = 'O';
     messageDiv.appendChild(avatar);
   }
 
@@ -863,7 +849,7 @@ function addMessage(role, text) {
   if (role === 'bot') {
     const nameDiv = document.createElement('div');
     nameDiv.className = 'message-name';
-    nameDiv.textContent = '編集者ハナ';
+    nameDiv.textContent = 'Only One Delivery';
     contentDiv.appendChild(nameDiv);
   }
 
@@ -891,7 +877,7 @@ function showTyping() {
 
   const avatar = document.createElement('div');
   avatar.className = 'message-avatar';
-  avatar.textContent = 'ハ';
+  avatar.textContent = 'O';
   messageDiv.appendChild(avatar);
 
   const contentDiv = document.createElement('div');
@@ -899,7 +885,7 @@ function showTyping() {
 
   const nameDiv = document.createElement('div');
   nameDiv.className = 'message-name';
-  nameDiv.textContent = '編集者ハナ';
+  nameDiv.textContent = 'Only One Delivery';
   contentDiv.appendChild(nameDiv);
 
   const bubble = document.createElement('div');
@@ -946,7 +932,7 @@ async function sendMessage() {
   input.style.height = 'auto';
 
   // ユーザーメッセージを表示
-  addMessage('user', text);
+  const userMessageDiv = addMessage('user', text);
   conversationHistory.push({ role: 'user', content: text });
 
   // タイピング表示
@@ -963,8 +949,14 @@ async function sendMessage() {
     hideTyping();
 
     if (response.error) {
-      showError('エラー: ' + response.error);
+      showError('エラー: ' + response.error + '\nもう一度お試しください。');
       conversationHistory.pop();
+      // ユーザーメッセージを画面から削除
+      if (userMessageDiv && userMessageDiv.parentElement) {
+        userMessageDiv.parentElement.parentElement.remove();
+      }
+      // 入力欄にメッセージを戻す
+      input.value = text;
       isProcessing = false;
       document.getElementById('send-btn').disabled = false;
       return;
@@ -994,8 +986,14 @@ async function sendMessage() {
     }
   } catch (err) {
     hideTyping();
-    showError('通信エラー: ' + err.message);
+    showError('通信エラーが発生しました。もう一度送信ボタンを押してください。');
     conversationHistory.pop();
+    // ユーザーメッセージを画面から削除
+    if (userMessageDiv && userMessageDiv.parentElement) {
+      userMessageDiv.parentElement.parentElement.remove();
+    }
+    // 入力欄にメッセージを戻す
+    input.value = text;
     isProcessing = false;
     document.getElementById('send-btn').disabled = false;
   }
@@ -1096,7 +1094,8 @@ function modifyStructure() {
   document.getElementById('chat-status').textContent = '対話中(修正)';
 
   const message =
-    '構成を見て、追加したいエピソードや、入れてほしい写真はありますか?\n\n' +
+    '構成案を見ていただいてありがとうございます。\n\n' +
+    '追加したいエピソードや、入れてほしい写真はありますか?\n' +
     '思いついたことを、自由に教えてください。';
 
   addMessage('bot', message);
@@ -1121,25 +1120,38 @@ function considerLater() {
    API呼び出し
    ============================================ */
 
-async function callAPI(data) {
+async function callAPI(data, retryCount) {
+  if (typeof retryCount === 'undefined') retryCount = 0;
+  const MAX_RETRIES = 1;
+
   if (!API_URL || API_URL === 'YOUR_GAS_WEB_APP_URL_HERE') {
     throw new Error('API_URLが設定されていません。HTMLファイルを編集してください。');
   }
 
-  const response = await fetch(API_URL, {
-    method: 'POST',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'text/plain'
-    },
-    body: JSON.stringify(data)
-  });
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'text/plain'
+      },
+      body: JSON.stringify(data)
+    });
 
-  if (!response.ok) {
-    throw new Error('HTTP ' + response.status);
+    if (!response.ok) {
+      throw new Error('HTTP ' + response.status);
+    }
+
+    return await response.json();
+  } catch (err) {
+    // リトライ可能ならもう一度試す
+    if (retryCount < MAX_RETRIES) {
+      console.warn('API call failed, retrying... (' + (retryCount + 1) + '/' + MAX_RETRIES + ')');
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      return callAPI(data, retryCount + 1);
+    }
+    throw err;
   }
-
-  return await response.json();
 }
 
 /* ============================================
@@ -1147,7 +1159,9 @@ async function callAPI(data) {
    ============================================ */
 
 document.getElementById('user-input').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.shiftKey) {
+  // PC環境でのみ Ctrl+Enter / Cmd+Enter で送信
+  // Enterキー単体は改行のみ(スマホ・PC共通)
+  if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
     e.preventDefault();
     sendMessage();
   }
@@ -1303,7 +1317,7 @@ async function uploadAndSendImages() {
 
   console.log('画像アップロード完了:', uploadedFiles.length + '枚');
 
-  // ハナの応答メッセージを表示(AIを呼ばない、固定文)
+  // 写真受領時の応答メッセージを表示(AIを呼ばない、固定文)
   const acknowledgment = 'お写真、ありがとうございます。\n' +
     images.length + '枚、大切にお預かりしました。\n\n' +
     'お写真を見て感じたこと、もしよかったら教えてください。';
