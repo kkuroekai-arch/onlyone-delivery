@@ -623,6 +623,8 @@ let currentScene = null;
 let conversationHistory = [];
 let sessionId = generateSessionId();
 let isProcessing = false;
+let sessionStartedAt = null;
+let currentStructure = '';
 
 function generateSessionId() {
   return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -640,6 +642,8 @@ function goToSceneSelect() {
 function selectScene(scene) {
   currentScene = scene;
   conversationHistory = [];
+  sessionStartedAt = new Date().toISOString();
+  currentStructure = '';
 
   hideAll();
   document.getElementById('chat').classList.remove('hidden');
@@ -896,9 +900,39 @@ async function generateStructure() {
     }
 
     document.getElementById('structure-text').textContent = response.structure;
+    currentStructure = response.structure;
+
+    // Notionに自動保存(失敗してもユーザー体験には影響しない)
+    saveToNotion('完了');
   } catch (err) {
     document.getElementById('structure-text').textContent =
       '通信エラーが発生しました。\n' + err.message;
+  }
+}
+
+/* ============================================
+   Notionへの保存(バックグラウンド)
+   ============================================ */
+
+async function saveToNotion(status) {
+  try {
+    const result = await callAPI({
+      action: 'save_to_notion',
+      sessionId: sessionId,
+      scene: currentScene,
+      history: conversationHistory,
+      structure: currentStructure,
+      status: status,
+      startedAt: sessionStartedAt
+    });
+
+    if (result.error) {
+      console.warn('Notion保存エラー:', result.error);
+    } else {
+      console.log('Notion保存完了:', result.pageId);
+    }
+  } catch (err) {
+    console.warn('Notion保存失敗(無視):', err.message);
   }
 }
 
@@ -907,6 +941,9 @@ async function generateStructure() {
    ============================================ */
 
 function proceedOrder() {
+  // 発注済ステータスでNotionに更新保存
+  saveToNotion('発注済');
+
   document.getElementById('completion-title').textContent = 'ありがとうございます';
   document.getElementById('completion-message').textContent =
     '本番ではここから決済画面へ遷移します。\n\n' +
@@ -933,6 +970,9 @@ function modifyStructure() {
 }
 
 function considerLater() {
+  // 検討中ステータスでNotionに保存
+  saveToNotion('発注検討中');
+
   document.getElementById('completion-title').textContent = 'またお待ちしています';
   document.getElementById('completion-message').textContent =
     'ゆっくり考えてください。\n\n' +
