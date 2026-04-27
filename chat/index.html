@@ -665,20 +665,30 @@ function selectScene(scene) {
 }
 
 async function createNotionPage() {
-  try {
-    const result = await callAPI({
+  // Fire and Forget方式:awaitしない、結果を待たずに先に進む
+  fetch(API_URL, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
       action: 'create_notion_page',
       sessionId: sessionId,
       scene: currentScene,
       startedAt: sessionStartedAt
-    });
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
     if (result.pageId) {
       notionPageId = result.pageId;
       console.log('Notion page created:', notionPageId);
+    } else if (result.error) {
+      console.warn('Notion page creation failed:', result.error);
     }
-  } catch (err) {
+  })
+  .catch(err => {
     console.warn('Notion page creation failed:', err.message);
-  }
+  });
 }
 
 function hideAll() {
@@ -939,29 +949,36 @@ async function generateStructure() {
    Notionページ更新(バックグラウンド)
    ============================================ */
 
-async function updateNotionPage(status) {
+function updateNotionPage(status) {
   if (!notionPageId) {
     console.warn('Notion pageId not available, skipping update');
     return;
   }
 
-  try {
-    const result = await callAPI({
+  // Fire and Forget方式:awaitしない、ユーザーの応答を待たせない
+  fetch(API_URL, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
       action: 'update_notion_page',
       pageId: notionPageId,
       history: conversationHistory,
       structure: currentStructure,
       status: status
-    });
-
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
     if (result.error) {
       console.warn('Notion更新エラー:', result.error);
     } else {
       console.log('Notion更新完了:', status);
     }
-  } catch (err) {
+  })
+  .catch(err => {
     console.warn('Notion更新失敗(無視):', err.message);
-  }
+  });
 }
 
 /* ============================================
