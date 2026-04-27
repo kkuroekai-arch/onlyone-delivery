@@ -625,6 +625,7 @@ let sessionId = generateSessionId();
 let isProcessing = false;
 let sessionStartedAt = null;
 let currentStructure = '';
+let notionPageId = null;
 
 function generateSessionId() {
   return 'session_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -644,6 +645,7 @@ function selectScene(scene) {
   conversationHistory = [];
   sessionStartedAt = new Date().toISOString();
   currentStructure = '';
+  notionPageId = null;
 
   hideAll();
   document.getElementById('chat').classList.remove('hidden');
@@ -654,9 +656,29 @@ function selectScene(scene) {
   addMessage('bot', opener);
   conversationHistory.push({ role: 'assistant', content: opener });
 
+  // Notionに新規ページ作成(バックグラウンド)
+  createNotionPage();
+
   setTimeout(() => {
     document.getElementById('user-input').focus();
   }, 200);
+}
+
+async function createNotionPage() {
+  try {
+    const result = await callAPI({
+      action: 'create_notion_page',
+      sessionId: sessionId,
+      scene: currentScene,
+      startedAt: sessionStartedAt
+    });
+    if (result.pageId) {
+      notionPageId = result.pageId;
+      console.log('Notion page created:', notionPageId);
+    }
+  } catch (err) {
+    console.warn('Notion page creation failed:', err.message);
+  }
 }
 
 function hideAll() {
@@ -867,6 +889,9 @@ async function sendMessage() {
       isProcessing = false;
       document.getElementById('send-btn').disabled = false;
       input.focus();
+
+      // Notionを更新(対話中ステータス、バックグラウンド)
+      updateNotionPage('対話中');
     }
   } catch (err) {
     hideTyping();
@@ -902,8 +927,8 @@ async function generateStructure() {
     document.getElementById('structure-text').textContent = response.structure;
     currentStructure = response.structure;
 
-    // Notionに自動保存(失敗してもユーザー体験には影響しない)
-    saveToNotion('完了');
+    // Notionを「完了」ステータスで更新
+    updateNotionPage('完了');
   } catch (err) {
     document.getElementById('structure-text').textContent =
       '通信エラーが発生しました。\n' + err.message;
@@ -911,28 +936,31 @@ async function generateStructure() {
 }
 
 /* ============================================
-   Notionへの保存(バックグラウンド)
+   Notionページ更新(バックグラウンド)
    ============================================ */
 
-async function saveToNotion(status) {
+async function updateNotionPage(status) {
+  if (!notionPageId) {
+    console.warn('Notion pageId not available, skipping update');
+    return;
+  }
+
   try {
     const result = await callAPI({
-      action: 'save_to_notion',
-      sessionId: sessionId,
-      scene: currentScene,
+      action: 'update_notion_page',
+      pageId: notionPageId,
       history: conversationHistory,
       structure: currentStructure,
-      status: status,
-      startedAt: sessionStartedAt
+      status: status
     });
 
     if (result.error) {
-      console.warn('Notion保存エラー:', result.error);
+      console.warn('Notion更新エラー:', result.error);
     } else {
-      console.log('Notion保存完了:', result.pageId);
+      console.log('Notion更新完了:', status);
     }
   } catch (err) {
-    console.warn('Notion保存失敗(無視):', err.message);
+    console.warn('Notion更新失敗(無視):', err.message);
   }
 }
 
@@ -941,8 +969,8 @@ async function saveToNotion(status) {
    ============================================ */
 
 function proceedOrder() {
-  // 発注済ステータスでNotionに更新保存
-  saveToNotion('発注済');
+  // 発注済ステータスでNotion更新
+  updateNotionPage('発注済');
 
   document.getElementById('completion-title').textContent = 'ありがとうございます';
   document.getElementById('completion-message').textContent =
@@ -953,6 +981,9 @@ function proceedOrder() {
 }
 
 function modifyStructure() {
+  // 修正中ステータスでNotion更新
+  updateNotionPage('修正中');
+
   document.getElementById('structure-screen').classList.add('hidden');
   document.getElementById('user-input').disabled = false;
   document.getElementById('send-btn').disabled = false;
@@ -970,8 +1001,8 @@ function modifyStructure() {
 }
 
 function considerLater() {
-  // 検討中ステータスでNotionに保存
-  saveToNotion('発注検討中');
+  // 発注検討中ステータスでNotion更新
+  updateNotionPage('発注検討中');
 
   document.getElementById('completion-title').textContent = 'またお待ちしています';
   document.getElementById('completion-message').textContent =
