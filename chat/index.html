@@ -592,6 +592,12 @@ html, body {
     あなたが愛する誰かに、<br>
     感動を届けます。
   </div>
+  <div id="resume-area" class="hidden" style="margin-bottom: 16px;">
+    <button class="landing-button" onclick="resumeSession()" style="background: #5a4838; margin-bottom: 8px;">
+      続きから始める
+    </button>
+    <div id="resume-info" style="font-size: 11px; color: #888; margin-top: 4px;"></div>
+  </div>
   <button class="landing-button" onclick="goToSceneSelect()">はじめる</button>
 </div>
 
@@ -723,6 +729,56 @@ function generateSessionId() {
 }
 
 /* ============================================
+   localStorage:対話の保存・復元
+   ============================================ */
+
+const STORAGE_KEY = 'ood_session_v1';
+const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7日間で期限切れ
+
+function saveSessionToStorage() {
+  if (!currentScene || conversationHistory.length === 0) return;
+  try {
+    const data = {
+      scene: currentScene,
+      history: conversationHistory,
+      sessionId: sessionId,
+      notionPageId: notionPageId,
+      sessionStartedAt: sessionStartedAt,
+      structure: currentStructure,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (err) {
+    console.warn('Failed to save session:', err.message);
+  }
+}
+
+function loadSessionFromStorage() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return null;
+    const data = JSON.parse(saved);
+    // 期限切れチェック
+    if (data.timestamp && (Date.now() - data.timestamp) > MAX_AGE_MS) {
+      clearSessionStorage();
+      return null;
+    }
+    return data;
+  } catch (err) {
+    console.warn('Failed to load session:', err.message);
+    return null;
+  }
+}
+
+function clearSessionStorage() {
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch (err) {
+    console.warn('Failed to clear session:', err.message);
+  }
+}
+
+/* ============================================
    画面遷移
    ============================================ */
 
@@ -801,9 +857,104 @@ function resetAll() {
   conversationHistory = [];
   sessionId = generateSessionId();
   isProcessing = false;
+  notionPageId = null;
+  currentStructure = '';
+  sessionStartedAt = null;
+  clearSessionStorage();
   hideAll();
   document.getElementById('landing').classList.remove('hidden');
+  // 「続きから」ボタンを非表示に
+  document.getElementById('resume-area').classList.add('hidden');
 }
+
+/* ============================================
+   セッション復元(続きから始める)
+   ============================================ */
+
+function checkSavedSession() {
+  const saved = loadSessionFromStorage();
+  if (!saved || !saved.scene || !saved.history || saved.history.length === 0) {
+    return;
+  }
+
+  // 経過時間を計算
+  const elapsedMs = Date.now() - (saved.timestamp || 0);
+  const elapsedMin = Math.floor(elapsedMs / 60000);
+  const elapsedHours = Math.floor(elapsedMin / 60);
+  const elapsedDays = Math.floor(elapsedHours / 24);
+
+  let elapsedText;
+  if (elapsedDays > 0) {
+    elapsedText = elapsedDays + '日前';
+  } else if (elapsedHours > 0) {
+    elapsedText = elapsedHours + '時間前';
+  } else if (elapsedMin > 0) {
+    elapsedText = elapsedMin + '分前';
+  } else {
+    elapsedText = 'たった今';
+  }
+
+  // ラリー数を計算
+  const userTurns = saved.history.filter(m => m.role === 'user').length;
+
+  // シーン名を日本語に
+  const sceneNames = {
+    kanreki: '還暦・長寿祝い',
+    wedding: '結婚祝い',
+    retirement: '退職祝い',
+    birthday: '誕生日プレゼント',
+    newborn: '出産祝い',
+    anniversary: '記念日ギフト',
+    graduation: '卒業・入学祝い',
+    elderly: '敬老ギフト'
+  };
+  const sceneName = sceneNames[saved.scene] || saved.scene;
+
+  // 「続きから」ボタンを表示
+  document.getElementById('resume-area').classList.remove('hidden');
+  document.getElementById('resume-info').textContent =
+    sceneName + ' / ' + userTurns + 'ラリー / ' + elapsedText;
+}
+
+function resumeSession() {
+  const saved = loadSessionFromStorage();
+  if (!saved) {
+    alert('保存された対話が見つかりませんでした');
+    return;
+  }
+
+  // 状態を復元
+  currentScene = saved.scene;
+  conversationHistory = saved.history || [];
+  sessionId = saved.sessionId || generateSessionId();
+  notionPageId = saved.notionPageId || null;
+  sessionStartedAt = saved.sessionStartedAt || new Date().toISOString();
+  currentStructure = saved.structure || '';
+
+  // チャット画面を表示
+  hideAll();
+  document.getElementById('chat').classList.remove('hidden');
+  document.getElementById('chat-area').innerHTML = '';
+  hideError();
+
+  // 過去の対話を画面に再描画
+  conversationHistory.forEach(msg => {
+    if (msg.role === 'user') {
+      addMessage('user', msg.content);
+    } else {
+      addMessage('bot', msg.content);
+    }
+  });
+
+  setTimeout(() => {
+    document.getElementById('user-input').focus();
+  }, 200);
+}
+
+// ページ読み込み時に保存データをチェック
+window.addEventListener('DOMContentLoaded', () => {
+  checkSavedSession();
+});
 
 /* ============================================
    シーン別オープニング(GASから取得する)
@@ -967,6 +1118,9 @@ async function sendMessage() {
 
     addMessage('bot', aiText);
 
+    // localStorage に保存
+    saveSessionToStorage();
+
     if (response.isComplete) {
       document.getElementById('chat-status').textContent = '対話完了';
       document.getElementById('user-input').disabled = true;
@@ -1024,6 +1178,9 @@ async function generateStructure() {
     document.getElementById('structure-text').textContent = response.structure;
     currentStructure = response.structure;
 
+    // localStorage に保存
+    saveSessionToStorage();
+
     // Notionを「完了」ステータスで更新
     updateNotionPage('完了');
   } catch (err) {
@@ -1076,11 +1233,14 @@ function proceedOrder() {
   // 発注済ステータスでNotion更新
   updateNotionPage('発注済');
 
+  // 完了したのでlocalStorageをクリア
+  clearSessionStorage();
+
   document.getElementById('completion-title').textContent = 'ありがとうございます';
   document.getElementById('completion-message').textContent =
     '本番ではここから決済画面へ遷移します。\n\n' +
     '価格:¥19,800(税送料込)\n納期:お申込みから3週間\n\n' +
-    'お母さまの還暦の日に、あなたの想いが届きます。';
+    'お渡しの日に、あなたの想いが届きます。';
   document.getElementById('completion-overlay').classList.remove('hidden');
 }
 
@@ -1324,6 +1484,9 @@ async function uploadAndSendImages() {
 
   addMessage('bot', acknowledgment);
   conversationHistory.push({ role: 'assistant', content: acknowledgment });
+
+  // localStorage に保存
+  saveSessionToStorage();
 
   // Notionを更新(対話中ステータスのまま)
   updateNotionPage('対話中');
