@@ -1548,12 +1548,12 @@ let state = {
     freeText: ''
   },
   basicInfo: {
+    lineName: '',
     protagonistName: '',
     relationship: '',
     milestone: '',
     milestoneDate: '',
     familyComposition: '',
-    lineName: '',
     contact: ''
   },
   chapters: {
@@ -1658,25 +1658,12 @@ function showScreen(screenId) {
   // LINEヘルプリンクを挿入(welcome/complete以外)
   ensureHelpLine(screenId);
 
-  // ★ 画面切り替え後、確実にスクロールを最上部へ
-  // 即時実行で window 全体を 0 に
-  window.scrollTo(0, 0);
-  document.documentElement.scrollTop = 0;
-  document.body.scrollTop = 0;
-
-  // 念のため、次のフレームでもスクロール(描画後)
-  requestAnimationFrame(() => {
+  // スクロール:スムーズに最上部へ
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
     window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  });
-
-  // さらに念のため、少し遅延させてもスクロール(iOS Safari対策)
-  setTimeout(() => {
-    window.scrollTo(0, 0);
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
-  }, 50);
+  }
 }
 
 // LINEヘルプリンクを各画面下部に挿入
@@ -1857,8 +1844,9 @@ function onStart() {
     scene: null,
     direction: { q1: null, q1Other: '', q2: null, q3: null, freeText: '' },
     basicInfo: {
+      lineName: '',
       protagonistName: '', relationship: '', milestone: '',
-      milestoneDate: '', familyComposition: '', lineName: '', contact: ''
+      milestoneDate: '', familyComposition: '', contact: ''
     },
     chapters: {
       1: { photos: [], comments: {}, supplements: {} },
@@ -2006,22 +1994,21 @@ function buildChapterProgressData() {
   }
 
   // 基本情報
-  if (state.basicInfo.protagonistName) {
+  if (state.basicInfo.protagonistName || state.basicInfo.lineName) {
     data.basicInfo = {
+      lineName: state.basicInfo.lineName || '',
       protagonistName: state.basicInfo.protagonistName,
       relationship: state.basicInfo.relationship,
       milestone: state.basicInfo.milestone,
       milestoneDate: state.basicInfo.milestoneDate,
-      familyComposition: state.basicInfo.familyComposition,
-      lineName: state.basicInfo.lineName || '',
-      contact: state.basicInfo.contact
+      familyComposition: state.basicInfo.familyComposition
     };
 
-    // 案件名を主役名で更新
+    // 案件名を主役名で更新(LINE名と主役名を両方含める)
     if (state.basicInfo.protagonistName) {
       const dateStr = new Date().toISOString().substring(0, 10).replace(/-/g, '/');
-      const lineHint = state.basicInfo.lineName ? ` [LINE: ${state.basicInfo.lineName}]` : '';
-      data.titleText = `${dateStr} ${state.basicInfo.protagonistName} 様 ${state.basicInfo.milestone || ''}${lineHint} (入力中)`;
+      const lineNameSuffix = state.basicInfo.lineName ? ` [LINE:${state.basicInfo.lineName}]` : '';
+      data.titleText = `${dateStr} ${state.basicInfo.protagonistName} 様 ${state.basicInfo.milestone || ''}${lineNameSuffix} (入力中)`;
     }
   }
 
@@ -2274,6 +2261,18 @@ function renderBasicInfo() {
 
   let html = '';
 
+  // ★ LINEのお名前(必須・強調)
+  html += `
+    <div class="form-section" style="border: 1.5px solid rgba(90, 72, 56, 0.4); background: linear-gradient(180deg, #fff 0%, #fdfaf3 100%);">
+      <label class="form-label">LINEのお名前<span class="form-required">必須</span></label>
+      <div class="form-hint" style="color: #5a4838; font-weight: 500;">
+        ⚠️ 必ず正確に入力してください。<br>
+        LINEで本の進捗をお送りする時、お間違いのないよう、本人確認に使用します。
+      </div>
+      <input type="text" class="form-input" placeholder="例:鈴木 太郎(LINEで使用しているお名前)" value="${escapeHtml(state.basicInfo.lineName || '')}" oninput="state.basicInfo.lineName = this.value; saveState(); validateBasicInfo();">
+    </div>
+  `;
+
   // 主役のお名前(必須)
   html += `
     <div class="form-section">
@@ -2330,28 +2329,6 @@ function renderBasicInfo() {
       <label class="form-label">家族構成<span class="form-optional">任意</span></label>
       <div class="form-hint">主役を中心としたご家族のお名前と続柄を、簡単に教えてください。本作りの参考にします。</div>
       <textarea class="form-textarea" rows="3" placeholder="例:父・太郎、母・花子(主役)、長男・健太、次男・拓也、孫・さくら(5歳)" oninput="state.basicInfo.familyComposition = this.value; saveState();">${escapeHtml(state.basicInfo.familyComposition || '')}</textarea>
-    </div>
-  `;
-
-  // LINEのお名前(任意・推奨)
-  html += `
-    <div class="form-section" style="background: #faf6ee; border: 1px solid rgba(90, 72, 56, 0.2);">
-      <label class="form-label">LINE のお名前<span class="form-optional">任意・できれば</span></label>
-      <div class="form-hint">
-        ご質問やプレビューのご案内は、LINE でお送りします。<br>
-        LINE 上のあなたのお名前を教えていただけると、<br>
-        スムーズにご連絡できます。
-      </div>
-      <input type="text" class="form-input" placeholder="例:鈴木 / すずき / Hanako など" value="${escapeHtml(state.basicInfo.lineName || '')}" oninput="state.basicInfo.lineName = this.value; saveState();">
-    </div>
-  `;
-
-  // 連絡先(任意)
-  html += `
-    <div class="form-section">
-      <label class="form-label">そのほかのご連絡先<span class="form-optional">任意</span></label>
-      <div class="form-hint">LINE が使えない場合などに、メールやお電話番号があれば。</div>
-      <input type="text" class="form-input" placeholder="例:your-email@example.com / 090-1234-5678" value="${escapeHtml(state.basicInfo.contact || '')}" oninput="state.basicInfo.contact = this.value; saveState();">
     </div>
   `;
 
@@ -2454,7 +2431,8 @@ function getProtagonistLabel(genre) {
 }
 
 function validateBasicInfo() {
-  const valid = state.basicInfo.protagonistName.trim().length > 0
+  const valid = (state.basicInfo.lineName || '').trim().length > 0
+    && state.basicInfo.protagonistName.trim().length > 0
     && state.basicInfo.relationship.trim().length > 0
     && state.basicInfo.milestone && state.basicInfo.milestone.trim().length > 0
     && state.basicInfo.milestone !== '__other__';
@@ -2876,14 +2854,6 @@ function renderFinalSummary() {
         <div class="confirm-value">${escapeHtml(state.basicInfo.milestone)}</div>
       </div>
     </div>
-    ${state.basicInfo.lineName ? `
-    <div class="confirm-row">
-      <span class="confirm-check">✓</span>
-      <div class="confirm-content">
-        <div class="confirm-label">LINEのお名前</div>
-        <div class="confirm-value">${escapeHtml(state.basicInfo.lineName)}</div>
-      </div>
-    </div>` : ''}
   </div>`;
 
   // 各章の写真枚数
@@ -5142,7 +5112,7 @@ GENRES_DATA = {
             "supplements": []
           },
           {
-            "title": "近年の私たち",
+            "title": "最近の私たち",
             "role": "近年、共に過ごした時期。",
             "photoTarget": "3〜5",
             "photoDescription": "近年の同僚との写真を選んでください。",
@@ -5936,7 +5906,7 @@ GENRES_DATA = {
       },
       {
         "id": "birthday_scene3",
-        "name": "配偶者 → 配偶者へ(節目の誕生日)",
+        "name": "パートナーへ(節目の誕生日)",
         "protagonist": "誕生日を迎える配偶者",
         "giver": "配偶者",
         "relationship": "夫婦",
@@ -6232,7 +6202,7 @@ GENRES_DATA = {
             "supplements": []
           },
           {
-            "title": "近年の私たち",
+            "title": "最近の私たち",
             "role": "近年、友人として過ごした時期。",
             "photoTarget": "3〜5",
             "photoDescription": "近年の友人との写真を選んでください。",
@@ -6830,7 +6800,7 @@ GENRES_DATA = {
     "scenes": [
       {
         "id": "anniversary_scene1",
-        "name": "配偶者 → 配偶者へ(結婚記念日)",
+        "name": "パートナーへ(結婚記念日)",
         "protagonist": "配偶者",
         "giver": "配偶者",
         "relationship": "夫婦",
@@ -6943,7 +6913,7 @@ GENRES_DATA = {
             ]
           },
           {
-            "title": "近年の私たち",
+            "title": "最近の私たち",
             "role": "近年、夫婦として過ごした時期。",
             "photoTarget": "3〜5",
             "photoDescription": "近年の二人の写真を選んでください。",
@@ -7002,7 +6972,7 @@ GENRES_DATA = {
       },
       {
         "id": "anniversary_scene2",
-        "name": "恋人 → 恋人へ(付き合った記念日)",
+        "name": "恋人 → 恋人へ",
         "protagonist": "恋人",
         "giver": "恋人",
         "relationship": "恋人同士",
@@ -7129,7 +7099,7 @@ GENRES_DATA = {
             ]
           },
           {
-            "title": "近年の私たち",
+            "title": "最近の私たち",
             "role": "近年、二人で過ごした時期。",
             "photoTarget": "3〜5",
             "photoDescription": "近年の二人の写真を選んでください。",
@@ -7184,169 +7154,6 @@ GENRES_DATA = {
           }
         ],
         "closingFreeTextExample": "○○、付き合って5年、いつもありがとう。あなたと過ごす時間が、私の宝物です。これからも、ずっと、一緒にいてください。"
-      },
-      {
-        "id": "anniversary_scene3",
-        "name": "友人 → 長年の友人へ(友情の節目)",
-        "protagonist": "長年の友人",
-        "giver": "親しい友人",
-        "relationship": "友情",
-        "coreEmotion": "長く続いた友情への感謝、共有してきた時間、これからも友達でいたい想い",
-        "step0": {
-          "Q1": [
-            "長年の友情への「ありがとう」",
-            "二人(私たち)の歴史を、形に残したい",
-            "あなたという友人を讃えたい",
-            "節目の年を、心から祝いたい",
-            "これからも友達でいてほしい"
-          ],
-          "Q2": [
-            "出会った頃",
-            "若い頃の濃い時間",
-            "それぞれの道を歩み始めた時期",
-            "近年の交流",
-            "最近のこと",
-            "全体的にバランスよく"
-          ],
-          "freeTextExample": "親友になって20年。彼との友情を、節目の年に、形に残したい。"
-        },
-        "step1": [
-          {
-            "label": "友人のお名前",
-            "required": true
-          },
-          {
-            "label": "あなたと友人の関係",
-            "required": true,
-            "example": "学生時代からの友人など"
-          },
-          {
-            "label": "出会った時期",
-            "required": false
-          },
-          {
-            "label": "友情の節目",
-            "required": true,
-            "example": "出会って○年、親友になって○年など"
-          },
-          {
-            "label": "贈り手(個人/連名)",
-            "required": false
-          },
-          {
-            "label": "連絡先",
-            "required": false
-          }
-        ],
-        "chapters": [
-          {
-            "title": "出会った頃の私たち",
-            "role": "友人として出会った頃。",
-            "photoTarget": "3〜5",
-            "photoDescription": "出会った頃の写真を選んでください。",
-            "commentExamples": [
-              "学生時代の集合写真",
-              "若い頃の二人",
-              "初めて遊んだ日"
-            ],
-            "supplements": []
-          },
-          {
-            "title": "若い頃、共に過ごした日々",
-            "role": "若い頃、友人として濃く過ごした時期。",
-            "photoTarget": "5〜6",
-            "photoDescription": "若い頃の友人との写真を選んでください。",
-            "commentExamples": [
-              "学生時代の旅行",
-              "誕生日会",
-              "節目のイベント",
-              "夢を語った日々",
-              "ふざけた写真"
-            ],
-            "supplements": [
-              {
-                "label": "支えてくれたこと(1つ選択)",
-                "description": "友人として「支えてもらった」と感じた瞬間は?",
-                "format": "1つ選択",
-                "choices": [
-                  "辛い時に話を聞いてくれた",
-                  "夢を信じてくれた",
-                  "失恋や別れを乗り越えるのを助けてくれた",
-                  "節目に立ち会ってくれた",
-                  "ずっと変わらず、隣にいてくれた",
-                  "その他"
-                ]
-              }
-            ]
-          },
-          {
-            "title": "それぞれの道を歩んでも",
-            "role": "大人になり、それぞれの道を歩んだ時期。",
-            "photoTarget": "3",
-            "photoDescription": "大人になってからの友人との写真を選んでください。",
-            "commentExamples": [
-              "それぞれの結婚式",
-              "再会した日",
-              "節目のお祝い"
-            ],
-            "supplements": []
-          },
-          {
-            "title": "近年の私たち",
-            "role": "近年の交流。",
-            "photoTarget": "3〜5",
-            "photoDescription": "近年の友人との写真を選んでください。",
-            "commentExamples": [
-              "最近の集まり",
-              "近年の旅行",
-              "節目のイベント"
-            ],
-            "supplements": []
-          },
-          {
-            "title": "これからも、友達でいて",
-            "role": "友情の節目を迎える今、これからへの想い。",
-            "photoTarget": "5〜6",
-            "photoDescription": "最近の友人の写真を選んでください。",
-            "commentExamples": [
-              "最近のあなた",
-              "笑顔の写真",
-              "近年の二人",
-              "節目を迎える前の集まり"
-            ],
-            "supplements": [
-              {
-                "label": "友人への願い(複数選択可)",
-                "description": "節目を迎える友人に、願うことは?",
-                "format": "複数選択可(最大3つ)",
-                "choices": [
-                  "ずっと笑顔でいてほしい",
-                  "幸せな人生を歩んでほしい",
-                  "これからも友達でいてほしい",
-                  "新しいことに挑戦してほしい",
-                  "健康でいてほしい",
-                  "また会える日を楽しみにしている",
-                  "その他"
-                ]
-              }
-            ]
-          }
-        ],
-        "closingMessages": [
-          {
-            "title": "長年の友情への感謝",
-            "text": "○○、出会ってから○年、本当にありがとう。\nあなたという友人がいてくれたから、私はここまで来れました。\nこれからも、ずっと、友達でいてください。"
-          },
-          {
-            "title": "共に歩んだ時間",
-            "text": "○○、節目の年、おめでとう。\n二人で歩んできた時間が、私の宝物です。\n何歳になっても、変わらず、友達でいよう。"
-          },
-          {
-            "title": "これからも一緒に",
-            "text": "○○、ずっと友達でいてくれてありがとう。\nこれからも、たくさん会おうね。\n変わらない友情を、誇りに思います。"
-          }
-        ],
-        "closingFreeTextExample": "○○、出会って20年、本当にありがとう。学生の頃から、今まで、ずっと一緒にいてくれて、感謝しかない。これからも、変わらず、友達でいようね。"
       }
     ]
   },
