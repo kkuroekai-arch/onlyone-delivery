@@ -1572,6 +1572,8 @@ let state = {
   basicInfo: {
     lineName: '',
     protagonistName: '',
+    groomName: '',     // wedding 専用:新郎のお名前
+    brideName: '',     // wedding 専用:新婦のお名前
     relationship: '',
     milestone: '',
     milestoneDate: '',
@@ -2302,27 +2304,51 @@ function renderBasicInfo() {
     </div>
   `;
 
-  // 大切な方(受け取る方)のお名前(必須)
-  const protagonistDescriptor = state.genre === 'wedding' ? '' : '(受け取る方)';
-  html += `
-    <div class="form-section">
-      <label class="form-label">${protagonistLabel}${protagonistDescriptor}のお名前<span class="form-required">必須</span></label>
-      <div class="form-hint">本に名前を載せる場合に使用します。ニックネームでも構いません。</div>
-      <input type="text" class="form-input" placeholder="例:鈴木 花子" value="${escapeHtml(state.basicInfo.protagonistName || '')}" oninput="state.basicInfo.protagonistName = this.value; saveState(); validateBasicInfo();">
-    </div>
-  `;
+  // ━━━ お名前 ━━━
+  if (state.genre === 'wedding') {
+    // 結婚式アルバム:新郎・新婦を別フィールド
+    html += `
+      <div class="form-section">
+        <label class="form-label">新郎のお名前<span class="form-required">必須</span></label>
+        <div class="form-hint">本に名前を載せる場合に使用します。</div>
+        <input type="text" class="form-input" placeholder="例:鈴木 太郎" value="${escapeHtml(state.basicInfo.groomName || '')}" oninput="onWeddingNameChange('groom', this.value)">
+      </div>
+      <div class="form-section">
+        <label class="form-label">新婦のお名前<span class="form-required">必須</span></label>
+        <div class="form-hint">本に名前を載せる場合に使用します。</div>
+        <input type="text" class="form-input" placeholder="例:佐藤 花子" value="${escapeHtml(state.basicInfo.brideName || '')}" oninput="onWeddingNameChange('bride', this.value)">
+      </div>
+    `;
+  } else {
+    // その他のジャンル:大切な方(受け取る方)のお名前
+    const protagonistDescriptor = '(受け取る方)';
+    html += `
+      <div class="form-section">
+        <label class="form-label">${protagonistLabel}${protagonistDescriptor}のお名前<span class="form-required">必須</span></label>
+        <div class="form-hint">本に名前を載せる場合に使用します。ニックネームでも構いません。</div>
+        <input type="text" class="form-input" placeholder="例:鈴木 花子" value="${escapeHtml(state.basicInfo.protagonistName || '')}" oninput="state.basicInfo.protagonistName = this.value; saveState(); validateBasicInfo();">
+      </div>
+    `;
+  }
 
-  // あなた(贈り主)との関係(必須)
+  // ━━━ あなた(贈り主)との関係 ━━━(全ジャンル共通)
+  const relationshipPlaceholder = state.genre === 'wedding'
+    ? '例:夫(新郎)、妻(新婦)、新郎側ご家族、新婦側ご家族 など'
+    : '例:長女、次男、孫、友人など';
+  const relationshipHint = state.genre === 'wedding'
+    ? 'お二人と、この本を作るあなたとの関係を教えてください'
+    : `あなた(贈り主)から見た、${protagonistLabel}との関係を教えてください`;
   html += `
     <div class="form-section">
       <label class="form-label">あなた(贈り主)との関係<span class="form-required">必須</span></label>
-      <div class="form-hint">あなた(贈り主)から見た、${protagonistLabel}との関係を教えてください</div>
-      <input type="text" class="form-input" placeholder="例:長女、次男、孫、友人など" value="${escapeHtml(state.basicInfo.relationship || '')}" oninput="state.basicInfo.relationship = this.value; saveState(); validateBasicInfo();">
+      <div class="form-hint">${relationshipHint}</div>
+      <input type="text" class="form-input" placeholder="${relationshipPlaceholder}" value="${escapeHtml(state.basicInfo.relationship || '')}" oninput="state.basicInfo.relationship = this.value; saveState(); validateBasicInfo();">
     </div>
   `;
 
-  // 節目・贈るタイミング(選択式・必須)
-  html += `
+  // ━━━ 節目・贈るタイミング ━━━(wedding は非表示)
+  if (state.genre !== 'wedding') {
+    html += `
     <div class="form-section">
       <label class="form-label">節目・贈るタイミング<span class="form-required">必須</span></label>
       <div class="form-hint">どんな節目で贈りますか?該当するものを選んでください</div>
@@ -2343,15 +2369,26 @@ function renderBasicInfo() {
       </div>
     </div>
   `;
+  }
 
-  // 節目の日付(任意)
-  html += `
+  // ━━━ 日付 ━━━(weddingは「結婚式の日付」必須、それ以外は「贈呈する日付」任意)
+  if (state.genre === 'wedding') {
+    html += `
+    <div class="form-section">
+      <label class="form-label">結婚式の日付<span class="form-required">必須</span></label>
+      <div class="form-hint">挙式の日付を教えてください。</div>
+      <input type="date" class="form-input" value="${escapeHtml(state.basicInfo.milestoneDate || '')}" oninput="state.basicInfo.milestoneDate = this.value; saveState(); validateBasicInfo();">
+    </div>
+  `;
+  } else {
+    html += `
     <div class="form-section">
       <label class="form-label">贈呈する日付<span class="form-optional">任意</span></label>
       <div class="form-hint">お渡しの日が決まっていれば教えてください。納期の参考にします。</div>
       <input type="date" class="form-input" value="${escapeHtml(state.basicInfo.milestoneDate || '')}" oninput="state.basicInfo.milestoneDate = this.value; saveState();">
     </div>
   `;
+  }
 
   // 家族構成(任意)
   html += `
@@ -2363,6 +2400,20 @@ function renderBasicInfo() {
   `;
 
   form.innerHTML = html;
+  validateBasicInfo();
+}
+
+function onWeddingNameChange(role, value) {
+  if (role === 'groom') state.basicInfo.groomName = value;
+  if (role === 'bride') state.basicInfo.brideName = value;
+  // 後方互換:protagonistName に「新郎名 ・ 新婦名」を結合保存
+  const g = (state.basicInfo.groomName || '').trim();
+  const b = (state.basicInfo.brideName || '').trim();
+  if (g && b)       state.basicInfo.protagonistName = g + ' ・ ' + b;
+  else if (g)       state.basicInfo.protagonistName = g;
+  else if (b)       state.basicInfo.protagonistName = b;
+  else              state.basicInfo.protagonistName = '';
+  saveState();
   validateBasicInfo();
 }
 
@@ -2461,11 +2512,24 @@ function getProtagonistLabel(genre) {
 }
 
 function validateBasicInfo() {
-  const valid = (state.basicInfo.lineName || '').trim().length > 0
-    && state.basicInfo.protagonistName.trim().length > 0
-    && state.basicInfo.relationship.trim().length > 0
-    && state.basicInfo.milestone && state.basicInfo.milestone.trim().length > 0
-    && state.basicInfo.milestone !== '__other__';
+  const lineOk = (state.basicInfo.lineName || '').trim().length > 0;
+  const relationshipOk = (state.basicInfo.relationship || '').trim().length > 0;
+
+  let valid;
+  if (state.genre === 'wedding') {
+    // 結婚式アルバム:新郎名・新婦名・結婚式の日付が必須(節目は不要)
+    const groomOk = (state.basicInfo.groomName || '').trim().length > 0;
+    const brideOk = (state.basicInfo.brideName || '').trim().length > 0;
+    const dateOk  = (state.basicInfo.milestoneDate || '').trim().length > 0;
+    valid = lineOk && relationshipOk && groomOk && brideOk && dateOk;
+  } else {
+    // その他:大切な方のお名前と節目が必須
+    const nameOk      = (state.basicInfo.protagonistName || '').trim().length > 0;
+    const milestoneOk = (state.basicInfo.milestone || '').trim().length > 0
+                     && state.basicInfo.milestone !== '__other__';
+    valid = lineOk && relationshipOk && nameOk && milestoneOk;
+  }
+
   document.getElementById('basic-info-next').disabled = !valid;
 }
 
@@ -2862,7 +2926,42 @@ function renderFinalSummary() {
 
   // 基本情報
   html += `<div class="confirm-card">
-    <div style="margin-bottom: 16px; font-size: 12px; color: #5a4838; letter-spacing: 0.1em;">基本情報</div>
+    <div style="margin-bottom: 16px; font-size: 12px; color: #5a4838; letter-spacing: 0.1em;">基本情報</div>`;
+
+  if (state.genre === 'wedding') {
+    // 結婚式アルバム:新郎・新婦を別行で表示
+    html += `
+    <div class="confirm-row">
+      <span class="confirm-check">✓</span>
+      <div class="confirm-content">
+        <div class="confirm-label">新郎のお名前</div>
+        <div class="confirm-value">${escapeHtml(state.basicInfo.groomName || '')}</div>
+      </div>
+    </div>
+    <div class="confirm-row">
+      <span class="confirm-check">✓</span>
+      <div class="confirm-content">
+        <div class="confirm-label">新婦のお名前</div>
+        <div class="confirm-value">${escapeHtml(state.basicInfo.brideName || '')}</div>
+      </div>
+    </div>
+    <div class="confirm-row">
+      <span class="confirm-check">✓</span>
+      <div class="confirm-content">
+        <div class="confirm-label">あなた(贈り主)との関係</div>
+        <div class="confirm-value">${escapeHtml(state.basicInfo.relationship)}</div>
+      </div>
+    </div>
+    <div class="confirm-row">
+      <span class="confirm-check">✓</span>
+      <div class="confirm-content">
+        <div class="confirm-label">結婚式の日付</div>
+        <div class="confirm-value">${escapeHtml(state.basicInfo.milestoneDate || '')}</div>
+      </div>
+    </div>`;
+  } else {
+    // その他:従来通り
+    html += `
     <div class="confirm-row">
       <span class="confirm-check">✓</span>
       <div class="confirm-content">
@@ -2883,8 +2982,10 @@ function renderFinalSummary() {
         <div class="confirm-label">節目</div>
         <div class="confirm-value">${escapeHtml(state.basicInfo.milestone)}</div>
       </div>
-    </div>
-  </div>`;
+    </div>`;
+  }
+
+  html += `</div>`;
 
   // 各章の写真枚数
   let totalPhotos = 0;
