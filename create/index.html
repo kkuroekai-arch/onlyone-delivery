@@ -1311,8 +1311,40 @@ function showScreen(screenId) {
 }
 
 function goNext(screenId) {
-  // バリデーションは各画面のonClickで実施済み
+  // 進捗をNotionに更新(章を完了した時)
+  trackProgressOnNavigate(screenId);
+
   showScreen(screenId);
+}
+
+// 進捗を追跡(画面遷移時、章完了時にNotion更新)
+function trackProgressOnNavigate(targetScreenId) {
+  if (!state.notionPageId) return;
+
+  // どのステータスに更新するかの判定
+  let newStatus = null;
+  let needsUpdate = false;
+
+  // 基本情報を完了した時(chapter1へ進む時)
+  if (targetScreenId === 'chapter1') {
+    newStatus = '入力中(素材集め中)';
+    needsUpdate = true;
+  }
+  // 各章完了時(次の章へ進む時)
+  else if (['chapter2', 'chapter3', 'chapter4', 'chapter5'].includes(targetScreenId)) {
+    newStatus = '入力中(素材集め中)';
+    needsUpdate = true;
+  }
+  // 締めくくり画面に進む時
+  else if (targetScreenId === 'closing') {
+    newStatus = '入力中(締めくくり中)';
+    needsUpdate = true;
+  }
+
+  if (needsUpdate && newStatus) {
+    const data = buildChapterProgressData();
+    updateProgressRecord(newStatus, data);
+  }
 }
 
 function goBack(screenId) {
@@ -1471,8 +1503,149 @@ function onGenreSelect(genreId) {
   state.genre = genreId;
   state.scene = null; // シーン選択リセット
   saveState();
+
+  // ★ Notionに進捗レコードを作成(バックグラウンド)
+  if (!state.notionPageId) {
+    createProgressRecord();
+  }
+
   renderScenes();
   showScreen('scene');
+}
+
+// Notionに進捗レコードを作成(バックグラウンド)
+function createProgressRecord() {
+  fetch(API_URL, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      action: 'create_progress_record',
+      sessionId: state.sessionId,
+      genre: state.genre,
+      startedAt: state.startedAt
+    })
+  })
+  .then(r => r.json())
+  .then(result => {
+    if (result.pageId) {
+      state.notionPageId = result.pageId;
+      saveState();
+      console.log('Notion progress record created:', state.notionPageId);
+    } else if (result.error) {
+      console.warn('Notion progress create failed:', result.error);
+    }
+  })
+  .catch(err => {
+    console.warn('Notion progress create exception:', err.message);
+  });
+}
+
+// 進捗を更新(バックグラウンド)
+function updateProgressRecord(status, additionalData) {
+  if (!state.notionPageId) {
+    console.warn('No notionPageId, skipping update');
+    return;
+  }
+
+  const updateData = additionalData || {};
+
+  fetch(API_URL, {
+    method: 'POST',
+    mode: 'cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      action: 'update_progress_record',
+      pageId: state.notionPageId,
+      status: status,
+      updateData: updateData
+    })
+  })
+  .then(r => r.json())
+  .then(result => {
+    if (result.error) {
+      console.warn('Progress update error:', result.error);
+    } else {
+      console.log('Progress updated:', status);
+    }
+  })
+  .catch(err => {
+    console.warn('Progress update exception:', err.message);
+  });
+}
+
+// 章単位の進捗データを構築
+function buildChapterProgressData() {
+  const data = {};
+
+  // シーン情報
+  if (state.scene) {
+    data.sceneName = state.scene.name;
+  }
+
+  // 基本情報
+  if (state.basicInfo.protagonistName) {
+    data.basicInfo = {
+      protagonistName: state.basicInfo.protagonistName,
+      relationship: state.basicInfo.relationship,
+      milestone: state.basicInfo.milestone,
+      milestoneDate: state.basicInfo.milestoneDate,
+      familyComposition: state.basicInfo.familyComposition,
+      contact: state.basicInfo.contact
+    };
+
+    // 案件名を主役名で更新
+    if (state.basicInfo.protagonistName) {
+      const dateStr = new Date().toISOString().substring(0, 10).replace(/-/g, '/');
+      data.titleText = `${dateStr} ${state.basicInfo.protagonistName} 様 ${state.basicInfo.milestone || ''} (入力中)`;
+    }
+  }
+
+  // 本の方向性
+  if (state.scene && state.direction.q1 !== null) {
+    const scene = state.scene;
+    data.direction = {
+      q1Text: state.direction.q1 === 'other' ? state.direction.q1Other : (scene.step0.Q1[state.direction.q1] || ''),
+      q2Text: scene.step0.Q2[state.direction.q2] || '',
+      q3Text: TONE_CHOICES[state.direction.q3] || '',
+      freeText: state.direction.freeText || ''
+    };
+  }
+
+  // 各章の写真+コメント
+  let totalPhotos = 0;
+  for (let ch = 1; ch <= 5; ch++) {
+    const chapter = state.chapters[ch];
+    if (!chapter) continue;
+    const photos = chapter.photos || [];
+    totalPhotos += photos.length;
+
+    if (photos.length > 0 || Object.keys(chapter.supplements || {}).length > 0) {
+      let chText = `【写真 ${photos.length}枚】\n`;
+      photos.forEach((p, i) => {
+        chText += `${i + 1}. ${p.name || ''}`;
+        if (p.driveUrl) chText += ` [URL: ${p.driveUrl}]`;
+        const comment = chapter.comments[p.id] || '';
+        if (comment) chText += `\n   コメント: ${comment}`;
+        chText += '\n';
+      });
+      if (Object.keys(chapter.supplements || {}).length > 0) {
+        chText += '\n【補足】\n';
+        Object.keys(chapter.supplements).forEach(k => {
+          chText += `${k}: ${JSON.stringify(chapter.supplements[k])}\n`;
+        });
+      }
+      data['chapter' + ch] = chText.substring(0, 2000);
+    }
+  }
+  data.totalPhotos = totalPhotos;
+
+  // 締めくくり
+  if (state.closing.customText) {
+    data.closingText = state.closing.customText;
+  }
+
+  return data;
 }
 
 /* ========================================
@@ -2296,9 +2469,10 @@ async function onSubmit() {
   btn.textContent = '送 信 中 ...';
 
   try {
-    // 全データを Notion に送信
+    // 全データを Notion に送信(既存レコードを更新)
     const result = await callAPI({
       action: 'submit_create',
+      pageId: state.notionPageId, // ★ 既存レコードのページID
       sessionId: state.sessionId,
       genre: state.genre,
       genreName: GENRE_LABELS[state.genre],
