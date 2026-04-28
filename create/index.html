@@ -955,6 +955,40 @@ input[type="date"].form-input {
   color: #1a1a1a;
 }
 
+/* 強調表示版「これから」カード */
+.complete-next-card-emphasis {
+  background: linear-gradient(180deg, #fdfaf3 0%, #faf5e8 100%);
+  border: 1px solid rgba(193, 154, 107, 0.35);
+  border-radius: 8px;
+  padding: 36px 24px 32px;
+  position: relative;
+  margin-bottom: 40px;
+}
+.complete-next-card-emphasis .complete-next-eyebrow {
+  color: #a87a3e;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+.complete-next-headline {
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #1a1a1a;
+  margin-bottom: 18px;
+  letter-spacing: 0.02em;
+}
+.complete-next-days {
+  color: #a87a3e;
+  font-weight: 500;
+  font-size: 26px;
+  letter-spacing: 0.05em;
+}
+.complete-next-card-emphasis .complete-next-text {
+  font-size: 13px;
+  line-height: 1.95;
+  color: #6b5a48;
+}
+
 .complete-line-text {
   font-size: 14px;
   line-height: 2.0;
@@ -1535,9 +1569,11 @@ input[type="date"].form-input {
       </div>
       <div class="complete-divider"></div>
       <div class="complete-message">
-        お預かりしたお写真と、お言葉を、<br>
-        ここから先は、人の手で、<br>
-        一冊ずつ、丁寧に編んでまいります。
+        大切なお写真と、お言葉を、<br>
+        確かに、お預かりいたしました。<br><br>
+        ここから先は、私たちの手で、<br>
+        一冊ずつ、心を込めて、<br>
+        丁寧に編んでまいります。
       </div>
 
       <!-- 案件ID(お問い合わせ番号) -->
@@ -1550,12 +1586,17 @@ input[type="date"].form-input {
         </div>
       </div>
 
-      <!-- 今後の流れ -->
-      <div class="complete-next-card">
+      <!-- 今後の流れ(★強調デザイン) -->
+      <div class="complete-next-card complete-next-card-emphasis">
         <div class="complete-next-eyebrow">これから</div>
+        <div class="complete-next-headline serif">
+          約 <span class="complete-next-days">3日後</span> に<br>
+          試作画面をお届けします
+        </div>
         <div class="complete-next-text">
-          約 <strong>3日後</strong>、お送りいただいた内容をもとに、<br>
-          フォトブックの試作画面をお届けします。
+          お送りいただいた内容をもとに、<br>
+          フォトブックの試作画面をお届けいたします。<br>
+          どうぞ楽しみにお待ちください。
         </div>
       </div>
 
