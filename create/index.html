@@ -893,7 +893,74 @@ input[type="date"].form-input {
   line-height: 2.2;
   color: #555;
   max-width: 400px;
-  margin-bottom: 56px;
+  margin-bottom: 48px;
+}
+
+/* お問い合わせ番号カード */
+.complete-case-card {
+  width: 100%;
+  max-width: 400px;
+  background: #fdfaf3;
+  border: 1px solid rgba(90, 72, 56, 0.2);
+  border-radius: 8px;
+  padding: 28px 24px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+.complete-case-label {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: #5a4838;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.complete-case-id {
+  font-size: 32px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  user-select: all;
+  -webkit-user-select: all;
+}
+.complete-case-note {
+  font-size: 12px;
+  line-height: 1.9;
+  color: #6b5a48;
+}
+
+/* 今後の流れカード */
+.complete-next-card {
+  width: 100%;
+  max-width: 400px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 32px 16px;
+  margin-bottom: 40px;
+  text-align: center;
+}
+.complete-next-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  color: #888;
+  margin-bottom: 16px;
+}
+.complete-next-text {
+  font-size: 14px;
+  line-height: 2.0;
+  color: #555;
+}
+.complete-next-text strong {
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.complete-line-text {
+  font-size: 14px;
+  line-height: 2.0;
+  color: #555;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 /* ===========================
@@ -1464,15 +1531,38 @@ input[type="date"].form-input {
   <div id="screen-complete" class="screen">
     <div class="complete">
       <div class="complete-title serif">
-        素材を、<br>
-        お預かりしました
+        ありがとうございました
       </div>
       <div class="complete-divider"></div>
       <div class="complete-message">
-        ご一緒に、本を形にしていきます。<br>
+        お預かりしたお写真と、お言葉を、<br>
         ここから先は、人の手で、<br>
-        一冊ずつ、心を込めて編みます。<br><br>
-        進捗は、LINE でお伝えします。
+        一冊ずつ、丁寧に編んでまいります。
+      </div>
+
+      <!-- 案件ID(お問い合わせ番号) -->
+      <div class="complete-case-card">
+        <div class="complete-case-label">お問い合わせ番号</div>
+        <div class="complete-case-id serif" id="complete-case-id">—</div>
+        <div class="complete-case-note">
+          📷 スクリーンショットを撮るか、メモしてください。<br>
+          お問い合わせの際に必要となります。
+        </div>
+      </div>
+
+      <!-- 今後の流れ -->
+      <div class="complete-next-card">
+        <div class="complete-next-eyebrow">これから</div>
+        <div class="complete-next-text">
+          約 <strong>3日後</strong>、お送りいただいた内容をもとに、<br>
+          フォトブックの試作画面をお届けします。
+        </div>
+      </div>
+
+      <!-- LINE誘導 -->
+      <div class="complete-line-text">
+        ご質問やお問い合わせは、<br>
+        LINE までお気軽にどうぞ。
       </div>
       <a href="https://lin.ee/7d2v7ga" class="btn-primary serif" id="line-back-btn">
         L I N E に 戻 る
@@ -1593,7 +1683,10 @@ let state = {
   },
   sessionId: null,
   startedAt: null,
-  notionPageId: null
+  notionPageId: null,
+  caseId: null,         // Notion 自動採番のお問い合わせ番号(例:OOD-9)
+  driveFolderId: null,  // 案件専用 Driveフォルダ ID
+  driveFolderUrl: null  // 案件専用 Driveフォルダ URL
 };
 
 /* ========================================
@@ -1882,7 +1975,10 @@ function onStart() {
     closing: { selectedIndex: null, customText: '' },
     sessionId: generateSessionId(),
     startedAt: new Date().toISOString(),
-    notionPageId: null
+    notionPageId: null,
+    caseId: null,
+    driveFolderId: null,
+    driveFolderUrl: null
   };
 
   renderGenres();
@@ -1971,8 +2067,14 @@ function createProgressRecord() {
   .then(result => {
     if (result.pageId) {
       state.notionPageId = result.pageId;
+      if (result.caseId)         state.caseId = result.caseId;
+      if (result.driveFolderId)  state.driveFolderId = result.driveFolderId;
+      if (result.driveFolderUrl) state.driveFolderUrl = result.driveFolderUrl;
       saveState();
-      console.log('Notion progress record created:', state.notionPageId);
+      console.log('Notion record created:',
+        'pageId=', state.notionPageId,
+        'caseId=', state.caseId,
+        'driveFolderId=', state.driveFolderId);
     } else if (result.error) {
       console.warn('Notion progress create failed:', result.error);
     }
@@ -2799,17 +2901,20 @@ function shouldShowFreetextForSupplement(chNum, supKey, choices) {
 }
 
 async function uploadPhotos(chNum, photos) {
-  for (const photo of photos) {
+  for (let i = 0; i < photos.length; i++) {
+    const photo = photos[i];
     if (photo.uploaded) continue;
     try {
       const result = await callAPI({
         action: 'upload_image',
         sessionId: state.sessionId,
+        caseId: state.caseId,                  // 案件ID(OOD-N)
+        driveFolderId: state.driveFolderId,    // 既に作成済みの専用フォルダID
         scene: state.genre,
         imageBase64: photo.base64,
         fileName: `ch${chNum}_${photo.name}`,
-        mimeType: 'image/jpeg',
-        imageIndex: 1,
+        mimeType: photo.mimeType || 'image/jpeg',
+        imageIndex: i + 1,
         totalImages: photos.length
       });
       if (result && result.success) {
@@ -2821,6 +2926,8 @@ async function uploadPhotos(chNum, photos) {
         saveState();
         // 各写真完了ごとにUI更新
         renderChapterPhotos(chNum);
+      } else {
+        console.warn('Upload returned non-success:', photo.name, result);
       }
     } catch (err) {
       console.warn('Upload failed for', photo.name, err.message);
@@ -3053,6 +3160,16 @@ async function onSubmit() {
     });
 
     if (result && (result.success || result.pageId)) {
+      // caseId が返ってきていれば保存(create時に既にあれば上書きしない)
+      if (result.caseId && !state.caseId) {
+        state.caseId = result.caseId;
+        saveState();
+      }
+      // 完了画面に caseId を埋め込む
+      const caseIdEl = document.getElementById('complete-case-id');
+      if (caseIdEl) {
+        caseIdEl.textContent = state.caseId || '— (発番中)';
+      }
       // 完了画面へ
       showScreen('complete');
     } else {
@@ -4083,10 +4200,11 @@ GENRES_DATA = {
           },
           {
             "title": "祝ってくれた、皆さま",
-            "role": "披露宴での祝辞・スピーチ。主賓挨拶、友人スピーチ、乾杯など、祝ってくれた人々を描く。",
+            "role": "披露宴での祝辞・スピーチ。主賓挨拶、友人スピーチ、乾杯など、祝ってくれた人々を描く。出席者全員のお名前は席次表で記録。",
             "photoTarget": "5〜6",
-            "photoDescription": "主賓挨拶、友人スピーチ、乾杯、ゲストとの集合写真などを選んでください。",
+            "photoDescription": "主賓挨拶、友人スピーチ、乾杯、ゲストとの集合写真、席次表などを選んでください。",
             "commentExamples": [
+              "席次表(出席者全員のお名前)",
               "主賓挨拶の様子",
               "乾杯の音頭",
               "友人代表スピーチ",
