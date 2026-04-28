@@ -14,6 +14,7 @@
   padding: 0;
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
 }
 
 html, body {
@@ -22,14 +23,35 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic UI", sans-serif;
   background: #f5f0e8;
   color: #1a1a1a;
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   overflow-x: hidden;
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: 16px; /* iOSのズーム防止のため最低16px */
+}
+
+textarea {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+button {
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
 }
 
 .serif {
@@ -44,13 +66,14 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .screen {
   flex: 1;
   display: none;
   flex-direction: column;
-  animation: fadeIn 0.4s ease;
+  animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .screen.active {
@@ -66,18 +89,25 @@ body {
   width: 100%;
   max-width: 720px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
 }
 
 /* ===========================
-   進捗バー
+   進捗バー(改善版)
 =========================== */
 .progress {
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.06);
-  padding: 14px 24px;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.08);
+  padding: 12px 16px;
+  padding-top: calc(12px + env(safe-area-inset-top));
   position: sticky;
   top: 0;
   z-index: 100;
@@ -93,28 +123,40 @@ body {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .progress-back {
   background: none;
   border: none;
-  font-size: 18px;
+  font-size: 22px;
   color: #5a4838;
   cursor: pointer;
-  padding: 4px 8px;
-  margin: -4px -8px -4px -12px;
+  padding: 8px 12px;
+  margin: -8px 0;
   font-family: inherit;
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.progress-back:hover {
-  opacity: 0.6;
+.progress-back:active {
+  opacity: 0.5;
+}
+
+.progress-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
 }
 
 .progress-dots {
-  flex: 1;
   display: flex;
-  gap: 4px;
+  gap: 3px;
   align-items: center;
 }
 
@@ -122,8 +164,9 @@ body {
   flex: 1;
   height: 3px;
   background: rgba(0, 0, 0, 0.1);
-  border-radius: 1.5px;
+  border-radius: 2px;
   transition: background 0.3s ease;
+  min-width: 6px;
 }
 
 .progress-dot.completed {
@@ -132,6 +175,7 @@ body {
 
 .progress-dot.current {
   background: #5a4838;
+  height: 4px;
 }
 
 .progress-text {
@@ -139,15 +183,8 @@ body {
   color: #888;
   letter-spacing: 0.05em;
   white-space: nowrap;
-}
-
-@media (max-width: 480px) {
-  .progress {
-    padding: 12px 16px;
-  }
-  .progress-text {
-    display: none;
-  }
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ===========================
@@ -159,15 +196,18 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 24px;
+  padding: 60px 24px 80px;
+  padding-top: calc(60px + env(safe-area-inset-top));
+  padding-bottom: calc(80px + env(safe-area-inset-bottom));
   text-align: center;
   min-height: 100vh;
+  min-height: -webkit-fill-available;
 }
 
 .welcome-brand {
-  font-size: 32px;
+  font-size: clamp(26px, 7vw, 36px);
   font-weight: 300;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.25em;
   margin-bottom: 12px;
   color: #1a1a1a;
 }
@@ -176,22 +216,22 @@ body {
   font-size: 11px;
   letter-spacing: 0.4em;
   color: #888;
-  margin-bottom: 80px;
+  margin-bottom: 64px;
 }
 
 .welcome-divider {
   width: 32px;
   height: 1px;
   background: rgba(0, 0, 0, 0.2);
-  margin: 0 auto 60px;
+  margin: 0 auto 40px;
 }
 
 .welcome-message {
   font-size: 16px;
   line-height: 2;
   color: #444;
-  margin-bottom: 56px;
   max-width: 380px;
+  margin-bottom: 24px;
 }
 
 .welcome-message strong {
@@ -204,7 +244,7 @@ body {
   background: #5a4838;
   color: #fff;
   border: none;
-  padding: 14px 48px;
+  padding: 16px 48px;
   font-size: 14px;
   letter-spacing: 0.15em;
   cursor: pointer;
@@ -212,6 +252,13 @@ body {
   font-family: inherit;
   margin-bottom: 12px;
   min-width: 240px;
+  min-height: 50px;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-resume:active {
+  opacity: 0.8;
+  transform: scale(0.98);
 }
 
 .btn-resume-info {
@@ -221,59 +268,69 @@ body {
 }
 
 .btn-primary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: #1a1a1a;
   color: #fff;
   border: none;
-  padding: 16px 56px;
-  font-size: 14px;
+  padding: 18px 56px;
+  font-size: 15px;
   letter-spacing: 0.2em;
   cursor: pointer;
   border-radius: 2px;
   font-family: inherit;
-  transition: opacity 0.2s, transform 0.2s;
+  transition: opacity 0.2s, transform 0.1s;
   min-width: 240px;
+  min-height: 54px;
+  text-decoration: none;
 }
 
-.btn-primary:hover {
-  opacity: 0.85;
-  transform: translateY(-1px);
+.btn-primary:active {
+  opacity: 0.8;
+  transform: scale(0.98);
 }
 
 .btn-primary:disabled {
   opacity: 0.3;
   cursor: not-allowed;
+  transform: none;
 }
 
 .btn-secondary {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
   color: #1a1a1a;
   border: 1px solid rgba(0, 0, 0, 0.2);
-  padding: 14px 32px;
-  font-size: 13px;
+  padding: 16px 32px;
+  font-size: 14px;
   cursor: pointer;
   border-radius: 2px;
   font-family: inherit;
   letter-spacing: 0.1em;
+  min-height: 50px;
+  transition: background 0.2s;
 }
 
-.btn-secondary:hover {
-  background: rgba(0, 0, 0, 0.04);
+.btn-secondary:active {
+  background: rgba(0, 0, 0, 0.08);
 }
 
 .btn-tertiary {
   background: none;
   color: #888;
   border: none;
-  padding: 12px 24px;
+  padding: 14px 24px;
   font-size: 13px;
   cursor: pointer;
   font-family: inherit;
   letter-spacing: 0.05em;
+  min-height: 44px;
 }
 
-.btn-tertiary:hover {
+.btn-tertiary:active {
   color: #555;
 }
 
@@ -282,17 +339,18 @@ body {
 =========================== */
 .step-content {
   flex: 1;
-  padding: 32px 0 120px;
+  padding: 32px 0 140px;
+  padding-bottom: calc(140px + env(safe-area-inset-bottom));
 }
 
 .step-title-area {
   text-align: center;
-  margin-bottom: 40px;
-  padding: 0 24px;
+  margin-bottom: 32px;
+  padding: 0 20px;
 }
 
 .step-eyebrow {
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.3em;
   color: #888;
   margin-bottom: 12px;
@@ -304,6 +362,7 @@ body {
   font-weight: 400;
   line-height: 1.6;
   margin-bottom: 8px;
+  color: #1a1a1a;
 }
 
 .step-subtitle {
@@ -312,9 +371,9 @@ body {
   line-height: 1.8;
 }
 
-@media (max-width: 480px) {
+@media (min-width: 768px) {
   .step-title {
-    font-size: 20px;
+    font-size: 26px;
   }
 }
 
@@ -331,30 +390,30 @@ body {
   background: #fff;
   border: 0.5px solid rgba(0, 0, 0, 0.08);
   border-radius: 4px;
-  padding: 20px 24px;
+  padding: 22px 24px;
   cursor: pointer;
   transition: all 0.2s ease;
   text-align: left;
   font-family: inherit;
   width: 100%;
   display: block;
+  min-height: 64px;
 }
 
-.card-select:hover {
-  background: #fafaf7;
-  border-color: rgba(0, 0, 0, 0.18);
-  transform: translateY(-1px);
+.card-select:active {
+  background: #f3eee5;
+  transform: scale(0.99);
 }
 
 .card-select-title {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 400;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   color: #1a1a1a;
 }
 
 .card-select-desc {
-  font-size: 12px;
+  font-size: 13px;
   color: #888;
   line-height: 1.7;
 }
@@ -365,56 +424,56 @@ body {
 .form-section {
   background: #fff;
   border-radius: 6px;
-  padding: 24px;
-  margin-bottom: 12px;
+  padding: 24px 22px;
+  margin-bottom: 14px;
   border: 0.5px solid rgba(0, 0, 0, 0.05);
-}
-
-.form-section + .form-section {
-  margin-top: 0;
 }
 
 .form-label {
   display: block;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: #1a1a1a;
+  line-height: 1.6;
 }
 
 .form-required {
   color: #c33;
   font-size: 11px;
-  margin-left: 6px;
+  margin-left: 8px;
   font-weight: 400;
 }
 
 .form-optional {
   color: #888;
   font-size: 11px;
-  margin-left: 6px;
+  margin-left: 8px;
   font-weight: 400;
 }
 
 .form-hint {
-  font-size: 12px;
+  font-size: 13px;
   color: #888;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   line-height: 1.7;
 }
 
 .form-input,
 .form-textarea {
   width: 100%;
-  padding: 12px 14px;
-  font-size: 14px;
+  padding: 14px 14px;
+  font-size: 16px; /* iOSズーム防止 */
   border: 1px solid rgba(0, 0, 0, 0.12);
-  border-radius: 3px;
+  border-radius: 4px;
   outline: none;
   font-family: inherit;
   background: #fafaf7;
   color: #1a1a1a;
   transition: border-color 0.2s, background 0.2s;
+  min-height: 50px;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .form-input:focus,
@@ -425,17 +484,22 @@ body {
 
 .form-textarea {
   resize: vertical;
-  min-height: 80px;
+  min-height: 90px;
   line-height: 1.7;
 }
 
 .form-input::placeholder,
 .form-textarea::placeholder {
   color: #bbb;
-  font-size: 13px;
+  font-size: 14px;
 }
 
-/* ラジオ・チェック */
+input[type="date"].form-input {
+  min-height: 50px;
+  padding: 12px 14px;
+}
+
+/* ラジオ・チェック(タッチターゲット拡大) */
 .choice-list {
   display: flex;
   flex-direction: column;
@@ -445,19 +509,20 @@ body {
 .choice-item {
   display: flex;
   align-items: flex-start;
-  gap: 12px;
-  padding: 14px 4px;
+  gap: 14px;
+  padding: 16px 6px;
   cursor: pointer;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
   transition: background 0.15s;
+  min-height: 56px;
 }
 
 .choice-item:last-child {
   border-bottom: none;
 }
 
-.choice-item:hover {
-  background: rgba(90, 72, 56, 0.03);
+.choice-item:active {
+  background: rgba(90, 72, 56, 0.06);
 }
 
 .choice-item input[type="radio"],
@@ -466,25 +531,27 @@ body {
   flex-shrink: 0;
   cursor: pointer;
   accent-color: #5a4838;
-  width: 16px;
-  height: 16px;
+  width: 22px;
+  height: 22px;
+  -webkit-appearance: auto;
+  appearance: auto;
 }
 
 .choice-item-text {
   flex: 1;
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.7;
   color: #1a1a1a;
+  padding-top: 1px;
 }
 
 .choice-item.selected {
   background: rgba(90, 72, 56, 0.05);
 }
 
-/* 「その他」自由記述 */
 .choice-other-input {
-  margin-top: 8px;
-  padding-left: 28px;
+  margin-top: 12px;
+  padding-left: 36px;
 }
 
 /* ===========================
@@ -493,33 +560,33 @@ body {
 .photo-section {
   background: #fff;
   border-radius: 6px;
-  padding: 24px;
-  margin-bottom: 16px;
+  padding: 24px 22px;
+  margin-bottom: 18px;
   border: 0.5px solid rgba(0, 0, 0, 0.05);
 }
 
 .photo-section-header {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
 }
 
 .photo-target {
   display: inline-block;
   font-size: 11px;
-  color: #888;
+  color: #5a4838;
   background: rgba(90, 72, 56, 0.08);
-  padding: 4px 12px;
-  border-radius: 12px;
-  margin-bottom: 12px;
+  padding: 5px 14px;
+  border-radius: 14px;
+  margin-bottom: 14px;
   letter-spacing: 0.05em;
 }
 
 .photo-comment-examples {
-  font-size: 12px;
-  color: #888;
-  line-height: 1.8;
-  margin-top: 8px;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.9;
+  margin-top: 10px;
   background: #fafaf7;
-  padding: 12px 16px;
+  padding: 14px 16px;
   border-radius: 4px;
   border-left: 2px solid rgba(90, 72, 56, 0.3);
 }
@@ -527,20 +594,20 @@ body {
 .photo-comment-examples-title {
   font-size: 11px;
   color: #5a4838;
-  margin-bottom: 4px;
+  margin-bottom: 6px;
   letter-spacing: 0.1em;
 }
 
 .photo-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
+  gap: 18px;
+  margin-top: 18px;
 }
 
 .photo-item {
   border: 0.5px solid rgba(0, 0, 0, 0.08);
-  border-radius: 4px;
+  border-radius: 6px;
   overflow: hidden;
   background: #fafaf7;
 }
@@ -548,7 +615,7 @@ body {
 .photo-item-image {
   position: relative;
   width: 100%;
-  height: 180px;
+  height: 220px;
   background: #eee;
   display: flex;
   align-items: center;
@@ -562,17 +629,34 @@ body {
   display: block;
 }
 
+.photo-item-status {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #5a4838;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+}
+
+.photo-item-status.uploaded {
+  background: rgba(20, 130, 50, 0.9);
+  color: #fff;
+}
+
 .photo-item-remove {
   position: absolute;
   top: 8px;
   right: 8px;
-  width: 28px;
-  height: 28px;
-  background: rgba(0, 0, 0, 0.65);
+  width: 36px;
+  height: 36px;
+  background: rgba(0, 0, 0, 0.7);
   color: #fff;
   border: none;
   border-radius: 50%;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1;
   cursor: pointer;
   display: flex;
@@ -581,18 +665,24 @@ body {
   padding: 0;
 }
 
+.photo-item-remove:active {
+  background: rgba(0, 0, 0, 0.85);
+}
+
 .photo-item-comment {
   width: 100%;
   border: none;
-  padding: 12px 14px;
-  font-size: 13px;
+  padding: 14px 16px;
+  font-size: 15px;
   font-family: inherit;
   background: #fff;
   outline: none;
   resize: vertical;
-  min-height: 48px;
+  min-height: 56px;
   line-height: 1.6;
   color: #1a1a1a;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .photo-item-comment::placeholder {
@@ -601,29 +691,43 @@ body {
 
 .photo-add-btn {
   width: 100%;
-  padding: 24px;
+  padding: 28px 24px;
   background: #fafaf7;
-  border: 1px dashed rgba(90, 72, 56, 0.3);
-  border-radius: 4px;
+  border: 1px dashed rgba(90, 72, 56, 0.35);
+  border-radius: 6px;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 14px;
   color: #5a4838;
   font-family: inherit;
   letter-spacing: 0.05em;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.2s;
+  min-height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
-.photo-add-btn:hover {
+.photo-add-btn:active {
   background: #f0ebe0;
   border-color: #5a4838;
 }
 
+.photo-add-btn-icon {
+  font-size: 18px;
+}
+
 .photo-uploading {
-  font-size: 11px;
+  font-size: 12px;
   color: #888;
   text-align: center;
-  margin-top: 8px;
-  font-style: italic;
+  margin-top: 12px;
+  font-style: normal;
+  padding: 8px;
+}
+
+.photo-uploading.active {
+  color: #5a4838;
 }
 
 /* ===========================
@@ -632,7 +736,7 @@ body {
 .confirm-card {
   background: #fff;
   border-radius: 6px;
-  padding: 32px;
+  padding: 28px 24px;
   margin-bottom: 16px;
   border: 0.5px solid rgba(0, 0, 0, 0.05);
 }
@@ -640,12 +744,17 @@ body {
 .confirm-row {
   display: flex;
   gap: 16px;
-  padding: 12px 0;
+  padding: 14px 0;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.05);
+}
+
+.confirm-row:first-of-type {
+  padding-top: 0;
 }
 
 .confirm-row:last-child {
   border-bottom: none;
+  padding-bottom: 0;
 }
 
 .confirm-check {
@@ -656,25 +765,27 @@ body {
 
 .confirm-content {
   flex: 1;
+  min-width: 0;
 }
 
 .confirm-label {
   font-size: 11px;
   color: #888;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   letter-spacing: 0.05em;
 }
 
 .confirm-value {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.7;
   color: #1a1a1a;
   white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .confirm-statement {
   text-align: center;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 2;
   margin: 40px 0;
   color: #1a1a1a;
@@ -686,7 +797,7 @@ body {
 .message-cards {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   margin-bottom: 24px;
 }
 
@@ -694,16 +805,16 @@ body {
   background: #fff;
   border: 0.5px solid rgba(0, 0, 0, 0.08);
   border-radius: 6px;
-  padding: 24px;
+  padding: 24px 22px;
   cursor: pointer;
   transition: all 0.2s;
   text-align: left;
   font-family: inherit;
+  width: 100%;
 }
 
-.message-card:hover {
+.message-card:active {
   background: #fafaf7;
-  border-color: rgba(90, 72, 56, 0.3);
 }
 
 .message-card.selected {
@@ -719,7 +830,7 @@ body {
 }
 
 .message-card-text {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 2;
   color: #1a1a1a;
   white-space: pre-wrap;
@@ -735,6 +846,7 @@ body {
   align-items: center;
   justify-content: center;
   padding: 60px 24px;
+  padding-bottom: calc(60px + env(safe-area-inset-bottom));
   text-align: center;
   min-height: 100vh;
 }
@@ -755,7 +867,7 @@ body {
 }
 
 .complete-message {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 2.2;
   color: #555;
   max-width: 400px;
@@ -773,8 +885,8 @@ body {
   background: rgba(245, 240, 232, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-top: 0.5px solid rgba(0, 0, 0, 0.06);
-  padding: 16px 24px calc(16px + env(safe-area-inset-bottom));
+  border-top: 0.5px solid rgba(0, 0, 0, 0.08);
+  padding: 14px 20px calc(14px + env(safe-area-inset-bottom));
   z-index: 50;
   display: none;
 }
@@ -787,7 +899,7 @@ body {
   max-width: 720px;
   margin: 0 auto;
   display: flex;
-  gap: 12px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
 }
@@ -795,7 +907,65 @@ body {
 .action-bar .btn-primary {
   flex: 1;
   max-width: 360px;
-  padding: 14px 32px;
+  padding: 16px 32px;
+  min-height: 52px;
+}
+
+.action-bar .btn-secondary {
+  flex: 0 1 auto;
+  padding: 16px 24px;
+  min-height: 52px;
+  white-space: nowrap;
+}
+
+/* ===========================
+   LINE ヘルプリンク
+=========================== */
+.help-line {
+  text-align: center;
+  margin-top: 40px;
+  padding: 0 24px;
+}
+
+.help-line-text {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 12px;
+  line-height: 1.7;
+}
+
+.help-line-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #5a4838;
+  text-decoration: none;
+  font-size: 13px;
+  padding: 10px 20px;
+  border: 0.5px solid rgba(90, 72, 56, 0.2);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.05em;
+  min-height: 40px;
+  transition: background 0.2s;
+}
+
+.help-line-link:active {
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.help-line-icon {
+  width: 16px;
+  height: 16px;
+  background: #06c755;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 9px;
+  font-weight: bold;
+  flex-shrink: 0;
 }
 
 /* ===========================
@@ -818,18 +988,61 @@ body {
 /* ===========================
    レスポンシブ
 =========================== */
-@media (max-width: 600px) {
+@media (max-width: 480px) {
+  .progress {
+    padding: 10px 14px;
+  }
+  .progress-back {
+    font-size: 20px;
+    padding: 6px 10px;
+  }
+  .progress-text {
+    font-size: 10px;
+  }
   .step-content {
-    padding: 24px 0 100px;
+    padding: 24px 0 130px;
   }
   .form-section,
   .photo-section,
   .confirm-card,
   .message-card {
-    padding: 20px;
+    padding: 20px 18px;
   }
   .container {
-    padding: 0 16px;
+    padding: 0 14px;
+  }
+  .step-title {
+    font-size: 19px;
+  }
+  .welcome-message {
+    font-size: 15px;
+  }
+  .photo-item-image {
+    height: 200px;
+  }
+  .btn-primary {
+    width: 100%;
+    max-width: 360px;
+  }
+  .action-bar-inner {
+    flex-direction: column-reverse;
+    gap: 8px;
+  }
+  .action-bar .btn-primary,
+  .action-bar .btn-secondary {
+    width: 100%;
+  }
+  .action-bar-inner .btn-tertiary {
+    width: 100%;
+  }
+}
+
+/* iOS Safari でキーボード表示時にビューポートが変わる対策 */
+@supports (-webkit-touch-callout: none) {
+  .form-input:focus,
+  .form-textarea:focus,
+  .photo-item-comment:focus {
+    /* フォーカス時、その要素を画面に映るよう、scrollIntoViewはJSで実装 */
   }
 }
 </style>
@@ -841,9 +1054,11 @@ body {
   <!-- 進捗バー(全画面共通、表示制御) -->
   <div id="progress" class="progress">
     <div class="progress-inner">
-      <button class="progress-back" onclick="onBackClick()">←</button>
-      <div class="progress-dots" id="progress-dots"></div>
-      <div class="progress-text" id="progress-text">Step 1 / 14</div>
+      <button class="progress-back" onclick="onBackClick()" aria-label="戻る">←</button>
+      <div class="progress-content">
+        <div class="progress-dots" id="progress-dots"></div>
+        <div class="progress-text" id="progress-text">Step 1 / 14</div>
+      </div>
     </div>
   </div>
 
@@ -856,18 +1071,18 @@ body {
       <div class="welcome-sub">一 生 忘 れ な い 、ギ フ ト</div>
       <div class="welcome-divider"></div>
 
-      <div class="welcome-message serif" style="margin-bottom: 32px;">
+      <div class="welcome-message serif" style="font-size: 22px; margin-bottom: 32px; line-height: 1.9;">
         大切なあの人へ、<br>
         <strong>感動</strong>するギフトを。
       </div>
 
-      <div class="welcome-message" style="font-size: 14px; line-height: 2.2; color: #555; max-width: 380px; margin-bottom: 20px;">
+      <div class="welcome-message" style="font-size: 15px; line-height: 2.2; color: #555; max-width: 380px; margin-bottom: 24px;">
         言葉にできなかった想いを、<br>
         写真と、ひとことで。<br>
         私たちが、一冊の本に編みます。
       </div>
 
-      <div class="welcome-message" style="font-size: 13px; line-height: 2; color: #888; max-width: 340px; margin-bottom: 56px;">
+      <div class="welcome-message" style="font-size: 13px; line-height: 2; color: #888; max-width: 340px; margin-bottom: 48px;">
         所要時間は約30分。<br>
         途中で離れても、続きから再開できます。
       </div>
@@ -1306,8 +1521,42 @@ function showScreen(screenId) {
   // 進捗バー更新
   updateProgress(screenId);
 
-  // スクロールを上に
-  window.scrollTo(0, 0);
+  // LINEヘルプリンクを挿入(welcome/complete以外)
+  ensureHelpLine(screenId);
+
+  // スクロール:スムーズに最上部へ
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    window.scrollTo(0, 0);
+  }
+}
+
+// LINEヘルプリンクを各画面下部に挿入
+function ensureHelpLine(screenId) {
+  // 表示しない画面
+  if (screenId === 'welcome' || screenId === 'complete') return;
+
+  const screen = document.getElementById('screen-' + screenId);
+  if (!screen) return;
+
+  // 既に挿入済みならスキップ
+  if (screen.querySelector('.help-line')) return;
+
+  // step-content を探して、その中の最後に挿入
+  const stepContent = screen.querySelector('.step-content');
+  if (!stepContent) return;
+
+  const helpDiv = document.createElement('div');
+  helpDiv.className = 'help-line';
+  helpDiv.innerHTML = `
+    <div class="help-line-text">分からないことがあれば、<br>お気軽にLINEでご質問ください</div>
+    <a href="${LINE_FRIEND_URL}" target="_blank" rel="noopener" class="help-line-link">
+      <span class="help-line-icon">L</span>
+      <span>LINEで質問する</span>
+    </a>
+  `;
+  stepContent.appendChild(helpDiv);
 }
 
 function goNext(screenId) {
@@ -2051,7 +2300,10 @@ function renderChapter(chNum) {
         </div>
       </div>
       <div id="chapter${chNum}-photos" class="photo-list"></div>
-      <button class="photo-add-btn" onclick="onAddPhoto(${chNum})">+ 写真を追加</button>
+      <button class="photo-add-btn" onclick="onAddPhoto(${chNum})">
+        <span class="photo-add-btn-icon">📷</span>
+        <span>写真を追加する</span>
+      </button>
       <div id="chapter${chNum}-uploading" class="photo-uploading"></div>
     </div>
   `;
@@ -2136,7 +2388,8 @@ document.getElementById('photo-input').addEventListener('change', function(e) {
   if (files.length === 0) return;
 
   const statusEl = document.getElementById(`chapter${chNum}-uploading`);
-  statusEl.textContent = '画像を準備中...';
+  statusEl.textContent = '写真を準備中...';
+  statusEl.classList.add('active');
 
   Promise.all(files.map(file => compressImage(file))).then(compressed => {
     compressed.forEach(img => {
@@ -2148,9 +2401,18 @@ document.getElementById('photo-input').addEventListener('change', function(e) {
     saveState();
     e.target.value = '';
 
-    statusEl.textContent = '画像をアップロード中... (' + compressed.length + '枚)';
+    statusEl.textContent = `写真をアップロード中(${compressed.length}枚)...`;
     uploadPhotos(chNum, compressed).then(() => {
-      statusEl.textContent = '';
+      statusEl.textContent = '✓ アップロード完了';
+      // 各写真のステータス表示も更新
+      renderChapterPhotos(chNum);
+      // 数秒後にステータス文を消す
+      setTimeout(() => {
+        if (statusEl.textContent === '✓ アップロード完了') {
+          statusEl.textContent = '';
+          statusEl.classList.remove('active');
+        }
+      }, 2500);
     });
   });
 });
@@ -2214,9 +2476,10 @@ function renderChapterPhotos(chNum) {
     <div class="photo-item">
       <div class="photo-item-image">
         <img src="${p.thumbnail || p.dataUrl}" alt="">
-        <button class="photo-item-remove" onclick="removePhoto(${chNum}, ${idx})" title="削除">×</button>
+        <span class="photo-item-status ${p.uploaded ? 'uploaded' : ''}">${p.uploaded ? '✓ 保存済み' : '保存中...'}</span>
+        <button class="photo-item-remove" onclick="removePhoto(${chNum}, ${idx})" title="削除" aria-label="この写真を削除">×</button>
       </div>
-      <textarea class="photo-item-comment" rows="2" placeholder="この写真について(任意・短くて大丈夫です)" oninput="onPhotoCommentChange(${chNum}, ${idx}, this.value)">${escapeHtml(state.chapters[chNum].comments[p.id] || '')}</textarea>
+      <textarea class="photo-item-comment" rows="2" placeholder="この写真について、ひとことだけ" oninput="onPhotoCommentChange(${chNum}, ${idx}, this.value)">${escapeHtml(state.chapters[chNum].comments[p.id] || '')}</textarea>
     </div>
   `).join('');
 }
@@ -2294,6 +2557,8 @@ async function uploadPhotos(chNum, photos) {
         delete photo.base64;
         delete photo.dataUrl;
         saveState();
+        // 各写真完了ごとにUI更新
+        renderChapterPhotos(chNum);
       }
     } catch (err) {
       console.warn('Upload failed for', photo.name, err.message);
@@ -2565,6 +2830,7 @@ let GENRES_DATA = {};
 ======================================== */
 window.addEventListener('DOMContentLoaded', () => {
   checkSavedSession();
+  setupMobileUX();
 });
 
 // confirm画面に入る前にサマリー描画
@@ -2573,6 +2839,40 @@ document.addEventListener('click', function(e) {
     setTimeout(renderFinalSummary, 100);
   }
 });
+
+/* ========================================
+   モバイルUX強化
+======================================== */
+function setupMobileUX() {
+  // フォーカス時、入力欄を画面に映るようスクロール
+  document.addEventListener('focusin', function(e) {
+    if (e.target && (e.target.matches('input, textarea, select'))) {
+      // モバイルキーボードが表示された後にスクロール
+      setTimeout(() => {
+        if (e.target.scrollIntoView) {
+          e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 300);
+    }
+  });
+
+  // 画像アップロードボタンの即時フィードバック
+  document.addEventListener('click', function(e) {
+    if (e.target && e.target.closest('.photo-add-btn')) {
+      // タップ感を出す
+    }
+  });
+
+  // iOS Safariのバウンススクロール対策
+  document.body.addEventListener('touchmove', function(e) {
+    // .chat-area などスクロール可能な領域以外ではバウンスを防ぐ
+  }, { passive: true });
+
+  // 横スクロール防止
+  document.body.addEventListener('touchstart', function(e) {
+    // タッチ時、横方向の動きを抑制
+  }, { passive: true });
+}
 </script>
 
 <!-- ジャンルデータ注入 -->
