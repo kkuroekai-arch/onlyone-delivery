@@ -969,6 +969,107 @@ input[type="date"].form-input {
 }
 
 /* ===========================
+   自動保存トースト
+=========================== */
+.save-toast {
+  position: fixed;
+  bottom: 100px;
+  bottom: calc(100px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(26, 26, 26, 0.92);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 18px;
+  border-radius: 24px;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 200;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.save-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.save-toast-icon {
+  font-size: 14px;
+  color: #4ade80;
+}
+
+/* 安心感表示(各画面の上部に常駐) */
+.autosave-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.03em;
+  margin-left: 12px;
+  white-space: nowrap;
+}
+
+.autosave-indicator-dot {
+  width: 6px;
+  height: 6px;
+  background: #4ade80;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 「続きから」ボタンを目立たせる */
+.btn-resume {
+  background: #5a4838;
+  color: #fff;
+  border: none;
+  padding: 18px 48px;
+  font-size: 15px;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  border-radius: 2px;
+  font-family: inherit;
+  margin-bottom: 8px;
+  min-width: 280px;
+  min-height: 56px;
+  font-weight: 500;
+  transition: opacity 0.2s, transform 0.1s;
+  box-shadow: 0 4px 16px rgba(90, 72, 56, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-resume:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.btn-resume-icon {
+  font-size: 16px;
+}
+
+.btn-resume-info {
+  font-size: 12px;
+  color: #5a4838;
+  margin-bottom: 32px;
+  line-height: 1.7;
+}
+
+/* ===========================
    ユーティリティ
 =========================== */
 .hidden {
@@ -1057,9 +1158,21 @@ input[type="date"].form-input {
       <button class="progress-back" onclick="onBackClick()" aria-label="戻る">←</button>
       <div class="progress-content">
         <div class="progress-dots" id="progress-dots"></div>
-        <div class="progress-text" id="progress-text">Step 1 / 14</div>
+        <div class="progress-text">
+          <span id="progress-text-step">Step 1 / 14</span>
+          <span class="autosave-indicator" id="autosave-indicator" style="display: none;">
+            <span class="autosave-indicator-dot"></span>
+            <span>自動保存中</span>
+          </span>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- 自動保存トースト(画面遷移時にふわっと表示) -->
+  <div id="save-toast" class="save-toast">
+    <span class="save-toast-icon">✓</span>
+    <span id="save-toast-text">入力内容を保存しました</span>
   </div>
 
   <!-- ========================== -->
@@ -1082,12 +1195,16 @@ input[type="date"].form-input {
         私たちが、一冊の本に編みます。
       </div>
 
-      <div class="welcome-message" style="font-size: 13px; line-height: 2; color: #888; max-width: 340px; margin-bottom: 48px;">
+      <div class="welcome-message" style="font-size: 13px; line-height: 2; color: #888; max-width: 360px; margin-bottom: 48px;">
         所要時間は約30分。<br>
+        入力内容は自動で保存されます。<br>
         途中で離れても、続きから再開できます。
       </div>
 
-      <button id="btn-resume" class="btn-resume hidden" onclick="onResume()">続きから始める</button>
+      <button id="btn-resume" class="btn-resume hidden" onclick="onResume()">
+        <span class="btn-resume-icon">📝</span>
+        <span>続きから始める</span>
+      </button>
       <div id="resume-info" class="btn-resume-info hidden"></div>
 
       <button class="btn-primary serif" onclick="onStart()">は じ め る</button>
@@ -1436,6 +1553,7 @@ let state = {
     milestone: '',
     milestoneDate: '',
     familyComposition: '',
+    lineName: '',
     contact: ''
   },
   chapters: {
@@ -1475,6 +1593,22 @@ function saveState() {
   } catch (err) {
     console.warn('Save failed:', err.message);
   }
+}
+
+// 保存トーストを一時表示(画面遷移時、写真追加時、章完了時など)
+let _saveToastTimer = null;
+function showSaveToast(text) {
+  const toast = document.getElementById('save-toast');
+  const textEl = document.getElementById('save-toast-text');
+  if (!toast || !textEl) return;
+
+  textEl.textContent = text || '入力内容を保存しました';
+  toast.classList.add('visible');
+
+  if (_saveToastTimer) clearTimeout(_saveToastTimer);
+  _saveToastTimer = setTimeout(() => {
+    toast.classList.remove('visible');
+  }, 2000);
 }
 
 function loadState() {
@@ -1524,12 +1658,25 @@ function showScreen(screenId) {
   // LINEヘルプリンクを挿入(welcome/complete以外)
   ensureHelpLine(screenId);
 
-  // スクロール:スムーズに最上部へ
-  if ('scrollBehavior' in document.documentElement.style) {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } else {
+  // ★ 画面切り替え後、確実にスクロールを最上部へ
+  // 即時実行で window 全体を 0 に
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+
+  // 念のため、次のフレームでもスクロール(描画後)
+  requestAnimationFrame(() => {
     window.scrollTo(0, 0);
-  }
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
+
+  // さらに念のため、少し遅延させてもスクロール(iOS Safari対策)
+  setTimeout(() => {
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, 50);
 }
 
 // LINEヘルプリンクを各画面下部に挿入
@@ -1562,6 +1709,13 @@ function ensureHelpLine(screenId) {
 function goNext(screenId) {
   // 進捗をNotionに更新(章を完了した時)
   trackProgressOnNavigate(screenId);
+
+  // 章を完了する時、保存トーストを表示
+  if (['chapter2', 'chapter3', 'chapter4', 'chapter5', 'closing', 'confirm'].includes(screenId)) {
+    showSaveToast('入力内容を保存しました');
+  } else if (screenId === 'chapter1') {
+    showSaveToast('基本情報を保存しました');
+  }
 
   showScreen(screenId);
 }
@@ -1637,8 +1791,16 @@ function updateProgress(screenId) {
   dotsEl.innerHTML = dotsHTML;
 
   // テキスト
-  const textEl = document.getElementById('progress-text');
-  textEl.textContent = `${screenIndex + 1} / ${PROGRESS_TOTAL} ・ ${screen.name}`;
+  const stepEl = document.getElementById('progress-text-step');
+  if (stepEl) {
+    stepEl.textContent = `${screenIndex + 1} / ${PROGRESS_TOTAL} ・ ${screen.name}`;
+  }
+
+  // 自動保存インジケータを表示
+  const autosaveEl = document.getElementById('autosave-indicator');
+  if (autosaveEl) {
+    autosaveEl.style.display = 'inline-flex';
+  }
 }
 
 /* ========================================
@@ -1672,7 +1834,18 @@ function checkSavedSession() {
 
   const genreName = GENRE_LABELS[saved.genre] || '';
   const sceneName = saved.scene ? saved.scene.name : '';
-  info.textContent = `${genreName} ${sceneName ? '/ ' + sceneName : ''} ${timeText ? '・' + timeText : ''}`;
+  const protagonist = (saved.basicInfo && saved.basicInfo.protagonistName) ? saved.basicInfo.protagonistName + 'さん向け' : '';
+
+  const parts = [];
+  if (protagonist) parts.push(protagonist);
+  if (genreName) parts.push(genreName);
+  if (sceneName) parts.push(sceneName);
+
+  let infoHtml = parts.join(' / ');
+  if (timeText) infoHtml += ` ・${timeText}`;
+  infoHtml += '<br><span style="color: #888; font-size: 11px;">前回の入力内容が保存されています</span>';
+
+  info.innerHTML = infoHtml;
 }
 
 function onStart() {
@@ -1685,7 +1858,7 @@ function onStart() {
     direction: { q1: null, q1Other: '', q2: null, q3: null, freeText: '' },
     basicInfo: {
       protagonistName: '', relationship: '', milestone: '',
-      milestoneDate: '', familyComposition: '', contact: ''
+      milestoneDate: '', familyComposition: '', lineName: '', contact: ''
     },
     chapters: {
       1: { photos: [], comments: {}, supplements: {} },
@@ -1840,13 +2013,15 @@ function buildChapterProgressData() {
       milestone: state.basicInfo.milestone,
       milestoneDate: state.basicInfo.milestoneDate,
       familyComposition: state.basicInfo.familyComposition,
+      lineName: state.basicInfo.lineName || '',
       contact: state.basicInfo.contact
     };
 
     // 案件名を主役名で更新
     if (state.basicInfo.protagonistName) {
       const dateStr = new Date().toISOString().substring(0, 10).replace(/-/g, '/');
-      data.titleText = `${dateStr} ${state.basicInfo.protagonistName} 様 ${state.basicInfo.milestone || ''} (入力中)`;
+      const lineHint = state.basicInfo.lineName ? ` [LINE: ${state.basicInfo.lineName}]` : '';
+      data.titleText = `${dateStr} ${state.basicInfo.protagonistName} 様 ${state.basicInfo.milestone || ''}${lineHint} (入力中)`;
     }
   }
 
@@ -2158,11 +2333,24 @@ function renderBasicInfo() {
     </div>
   `;
 
+  // LINEのお名前(任意・推奨)
+  html += `
+    <div class="form-section" style="background: #faf6ee; border: 1px solid rgba(90, 72, 56, 0.2);">
+      <label class="form-label">LINE のお名前<span class="form-optional">任意・できれば</span></label>
+      <div class="form-hint">
+        ご質問やプレビューのご案内は、LINE でお送りします。<br>
+        LINE 上のあなたのお名前を教えていただけると、<br>
+        スムーズにご連絡できます。
+      </div>
+      <input type="text" class="form-input" placeholder="例:鈴木 / すずき / Hanako など" value="${escapeHtml(state.basicInfo.lineName || '')}" oninput="state.basicInfo.lineName = this.value; saveState();">
+    </div>
+  `;
+
   // 連絡先(任意)
   html += `
     <div class="form-section">
-      <label class="form-label">ご連絡先<span class="form-optional">任意</span></label>
-      <div class="form-hint">ご質問させていただく場合や、本の納品時にご連絡することがあります。メールまたはお電話番号を、お差し支えなければお願いします。</div>
+      <label class="form-label">そのほかのご連絡先<span class="form-optional">任意</span></label>
+      <div class="form-hint">LINE が使えない場合などに、メールやお電話番号があれば。</div>
       <input type="text" class="form-input" placeholder="例:your-email@example.com / 090-1234-5678" value="${escapeHtml(state.basicInfo.contact || '')}" oninput="state.basicInfo.contact = this.value; saveState();">
     </div>
   `;
@@ -2406,6 +2594,8 @@ document.getElementById('photo-input').addEventListener('change', function(e) {
       statusEl.textContent = '✓ アップロード完了';
       // 各写真のステータス表示も更新
       renderChapterPhotos(chNum);
+      // トーストでも保存通知
+      showSaveToast(`写真 ${compressed.length}枚を保存しました`);
       // 数秒後にステータス文を消す
       setTimeout(() => {
         if (statusEl.textContent === '✓ アップロード完了') {
@@ -2686,6 +2876,14 @@ function renderFinalSummary() {
         <div class="confirm-value">${escapeHtml(state.basicInfo.milestone)}</div>
       </div>
     </div>
+    ${state.basicInfo.lineName ? `
+    <div class="confirm-row">
+      <span class="confirm-check">✓</span>
+      <div class="confirm-content">
+        <div class="confirm-label">LINEのお名前</div>
+        <div class="confirm-value">${escapeHtml(state.basicInfo.lineName)}</div>
+      </div>
+    </div>` : ''}
   </div>`;
 
   // 各章の写真枚数
