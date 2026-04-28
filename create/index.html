@@ -1890,18 +1890,40 @@ function renderChapter(chNum) {
       html += `<div class="form-section">`;
       html += `<label class="form-label">${sup.label}</label>`;
       if (sup.description) html += `<div class="form-hint">${sup.description}</div>`;
-      if (sup.format) html += `<div class="note" style="margin-bottom:12px;">${sup.format}</div>`;
 
-      if (sup.choices && sup.choices.length > 0) {
-        const isMulti = sup.format && sup.format.includes('複数');
+      const isTextInput = sup.format && sup.format.includes('テキスト');
+      const isMulti = sup.format && sup.format.includes('複数');
+      const isFreeText = sup.format && sup.format.includes('自由記述');
+
+      if (isTextInput && sup.choices && sup.choices.length > 0) {
+        // 「テキスト記入」型:choices を質問項目として、各項目ごとに入力欄を出す
+        sup.choices.forEach((choice, cIdx) => {
+          const subKey = `${supKey}_${cIdx}`;
+          const val = state.chapters[chNum].supplements[subKey] || '';
+          html += `<div style="margin-bottom: 14px;">`;
+          html += `<div style="font-size: 13px; color: #555; margin-bottom: 6px;">${choice}</div>`;
+          // 生年月日らしき項目は date 型に
+          const isDateField = choice.includes('生年月日') || choice.includes('日付');
+          html += `<input type="${isDateField ? 'date' : 'text'}" class="form-input" placeholder="お書きください(任意)" value="${escapeHtml(val)}" oninput="state.chapters[${chNum}].supplements['${subKey}'] = this.value; saveState();">`;
+          html += `</div>`;
+        });
+      } else if (isFreeText || !sup.choices || sup.choices.length === 0) {
+        // 自由記述
+        const val = state.chapters[chNum].supplements[supKey] || '';
+        html += `<textarea class="form-textarea" rows="3" placeholder="自由にお書きください(任意)" oninput="state.chapters[${chNum}].supplements['${supKey}'] = this.value; saveState();">${escapeHtml(val)}</textarea>`;
+      } else {
+        // ラジオ or チェックボックス
+        if (sup.format) html += `<div class="note" style="margin-bottom:12px;">${sup.format}</div>`;
         const inputType = isMulti ? 'checkbox' : 'radio';
-        const currentValue = state.chapters[chNum].supplements[supKey] || (isMulti ? [] : null);
+        const currentValue = state.chapters[chNum].supplements[supKey] !== undefined
+          ? state.chapters[chNum].supplements[supKey]
+          : (isMulti ? [] : null);
 
         html += `<div class="choice-list">`;
         sup.choices.forEach((choice, cIdx) => {
           const checked = isMulti
             ? (Array.isArray(currentValue) && currentValue.includes(cIdx))
-            : (currentValue == cIdx);
+            : (currentValue === cIdx || currentValue == cIdx);
           html += `
             <label class="choice-item">
               <input type="${inputType}" name="ch${chNum}_${supKey}" value="${cIdx}" ${checked ? 'checked' : ''} onchange="onSupplementChange(${chNum}, '${supKey}', ${cIdx}, ${isMulti}, this.checked)">
@@ -1910,10 +1932,14 @@ function renderChapter(chNum) {
           `;
         });
         html += `</div>`;
-      } else {
-        // 自由記述
-        const val = state.chapters[chNum].supplements[supKey] || '';
-        html += `<textarea class="form-textarea" rows="3" placeholder="自由にお書きください" oninput="state.chapters[${chNum}].supplements['${supKey}'] = this.value; saveState();">${escapeHtml(val)}</textarea>`;
+
+        // 「反抗期」「衝突」「困難」などを選んだ時、自由記述で深掘り(全選択肢で表示)
+        const showFreetext = shouldShowFreetextForSupplement(chNum, supKey, sup.choices);
+        html += `<div id="ch${chNum}_${supKey}_freetext_wrap" class="${showFreetext ? '' : 'hidden'}" style="margin-top: 16px; padding-top: 16px; border-top: 0.5px solid rgba(0,0,0,0.05);">`;
+        html += `<div class="form-hint" style="margin-bottom: 8px;">もしよければ、その時のことを、もう少しお聞かせください(任意)</div>`;
+        const freetextVal = state.chapters[chNum].supplements[`${supKey}_freetext`] || '';
+        html += `<textarea class="form-textarea" rows="3" placeholder="覚えていることを、自由にお書きください" oninput="state.chapters[${chNum}].supplements['${supKey}_freetext'] = this.value; saveState();">${escapeHtml(freetextVal)}</textarea>`;
+        html += `</div>`;
       }
       html += `</div>`;
     });
@@ -2053,6 +2079,25 @@ function onSupplementChange(chNum, supKey, choiceIdx, isMulti, checked) {
     state.chapters[chNum].supplements[supKey] = choiceIdx;
   }
   saveState();
+
+  // 選択した内容に応じて、自由記述欄の表示を制御
+  const wrapId = `ch${chNum}_${supKey}_freetext_wrap`;
+  const wrap = document.getElementById(wrapId);
+  if (wrap) {
+    // 何かしら選択されていれば、深掘り欄を表示
+    const hasSelection = isMulti
+      ? (state.chapters[chNum].supplements[supKey] || []).length > 0
+      : state.chapters[chNum].supplements[supKey] !== null && state.chapters[chNum].supplements[supKey] !== undefined;
+    wrap.classList.toggle('hidden', !hasSelection);
+  }
+}
+
+// 自由記述欄を最初に表示するかの判定(復元時)
+function shouldShowFreetextForSupplement(chNum, supKey, choices) {
+  const value = state.chapters[chNum].supplements[supKey];
+  if (value === null || value === undefined) return false;
+  if (Array.isArray(value)) return value.length > 0;
+  return true;
 }
 
 async function uploadPhotos(chNum, photos) {
@@ -2436,8 +2481,8 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "出産時の事実",
-                "description": "ユーザーが事実として知っている情報",
+                "label": "出産にまつわる記録",
+                "description": "あなたが知っている範囲でお書きください",
                 "format": "テキスト記入",
                 "choices": [
                   "お母さまが、あなたを産んだ時の年齢(10代/20-24歳/25-29歳/30-34歳/35歳以上)",
@@ -2460,8 +2505,8 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "守られた記憶(1つ選択)",
-                "description": "お母さまに「守られた」と感じた記憶は?",
+                "label": "大切にされたと感じた記憶(1つ選択)",
+                "description": "お母さまに「大切にされている」「優しさ」を感じた記憶は?",
                 "format": "1つ選択",
                 "choices": [
                   "病気の時、付き添ってくれた",
@@ -2522,23 +2567,7 @@ GENRES_DATA = {
               "初めて孫を抱いた時の様子",
               "一緒に旅行に行った時"
             ],
-            "supplements": [
-              {
-                "label": "あなたのライフイベント(複数選択可)",
-                "description": "あなたが経験したライフイベント",
-                "format": "複数選択可",
-                "choices": [
-                  "進学(大学・専門学校など)",
-                  "就職・社会人デビュー",
-                  "一人暮らし開始",
-                  "結婚",
-                  "出産",
-                  "引っ越し",
-                  "転職・キャリアチェンジ",
-                  "その他"
-                ]
-              }
-            ]
+            "supplements": []
           },
           {
             "title": "今、隣にいるあなた",
@@ -2656,8 +2685,8 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "出産時の事実",
-                "description": "ユーザーが事実として知っている情報",
+                "label": "出産にまつわる記録",
+                "description": "あなたが知っている範囲でお書きください",
                 "format": "テキスト記入",
                 "choices": [
                   "お父さまが、あなたを迎えた時の年齢",
@@ -2744,23 +2773,7 @@ GENRES_DATA = {
               "一緒に飲んだ日",
               "大人になって、初めて分かったお父さんの話"
             ],
-            "supplements": [
-              {
-                "label": "あなたのライフイベント(複数選択可)",
-                "description": "あなたが経験したライフイベント",
-                "format": "複数選択可",
-                "choices": [
-                  "進学",
-                  "就職・社会人デビュー",
-                  "一人暮らし開始",
-                  "結婚",
-                  "出産",
-                  "引っ越し",
-                  "転職・キャリアチェンジ",
-                  "その他"
-                ]
-              }
-            ]
+            "supplements": []
           },
           {
             "title": "今、隣にいるあなた",
@@ -2904,7 +2917,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "祖父母との優しい記憶(1つ選択)",
+                "label": "祖父母から大切にされたと感じた記憶(1つ選択)",
                 "description": "祖父母から受け取った愛情で、心に残っているのは?",
                 "format": "1つ選択",
                 "choices": [
@@ -2956,22 +2969,7 @@ GENRES_DATA = {
               "結婚式に来てくれた日",
               "ひ孫を抱いてくれた時"
             ],
-            "supplements": [
-              {
-                "label": "あなたのライフイベント(複数選択可)",
-                "description": "あなたが経験したライフイベント",
-                "format": "複数選択可",
-                "choices": [
-                  "進学",
-                  "就職",
-                  "結婚",
-                  "出産(祖父母にとってはひ孫)",
-                  "引っ越し",
-                  "祖父母のもとへの帰省",
-                  "その他"
-                ]
-              }
-            ]
+            "supplements": []
           },
           {
             "title": "今、ここにいる、あなた",
@@ -3262,7 +3260,7 @@ GENRES_DATA = {
             "supplements": [
               {
                 "label": "ご両親の出会いについて(分かれば)",
-                "description": "ユーザーが知っている範囲で",
+                "description": "あなたが知っている範囲でお書きください",
                 "format": "テキスト記入(分かる範囲で)",
                 "choices": [
                   "ご両親が出会った時期や場所",
@@ -3286,7 +3284,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "両親に育ててもらった記憶(1つ選択)",
+                "label": "両親の優しさを感じた記憶(1つ選択)",
                 "description": "「両親に大切に育ててもらったな」と感じる場面は?",
                 "format": "1つ選択",
                 "choices": [
@@ -4027,7 +4025,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "我が子が生まれた日の記憶(自由記述)",
+                "label": "我が子が生まれた日のこと(自由記述)",
                 "description": "我が子が生まれた時のこと",
                 "format": "自由記述・任意",
                 "choices": [
@@ -4975,7 +4973,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "生まれた日の記憶(自由記述)",
+                "label": "生まれた日のこと(自由記述)",
                 "description": "我が子が生まれた日のこと",
                 "format": "自由記述・任意",
                 "choices": [
@@ -6239,7 +6237,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "結婚式の日の記憶(自由記述)",
+                "label": "結婚式の日のこと(自由記述)",
                 "description": "結婚式の日のこと",
                 "format": "自由記述・任意",
                 "choices": []
