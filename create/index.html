@@ -598,8 +598,40 @@ input[type="date"].form-input {
   background: rgba(90, 72, 56, 0.08);
   padding: 5px 14px;
   border-radius: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
   letter-spacing: 0.05em;
+}
+
+.photo-target-note {
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 14px;
+  line-height: 1.6;
+}
+
+.photo-banner {
+  background: #fdf8f0;
+  border: 1px solid rgba(90, 72, 56, 0.15);
+  border-radius: 6px;
+  padding: 18px 20px;
+  margin-bottom: 28px;
+  line-height: 1.9;
+}
+.photo-banner-title {
+  font-size: 14px;
+  color: #5a4838;
+  font-weight: 600;
+  margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+.photo-banner-text {
+  font-size: 13px;
+  color: #444;
+  line-height: 1.9;
+}
+.photo-banner-text strong {
+  color: #5a4838;
+  font-weight: 600;
 }
 
 .photo-comment-examples {
@@ -2712,10 +2744,26 @@ function renderChapter(chNum) {
   let html = '';
 
   // 写真+コメント
+  // ━━━ 第1章だけ:本作りのお願いバナー ━━━
+  if (chNum === 1) {
+    html += `
+      <div class="photo-banner">
+        <div class="photo-banner-title">💡 本作りのお願い</div>
+        <div class="photo-banner-text">
+          本全体で <strong>24〜32枚</strong> の写真があると、<br>
+          一冊の本として理想的な厚みになります。<br>
+          各章につき <strong>5〜6枚</strong> を目安に、<br>
+          思い出深いお写真をぜひお選びください。
+        </div>
+      </div>
+    `;
+  }
+
   html += `
     <div class="photo-section">
       <div class="photo-section-header">
-        <div class="photo-target">目標 ${chapter.photoTarget}枚</div>
+        <div class="photo-target">推奨 ${chapter.photoTarget}枚</div>
+        <div class="photo-target-note">※本全体で30枚前後の写真が、一冊の本として理想の厚みになります</div>
         <div class="form-hint">${chapter.photoDescription}</div>
         <div class="photo-comment-examples">
           <div class="photo-comment-examples-title">コメントの例</div>
@@ -7703,7 +7751,7 @@ GENRES_DATA = {
           {
             "label": "節目・記録するタイミング",
             "required": true,
-            "example": "虹の橋を渡った日、一周忌 など"
+            "example": "虹の橋を渡った日、一周忌、想いを形に残したい時 など"
           },
           {
             "label": "旅立った日付",
@@ -7713,7 +7761,8 @@ GENRES_DATA = {
           {
             "label": "ご家族構成",
             "required": false,
-            "note": "ご家族の名前と続柄を簡単に。"
+            "note": "ご家族の名前と続柄を簡単に。",
+            "example": "父・太郎、母・花子、私、愛犬ココ(柴犬・15歳で旅立ち)"
           },
           {
             "label": "連絡先",
@@ -7761,7 +7810,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "あの子の性格",
+                "label": "あの子の性格(複数選択)",
                 "description": "あの子はどんな子でしたか?当てはまるものを選んでください。",
                 "format": "複数選択",
                 "choices": [
@@ -7778,9 +7827,9 @@ GENRES_DATA = {
                 ]
               },
               {
-                "label": "好きだったもの・こと",
+                "label": "好きだったもの・こと(自由記述)",
                 "description": "あの子が大好きだった食べ物、場所、仕草、遊びなど。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               }
             ]
           },
@@ -7798,9 +7847,9 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "忘れられない一日",
+                "label": "忘れられない一日(自由記述)",
                 "description": "特に心に残っているエピソードを教えてください。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               }
             ]
           },
@@ -7817,7 +7866,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "あの子が、家族にくれたもの",
+                "label": "あの子が、家族にくれたもの(複数選択)",
                 "description": "あの子の存在で、家族はどう変わりましたか?",
                 "format": "複数選択",
                 "choices": [
@@ -7845,28 +7894,30 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "あの子に伝えたい想い",
+                "label": "あの子に伝えたい想い(自由記述)",
                 "description": "今、あの子に伝えたい言葉を、自由にお書きください。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               }
             ]
           }
         ],
-        "closingMessages": [
-          {
-            "title": "ありがとう、私たちの家族",
-            "text": "あなたが家族になってくれて、本当によかった。\nたくさんの幸せな時間を、ありがとう。\nまたいつか、必ず会おうね。"
-          },
-          {
-            "title": "心の中で、いつも",
-            "text": "あなたはもう、目の前にはいないけれど、\n心の中では、いつも一緒にいてくれます。\nありがとう、私たちの大切な家族。"
-          },
-          {
-            "title": "あなたが教えてくれたこと",
-            "text": "あなたは、命の輝きを、毎日教えてくれました。\n小さな喜びも、何気ない日々も、すべてが宝物だと。\nこの本は、あなたへの、家族からの感謝の本です。"
-          }
-        ],
-        "closingFreeTextExample": "あなたが家族になってくれた日々は、私たちの宝物です。心の中で、いつまでも一緒にいようね。ありがとう。"
+        "closing": {
+          "candidates": [
+            {
+              "title": "ありがとう、私たちの家族",
+              "text": "あなたが家族になってくれて、本当によかった。\nたくさんの幸せな時間を、ありがとう。\nまたいつか、必ず会おうね。"
+            },
+            {
+              "title": "心の中で、いつも",
+              "text": "あなたはもう、目の前にはいないけれど、\n心の中では、いつも一緒にいてくれます。\nありがとう、私たちの大切な家族。"
+            },
+            {
+              "title": "あなたが教えてくれたこと",
+              "text": "あなたは、命の輝きを、毎日教えてくれました。\n小さな喜びも、何気ない日々も、すべてが宝物だと。\nこの本は、あなたへの、家族からの感謝の本です。"
+            }
+          ],
+          "closingFreeTextExample": "あなたが家族になってくれた日々は、私たちの宝物です。心の中で、いつまでも一緒にいようね。ありがとう。"
+        }
       }
     ]
   },
@@ -7925,7 +7976,8 @@ GENRES_DATA = {
           {
             "label": "ご家族構成",
             "required": false,
-            "note": "本に登場するご家族の名前と続柄を簡単に。"
+            "note": "本に登場するご家族の名前と続柄を簡単に。",
+            "example": "父・太郎(主役)、母・花子、長男・健太、長女・美咲"
           },
           {
             "label": "連絡先",
@@ -7947,7 +7999,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "若い頃のあの方について",
+                "label": "若い頃のあの方について(自由記述)",
                 "description": "知っている範囲で、若い頃のエピソードや背景を。",
                 "format": "テキスト記入",
                 "choices": [
@@ -7972,9 +8024,9 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "ご家族として大切にしていたこと",
+                "label": "ご家族として大切にしていたこと(自由記述)",
                 "description": "あの方がご家族と築いてきたもの、大切にしていた家風や習慣などを。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               }
             ]
           },
@@ -7991,7 +8043,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "あの方が大切にしていたこと",
+                "label": "あの方が大切にしていたこと(複数選択)",
                 "description": "あの方の人生の中心にあったものを選んでください。",
                 "format": "複数選択",
                 "choices": [
@@ -8006,9 +8058,9 @@ GENRES_DATA = {
                 ]
               },
               {
-                "label": "あの方らしいエピソード",
+                "label": "あの方らしいエピソード(自由記述)",
                 "description": "「あの方らしいな」と思うエピソードを教えてください。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               }
             ]
           },
@@ -8025,7 +8077,7 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "あの方の人柄",
+                "label": "あの方の人柄(複数選択)",
                 "description": "あの方はどんな方でしたか?",
                 "format": "複数選択",
                 "choices": [
@@ -8041,9 +8093,9 @@ GENRES_DATA = {
                 ]
               },
               {
-                "label": "あの方の口癖や、好きだったもの",
+                "label": "あの方の口癖や、好きだったもの(自由記述)",
                 "description": "口癖、好物、好きな場所、趣味など、覚えていることを。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               }
             ]
           },
@@ -8060,33 +8112,35 @@ GENRES_DATA = {
             ],
             "supplements": [
               {
-                "label": "あの方が、ご家族・周りの人に遺してくれたもの",
+                "label": "あの方が、ご家族・周りの人に遺してくれたもの(自由記述)",
                 "description": "あの方が遺してくれた言葉、姿勢、生き方など。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               },
               {
-                "label": "今、あの方に伝えたいこと",
+                "label": "今、あの方に伝えたいこと(自由記述)",
                 "description": "今、あの方に伝えたい言葉を、自由にお書きください。",
-                "format": "自由記述"
+                "format": "テキスト記入"
               }
             ]
           }
         ],
-        "closingMessages": [
-          {
-            "title": "あなたが歩んでくれた、人生",
-            "text": "あなたが歩んでこられた人生は、\nご家族にとって、何よりの財産です。\nこの本に、あなたの物語を、永遠に残します。"
-          },
-          {
-            "title": "心の中で、いつも",
-            "text": "あなたはもう、目の前にはいないけれど、\nふとした瞬間に、いつもそばにいてくれます。\nあなたが教えてくれたことを、私たちはこれからも、大切に生きていきます。"
-          },
-          {
-            "title": "あなたが遺してくれたもの",
-            "text": "あなたが遺してくれた言葉、姿勢、生き方を、\n私たちは、これからも胸に刻んで生きていきます。\nあなたと出会えたことを、家族みんなが誇りに思います。"
-          }
-        ],
-        "closingFreeTextExample": "あなたが歩んでくれた人生を、私たち家族は誇りに思います。あなたが遺してくれた優しさを、これからも受け継いでいきます。"
+        "closing": {
+          "candidates": [
+            {
+              "title": "あなたが歩んでくれた、人生",
+              "text": "あなたが歩んでこられた人生は、\nご家族にとって、何よりの財産です。\nこの本に、あなたの物語を、永遠に残します。"
+            },
+            {
+              "title": "心の中で、いつも",
+              "text": "あなたはもう、目の前にはいないけれど、\nふとした瞬間に、いつもそばにいてくれます。\nあなたが教えてくれたことを、私たちはこれからも、大切に生きていきます。"
+            },
+            {
+              "title": "あなたが遺してくれたもの",
+              "text": "あなたが遺してくれた言葉、姿勢、生き方を、\n私たちは、これからも胸に刻んで生きていきます。\nあなたと出会えたことを、家族みんなが誇りに思います。"
+            }
+          ],
+          "closingFreeTextExample": "あなたが歩んでくれた人生を、私たち家族は誇りに思います。あなたが遺してくれた優しさを、これからも受け継いでいきます。"
+        }
       }
     ]
   }
