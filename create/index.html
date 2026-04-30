@@ -535,6 +535,11 @@ button {
   background: #f3eee5;
 }
 
+.genre-card-img-wrap.img-error {
+  background: linear-gradient(135deg, #f3eee5 0%, #e8e2d8 100%);
+  aspect-ratio: 16 / 4;
+}
+
 .genre-card-img {
   width: 100%;
   height: 100%;
@@ -2220,13 +2225,13 @@ function onResetAfterComplete() {
 /* ========================================
    ジャンル選択
 ======================================== */
-// ジャンル画像マッピング(images/ フォルダ内のファイル名)
+// ジャンル画像マッピング(create/ フォルダ内に直接置いた画像を参照)
 const GENRE_IMAGES = {
-  kanreki: 'images/pexels-mikhail-nilov-8307717.jpg',
-  wedding: 'images/pexels-quang-vuong-724225078-33509676.jpg',
-  growth: 'images/raymart-arnino-pqfyq0Iur-U-unsplash.jpg',
-  pet: 'images/wade-austin-ellis-FtuJIuBbUhI-unsplash.jpg',
-  memorial: 'images/panyawat-auitpol-eq254Cqvmk8-unsplash.jpg'
+  kanreki: 'pexels-mikhail-nilov-8307717.jpg',
+  wedding: 'pexels-quang-vuong-724225078-33509676.jpg',
+  growth: 'raymart-arnino-pqfyq0Iur-U-unsplash.jpg',
+  pet: 'wade-austin-ellis-FtuJIuBbUhI-unsplash.jpg',
+  memorial: 'panyawat-auitpol-eq254Cqvmk8-unsplash.jpg'
 };
 
 // 画像の object-position 微調整(各画像のベスト見せ場)
@@ -2247,7 +2252,7 @@ function renderGenres() {
     html += `
       <button class="card-select genre-card-image" onclick="onGenreSelect('${id}')">
         <div class="genre-card-img-wrap">
-          <img class="genre-card-img" src="${imgSrc}" alt="${GENRE_LABELS[id]}" style="object-position:${imgPos}" loading="lazy">
+          <img class="genre-card-img" src="${imgSrc}" alt="${GENRE_LABELS[id]}" style="object-position:${imgPos}" loading="lazy" onerror="this.parentElement.classList.add('img-error');this.style.display='none'">
           <div class="genre-card-overlay"></div>
         </div>
         <div class="genre-card-text">
