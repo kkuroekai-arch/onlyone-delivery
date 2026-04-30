@@ -127,15 +127,15 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 @media(max-width:1100px){.line-chat-wrap{padding:40px 40px}}
 @media(max-width:960px){.line-chat-wrap{padding:20px}}
 /* Gift Recipe — 3-screen cascade mockup */
-.recipe-mockup-wrap{display:flex;justify-content:center;align-items:center;position:relative;perspective:1200px}
-.recipe-mockup-stack{position:relative;width:280px;height:520px}
-.recipe-mockup-frame{width:240px;background:#1C1917;border-radius:36px;padding:7px;box-shadow:0 24px 48px rgba(154,123,62,.22),0 6px 18px rgba(28,25,23,.12);position:absolute;transition:transform .6s cubic-bezier(.4,0,.2,1)}
-.recipe-mockup-frame.fr-1{top:0;left:0;transform:rotate(-6deg) translateY(0);z-index:1;opacity:.9}
-.recipe-mockup-frame.fr-2{top:24px;left:24px;transform:rotate(-1deg);z-index:2;opacity:.95}
-.recipe-mockup-frame.fr-3{top:48px;left:48px;transform:rotate(4deg);z-index:3}
-.recipe-mockup-stack:hover .fr-1{transform:rotate(-9deg) translateY(-6px)}
-.recipe-mockup-stack:hover .fr-3{transform:rotate(7deg) translateY(-4px)}
-.recipe-mockup-screen{background:#FAF8F4;border-radius:30px;overflow:hidden;position:relative;aspect-ratio:9/19}
+.recipe-mockup-wrap{display:flex;justify-content:center;align-items:center;position:relative;perspective:1200px;padding:30px 0}
+.recipe-mockup-stack{position:relative;width:460px;height:560px}
+.recipe-mockup-frame{width:220px;background:#1C1917;border-radius:34px;padding:6px;box-shadow:0 24px 48px rgba(154,123,62,.22),0 6px 18px rgba(28,25,23,.12);position:absolute;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.recipe-mockup-frame.fr-1{top:0;left:0;transform:rotate(-9deg);z-index:1}
+.recipe-mockup-frame.fr-2{top:30px;left:120px;transform:rotate(-1deg);z-index:2}
+.recipe-mockup-frame.fr-3{top:60px;left:240px;transform:rotate(7deg);z-index:3}
+.recipe-mockup-stack:hover .fr-1{transform:rotate(-12deg) translateY(-6px)}
+.recipe-mockup-stack:hover .fr-3{transform:rotate(10deg) translateY(-4px)}
+.recipe-mockup-screen{background:#FAF8F4;border-radius:28px;overflow:hidden;position:relative;aspect-ratio:9/19}
 .rm-status{display:flex;justify-content:space-between;align-items:center;padding:10px 18px 4px;font-size:8px;color:#1C1917;font-weight:600;font-family:-apple-system,sans-serif}
 .rm-progress-row{padding:10px 16px 6px;display:flex;align-items:center;gap:8px}
 .rm-progress-track{flex:1;height:2px;background:rgba(154,123,62,.15);border-radius:2px;overflow:hidden}
@@ -174,7 +174,7 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .recipe-time-icon{display:flex;align-items:center;justify-content:center}
 .recipe-time-text{font-family:var(--serif-jp);font-size:11px;color:var(--ink-mid);letter-spacing:.12em;font-weight:500}
 .recipe-time-text em{font-style:normal;color:var(--gold);font-weight:600}
-@media(max-width:960px){.recipe-mockup-stack{width:240px;height:480px}.recipe-mockup-frame{width:200px}.recipe-mockup-frame.fr-1{transform:rotate(-5deg)}.recipe-mockup-frame.fr-2{top:20px;left:20px}.recipe-mockup-frame.fr-3{top:40px;left:40px;transform:rotate(3deg)}}
+@media(max-width:960px){.recipe-mockup-stack{width:380px;height:500px}.recipe-mockup-frame{width:180px}.recipe-mockup-frame.fr-1{transform:rotate(-7deg)}.recipe-mockup-frame.fr-2{top:25px;left:100px;transform:rotate(-1deg)}.recipe-mockup-frame.fr-3{top:50px;left:200px;transform:rotate(5deg)}}
 /* Scroll-to-top floating button */
 .scroll-top-btn{position:fixed;right:32px;bottom:32px;width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--white);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transition:all .4s ease;z-index:60;box-shadow:0 6px 20px rgba(28,25,23,.18)}
 .scroll-top-btn.visible{opacity:1;visibility:visible}
@@ -184,7 +184,7 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .pricing-inner{max-width:920px;margin:0 auto;text-align:center}
 .pricing-header{margin-bottom:52px}
 .plans-label{font-family:var(--serif);font-size:clamp(36px,5vw,64px);font-weight:400;letter-spacing:.35em;text-transform:uppercase;color:var(--gold);display:block;line-height:1.2}
-.pricing-grid{display:grid;grid-template-columns:1fr;gap:32px;margin-bottom:44px;max-width:720px;margin-left:auto;margin-right:auto;align-items:stretch}
+.pricing-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-bottom:44px;max-width:880px;margin-left:auto;margin-right:auto;align-items:stretch}
 .pricing-header{text-align:center;margin-bottom:48px}
 .plans-sub{font-family:var(--serif-jp);font-size:clamp(14px,1.6vw,17px);color:var(--ink-light);line-height:2;letter-spacing:.1em;margin-top:16px;font-weight:500}
 .plans-sub em{font-style:normal;font-family:var(--serif);font-weight:500;color:var(--gold);letter-spacing:.05em}
@@ -347,7 +347,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 @keyframes flowPulse{0%,100%{opacity:.4}50%{opacity:1}}
 @keyframes stepReveal{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:1fr 1fr;gap:8px}.step{padding:32px 18px}.step h3{font-size:14px}.step p{font-size:11px}.process-grid .step:nth-child(5){grid-column:span 2}.step-connector{display:none}.step-icon{width:44px;height:44px;margin-bottom:18px}.step-icon svg{width:18px;height:18px}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.price-main{padding:48px 32px 44px}.price-main .price-amount{font-size:40px}.series-sec{padding:72px 24px}.series-grid{grid-template-columns:1fr;gap:20px}.series-card{padding:44px 32px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}.reviews-grid{display:flex;grid-template-columns:none;max-width:none;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:0 24px 12px;margin:0 -24px;scrollbar-width:none}.reviews-grid::-webkit-scrollbar{display:none}.review-card{flex:0 0 85%;scroll-snap-align:center;min-width:0}.reviews-swipe-hint{display:block;text-align:center;font-family:var(--serif);font-size:11px;font-style:italic;color:var(--ink-light);letter-spacing:.3em;margin-top:18px;opacity:.6}.story-review{margin-top:64px;padding-top:56px}.story-review-title{margin-bottom:36px}.story-review-card{grid-template-columns:1fr;gap:0;padding:10px}.story-review-photo{min-height:0;aspect-ratio:4/3}.story-review-content{padding:32px 24px 28px}.story-review-content .review-stars{justify-content:center}.story-review-content .review-meta{justify-content:center}}
-@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(22px,6.2vw,34px);margin-bottom:28px;line-height:1.45}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-main{padding:60px 28px 48px}.price-main .price-amount{font-size:46px}.price-main .price-amount sup{font-size:32px}.price-main .price-eyebrow{font-size:11px;letter-spacing:.32em}.price-badge{font-size:10px;letter-spacing:.32em;padding:6px 18px 6px 22px}.price-feature{margin-bottom:24px}.price-feature-label{font-size:9px;letter-spacing:.28em;margin-bottom:14px}.usecase-group{margin-bottom:26px}.usecase-cat{font-size:11px;letter-spacing:.2em;margin-bottom:14px;padding-bottom:8px}.usecase-item{margin-bottom:14px}.usecase-title{font-size:14px;line-height:1.45;margin-bottom:5px}.usecase-desc{font-size:11px;line-height:1.7}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(20px,5.8vw,30px);line-height:1.6}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.process-tagline p{font-size:15px}br.pc-br{display:none}.step-time{font-size:9.5px;padding:3px 9px;margin-top:8px}.step-icon{width:42px;height:42px;margin-bottom:16px}.recipe-mockup-frame{width:min(100%,240px)}.recipe-time{margin-top:18px;padding:8px 14px}.recipe-time-text{font-size:10.5px;letter-spacing:.08em}.scroll-top-btn{right:20px;bottom:20px;width:42px;height:42px}.review-card{padding:52px 28px 44px}.review-text{font-size:15px;line-height:2.05;letter-spacing:.04em;margin-bottom:32px}.review-stars{margin-bottom:24px;gap:4px}.review-stars span{font-size:14px}.review-name{font-size:13px}.review-name-sub{font-size:10px}.story-review-eyebrow{font-size:10px;letter-spacing:.25em}.story-review-title{font-size:clamp(18px,5vw,24px);line-height:1.7}.story-review-text{font-size:13px;line-height:1.95;letter-spacing:.05em}.story-review-content{padding:28px 20px 24px}}
+@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(22px,6.2vw,34px);margin-bottom:28px;line-height:1.45}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-main{padding:60px 28px 48px}.price-main .price-amount{font-size:46px}.price-main .price-amount sup{font-size:32px}.price-main .price-eyebrow{font-size:11px;letter-spacing:.32em}.price-badge{font-size:10px;letter-spacing:.32em;padding:6px 18px 6px 22px}.price-feature{margin-bottom:24px}.price-feature-label{font-size:9px;letter-spacing:.28em;margin-bottom:14px}.usecase-group{margin-bottom:26px}.usecase-cat{font-size:11px;letter-spacing:.2em;margin-bottom:14px;padding-bottom:8px}.usecase-item{margin-bottom:14px}.usecase-title{font-size:14px;line-height:1.45;margin-bottom:5px}.usecase-desc{font-size:11px;line-height:1.7}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(20px,5.8vw,30px);line-height:1.6}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.process-tagline p{font-size:15px}br.pc-br{display:none}.step-time{font-size:9.5px;padding:3px 9px;margin-top:8px}.step-icon{width:42px;height:42px;margin-bottom:16px}.recipe-mockup-stack{width:320px;height:440px}.recipe-mockup-frame{width:150px}.recipe-mockup-frame.fr-2{top:22px;left:85px}.recipe-mockup-frame.fr-3{top:44px;left:170px}.recipe-time{margin-top:18px;padding:8px 14px}.recipe-time-text{font-size:10.5px;letter-spacing:.08em}.scroll-top-btn{right:20px;bottom:20px;width:42px;height:42px}.review-card{padding:52px 28px 44px}.review-text{font-size:15px;line-height:2.05;letter-spacing:.04em;margin-bottom:32px}.review-stars{margin-bottom:24px;gap:4px}.review-stars span{font-size:14px}.review-name{font-size:13px}.review-name-sub{font-size:10px}.story-review-eyebrow{font-size:10px;letter-spacing:.25em}.story-review-title{font-size:clamp(18px,5vw,24px);line-height:1.7}.story-review-text{font-size:13px;line-height:1.95;letter-spacing:.05em}.story-review-content{padding:28px 20px 24px}}
 </style>
 </head>
 <body>
@@ -366,7 +366,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 <div id="main">
 
 <nav id="nav">
-  <a href="#" class="nav-logo"><span class="logo-text"><svg class="logo-text-icon" width="32" height="40" viewBox="292 62 96 132" xmlns="http://www.w3.org/2000/svg"><rect x="292" y="68" width="96" height="118" rx="1" fill="none" stroke="#9A7B3E" stroke-width="1.4"/><line x1="308" y1="68" x2="308" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><rect x="314" y="76" width="68" height="102" rx="0" fill="none" stroke="#9A7B3E" stroke-width="0.9"/><line x1="292" y1="188" x2="388" y2="188" stroke="#9A7B3E" stroke-width="2.2"/><line x1="340" y1="68" x2="340" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><line x1="292" y1="127" x2="388" y2="127" stroke="#9A7B3E" stroke-width="1.4"/><path d="M340 127 C328 111 310 109 308 119 C306 129 322 135 338 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M340 127 C352 111 370 109 372 119 C374 129 358 135 342 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="340" cy="127" r="4.5" fill="transparent" stroke="#9A7B3E" stroke-width="1.4"/></svg><span class="logo-text-words">ONLY ONE<br>DELIVERY</span><span class="logo-tagline">送るだけ、あとはおまかせ。</span></span></a>
+  <a href="#" class="nav-logo"><span class="logo-text"><svg class="logo-text-icon" width="32" height="40" viewBox="292 62 96 132" xmlns="http://www.w3.org/2000/svg"><rect x="292" y="68" width="96" height="118" rx="1" fill="none" stroke="#9A7B3E" stroke-width="1.4"/><line x1="308" y1="68" x2="308" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><rect x="314" y="76" width="68" height="102" rx="0" fill="none" stroke="#9A7B3E" stroke-width="0.9"/><line x1="292" y1="188" x2="388" y2="188" stroke="#9A7B3E" stroke-width="2.2"/><line x1="340" y1="68" x2="340" y2="186" stroke="#9A7B3E" stroke-width="1.4"/><line x1="292" y1="127" x2="388" y2="127" stroke="#9A7B3E" stroke-width="1.4"/><path d="M340 127 C328 111 310 109 308 119 C306 129 322 135 338 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M340 127 C352 111 370 109 372 119 C374 129 358 135 342 129" fill="none" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="340" cy="127" r="4.5" fill="transparent" stroke="#9A7B3E" stroke-width="1.4"/></svg><span class="logo-text-words">ONLY ONE<br>DELIVERY</span><span class="logo-tagline">一生忘れない、感動するギフト。</span></span></a>
   <div class="nav-right">
   <ul class="nav-links">
     <li><a href="#reviews">お客様の声</a></li>
@@ -560,43 +560,33 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 <section class="scenes-sec" id="scenes">
   <div class="scenes-con">
     <div class="sec-header reveal">
-      <div><span class="sec-label">Gift Scenes</span><h2 class="sec-title">どんな<em>シーン</em>にも。</h2></div>
+      <div><span class="sec-label">Gift Scenes</span><h2 class="sec-title">人生の節目に、<em>本という贈り物。</em></h2></div>
     </div>
     <div class="scenes-grid">
       <div class="scene-card wide reveal">
-        <img class="scene-img" src="images/pexels-quang-vuong-724225078-33509676.jpg" alt="結婚祝い" style="object-position:center 30%">
+        <img class="scene-img" src="images/pexels-mikhail-nilov-8307717.jpg" alt="還暦・長寿祝い">
         <div class="scene-overlay"></div>
-        <div class="scene-info"><span class="scene-num">03</span><div class="scene-name">結婚祝い</div><p class="scene-desc">二人の歩みを振り返る。世界にひとつの結婚祝いとして。</p></div>
+        <div class="scene-info"><span class="scene-num">01</span><div class="scene-name">還暦・長寿祝い</div><p class="scene-desc">60歳・70歳・米寿など、人生の節目に。家族の感謝を、一冊の本に。</p></div>
       </div>
       <div class="scene-card reveal reveal-delay-1">
-        <img class="scene-img" src="images/pexels-rdne-7580812.jpg" alt="退職祝い">
+        <img class="scene-img" src="images/pexels-quang-vuong-724225078-33509676.jpg" alt="結婚式フォトブック" style="object-position:center 30%">
         <div class="scene-overlay"></div>
-        <div class="scene-info"><span class="scene-num">01</span><div class="scene-name">退職祝い</div><p class="scene-desc">お世話になった方へ。感謝の言葉と思い出を一冊に。</p></div>
+        <div class="scene-info"><span class="scene-num">02</span><div class="scene-name">結婚式フォトブック</div><p class="scene-desc">二人の歩みと、結婚式の一日を、世界にひとつの本に。</p></div>
       </div>
       <div class="scene-card reveal">
-        <img class="scene-img" src="images/pexels-jonathan-valdes-286676880-30692831.jpg" alt="誕生日プレゼント">
+        <img class="scene-img" src="images/raymart-arnino-pqfyq0Iur-U-unsplash.jpg" alt="子供の成長記録" style="object-position:center 40%">
         <div class="scene-overlay"></div>
-        <div class="scene-info"><span class="scene-num">02</span><div class="scene-name">誕生日プレゼント</div><p class="scene-desc">何年分もの思い出が詰まった、特別な一冊を。</p></div>
+        <div class="scene-info"><span class="scene-num">03</span><div class="scene-name">子供の成長記録</div><p class="scene-desc">エコー写真から、毎日の笑顔まで。命の歩みを一冊に。</p></div>
       </div>
       <div class="scene-card reveal reveal-delay-1">
-        <img class="scene-img" src="images/pexels-helenalopes-27086849.jpg" alt="出産祝い">
+        <img class="scene-img" src="images/wade-austin-ellis-FtuJIuBbUhI-unsplash.jpg" alt="ペットの大切な記録" style="object-position:center 35%">
         <div class="scene-overlay"></div>
-        <div class="scene-info"><span class="scene-num">04</span><div class="scene-name">出産祝い</div><p class="scene-desc">新しい命の誕生を、家族の喜びを形に残す贈り物。</p></div>
+        <div class="scene-info"><span class="scene-num">04</span><div class="scene-name">ペットの大切な記録</div><p class="scene-desc">家族の一員として共に過ごした、かけがえのない日々を。</p></div>
       </div>
       <div class="scene-card reveal reveal-delay-2">
-        <img class="scene-img" src="images/candice-picard-vLENm-coX5Y-unsplash.jpg" alt="記念日ギフト">
+        <img class="scene-img" src="images/panyawat-auitpol-eq254Cqvmk8-unsplash.jpg" alt="旅立った大切な人" style="object-position:center center">
         <div class="scene-overlay"></div>
-        <div class="scene-info"><span class="scene-num">05</span><div class="scene-name">記念日ギフト</div><p class="scene-desc">大切な人との記念日をより特別な日に。</p></div>
-      </div>
-      <div class="scene-card reveal">
-        <img class="scene-img" src="images/mattia-revelant-9_L3DjRYWoU-unsplash.jpg" alt="卒業・入学祝い">
-        <div class="scene-overlay"></div>
-        <div class="scene-info"><span class="scene-num">06</span><div class="scene-name">卒業・入学祝い</div><p class="scene-desc">人生の節目に贈る、かけがえのない記念品。</p></div>
-      </div>
-      <div class="scene-card wide reveal reveal-delay-1">
-        <img class="scene-img" src="images/pexels-mikhail-nilov-8307717.jpg" alt="長寿・敬老ギフト">
-        <div class="scene-overlay"></div>
-        <div class="scene-info"><span class="scene-num">07</span><div class="scene-name">長寿・敬老ギフト</div><p class="scene-desc">祖父母・両親への感謝を、家族の写真と共に。</p></div>
+        <div class="scene-info"><span class="scene-num">05</span><div class="scene-name">旅立った大切な人</div><p class="scene-desc">心の中で生き続ける、あの方の人生を、家族の手で本に。</p></div>
       </div>
     </div>
   </div>
@@ -719,8 +709,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
               </div>
               <div class="rm-q-block" style="margin:6px 12px;padding:7px 10px">
                 <span class="rm-q-num" style="margin-bottom:3px">この章のコメント</span>
-                <div class="rm-q-handwrite" style="font-size:8.5px">家族みんなで祝った</div>
-                <div class="rm-q-handwrite" style="font-size:8.5px">還暦の旅行。</div>
+                <div class="rm-q-handwrite" style="font-size:8.5px">家族で迎えた、</div>
+                <div class="rm-q-handwrite" style="font-size:8.5px">大切な一日。</div>
               </div>
               <div class="rm-home-bar"></div>
             </div>
@@ -770,13 +760,13 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
                   <div class="rm-card-desc">60歳・70歳・米寿など</div>
                 </div>
                 <div class="rm-card selected">
-                  <div class="rm-card-name">敬老ギフト</div>
-                  <div class="rm-card-desc">祖父母・両親への感謝</div>
+                  <div class="rm-card-name">結婚式フォトブック</div>
+                  <div class="rm-card-desc">二人の歩みを一冊に</div>
                   <div class="rm-card-check"></div>
                 </div>
                 <div class="rm-card">
-                  <div class="rm-card-name">退職祝い</div>
-                  <div class="rm-card-desc">お世話になった方へ</div>
+                  <div class="rm-card-name">子供の成長記録</div>
+                  <div class="rm-card-desc">エコー写真から日々の笑顔まで</div>
                 </div>
               </div>
               <div class="rm-home-bar"></div>
@@ -801,119 +791,58 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <div class="pricing-inner">
     <div class="pricing-header reveal">
       <span class="plans-label">Plans</span>
-      <p class="plans-sub">贈るシーンに合わせて、選べる<em>2サイズ</em>。</p>
+      <p class="plans-sub">大切な方へ、想いを込めて贈る<em>一冊。</em></p>
     </div>
     <div class="pricing-grid">
-      <div class="price-card price-main reveal">
-        <span class="price-badge">RECOMMENDED</span>
-        <span class="price-eyebrow">A4 Size</span>
-        <div class="price-amount"><sup>¥</sup>19,800</div>
+      <div class="price-card price-sub reveal">
+        <span class="price-eyebrow">Standard</span>
+        <div class="price-amount"><sup>¥</sup>24,800</div>
         <span class="price-note">税込・送料込</span>
         <div class="price-rule"></div>
         <div class="price-feature">
-          <span class="price-feature-label">About</span>
+          <span class="price-feature-label">Includes</span>
           <ul class="price-list">
             <li>A4サイズ・24ページ</li>
-            <li>手に取った瞬間に伝わる、必ず喜ばれる定番のサイズ</li>
-            <li>写真一枚一枚が、思い出の主役になる大きさ</li>
-            <li>落ち込んだ日にそっと開きたくなる、そんな一冊</li>
+            <li>ハードカバー製本</li>
+            <li>ブックスタンド付き</li>
+            <li>動画メッセージ付き</li>
+            <li>ギフト用ラッピング</li>
           </ul>
         </div>
-        <div class="price-usecase">
-          <span class="price-feature-label">こんな時に</span>
-          <div class="usecase-group">
-            <span class="usecase-cat">お祝い・記念日に</span>
-            <div class="usecase-item">
-              <h4 class="usecase-title">大切な人への誕生日プレゼント</h4>
-              <p class="usecase-desc">これまでの思い出と「ありがとう」を一冊に</p>
-            </div>
-            <div class="usecase-item">
-              <h4 class="usecase-title">ご両親への記念日ギフト</h4>
-              <p class="usecase-desc">二人の歩みと、家族からの感謝の言葉を添えて</p>
-            </div>
-            <div class="usecase-item">
-              <h4 class="usecase-title">祖父母への長寿祝い</h4>
-              <p class="usecase-desc">孫の成長記録と、世代を超えた愛情を形にして</p>
-            </div>
-          </div>
-          <div class="usecase-group">
-            <span class="usecase-cat">職場・お世話になった方に</span>
-            <div class="usecase-item">
-              <h4 class="usecase-title">上司への退職祝い</h4>
-              <p class="usecase-desc">これまでの功績と、共に過ごした時間を一冊に</p>
-            </div>
-            <div class="usecase-item">
-              <h4 class="usecase-title">連名で贈る退職祝い</h4>
-              <p class="usecase-desc">チーム全員からの感謝のメッセージを集めて</p>
-            </div>
-            <div class="usecase-item">
-              <h4 class="usecase-title">お世話になった先生への感謝</h4>
-              <p class="usecase-desc">クラスの思い出と、生徒たちからの「ありがとう」</p>
-            </div>
-          </div>
-          <div class="usecase-group">
-            <span class="usecase-cat">人生の節目に</span>
-            <div class="usecase-item">
-              <h4 class="usecase-title">結婚祝い・出産祝い</h4>
-              <p class="usecase-desc">二人の歩み、または新しい家族の始まりを祝して</p>
-            </div>
-            <div class="usecase-item">
-              <h4 class="usecase-title">卒業・入学のお祝い</h4>
-              <p class="usecase-desc">これまでの成長と、新しい門出への想いを</p>
-            </div>
-          </div>
+        <div class="price-feature">
+          <span class="price-feature-label">For</span>
+          <p class="usecase-desc" style="text-align:left;font-size:13px;line-height:1.9">
+            想いを贈る、上質な一冊。<br>
+            初めての方や、シンプルに<br>
+            気持ちを伝えたい方に。
+          </p>
         </div>
       </div>
-      <div class="price-divider">
-        <span class="price-divider-line"></span>
-        <span class="price-divider-text">or</span>
-        <span class="price-divider-line"></span>
-      </div>
-      <div class="price-card price-sub reveal reveal-delay-1">
-        <span class="price-eyebrow">A5 Size</span>
-        <div class="price-amount"><sup>¥</sup>14,800</div>
+      <div class="price-card price-main reveal reveal-delay-1">
+        <span class="price-badge">RECOMMENDED</span>
+        <span class="price-eyebrow">Premium</span>
+        <div class="price-amount"><sup>¥</sup>34,800</div>
         <span class="price-note">税込・送料込</span>
         <div class="price-rule"></div>
         <div class="price-feature">
-          <span class="price-feature-label">About</span>
+          <span class="price-feature-label">Includes</span>
           <ul class="price-list">
-            <li>A5サイズ・24ページ</li>
-            <li>文庫本より少し大きめ</li>
-            <li>何冊も揃えて、思い出を重ねていける一冊</li>
-            <li>本棚にシリーズとして並べたくなる</li>
+            <li>A4サイズ・<strong>32ページ</strong>(8ページ増)</li>
+            <li><strong>写真補正・色調整</strong>込み</li>
+            <li><strong>デラックス装丁</strong>(布張り表紙)</li>
+            <li>ブックスタンド付き</li>
+            <li>動画メッセージ付き</li>
+            <li>ギフトボックス入りラッピング</li>
           </ul>
         </div>
-        <div class="price-usecase">
-          <span class="price-feature-label">こんな時に</span>
-          <div class="usecase-group">
-            <span class="usecase-cat">家族の成長を一冊ずつ</span>
-            <div class="usecase-item">
-              <h4 class="usecase-title">お子さまの成長記録</h4>
-              <p class="usecase-desc">一年ごと、一冊ずつ。本棚に並ぶ成長の軌跡</p>
-            </div>
-            <div class="usecase-item">
-              <h4 class="usecase-title">エコー写真・手形・足形の記録</h4>
-              <p class="usecase-desc">生まれる前から今日まで、命の軌跡を大切に</p>
-            </div>
-          </div>
-          <div class="usecase-group">
-            <span class="usecase-cat">大切な人との日々を</span>
-            <div class="usecase-item">
-              <h4 class="usecase-title">遠距離の大切な人へ</h4>
-              <p class="usecase-desc">会えない時間を、写真と言葉で埋めていく</p>
-            </div>
-            <div class="usecase-item">
-              <h4 class="usecase-title">「ありがとう」を伝えたい人へ</h4>
-              <p class="usecase-desc">普段なかなか言えない想いを、一冊に込めて</p>
-            </div>
-          </div>
-          <div class="usecase-group">
-            <span class="usecase-cat">気軽な贈り物に</span>
-            <div class="usecase-item">
-              <h4 class="usecase-title">友人・同僚へのちょっとしたプレゼント</h4>
-              <p class="usecase-desc">特別な日じゃなくても、想いを伝える小さな一冊</p>
-            </div>
-          </div>
+        <div class="price-feature">
+          <span class="price-feature-label">For</span>
+          <p class="usecase-desc" style="text-align:left;font-size:13px;line-height:1.9">
+            人生の特別な節目に、<br>
+            本物の一冊を。<br>
+            還暦・追悼・結婚式など、<br>
+            一生残る瞬間に。
+          </p>
         </div>
       </div>
     </div>
