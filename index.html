@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Only One Delivery | 誰でも、かんたんに、想いが伝わるギフトが作れる。</title>
+<title>Only One Delivery | あなたの想いを、一生忘れない、宝物のギフトに。</title>
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -95,13 +95,19 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .scene-desc{font-size:11px;line-height:1.9;color:rgba(255,255,255,.65)}
 .process-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--white)}
 .process-inner{max-width:1140px;margin:0 auto}
-.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:72px}
-.step{padding:40px 28px;text-align:center;background:var(--cream);position:relative;transition:background .3s ease}
+.process-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;margin-top:72px;position:relative}
+.step{padding:40px 22px;text-align:center;background:var(--cream);position:relative;transition:background .3s ease}
 .step:hover{background:var(--cream-mid)}
 .step-num{font-family:var(--serif);font-size:11px;font-style:italic;letter-spacing:.15em;color:var(--gold);display:block;margin-bottom:20px}
-.step h3{font-family:var(--serif-jp);font-size:15px;font-weight:500;color:var(--ink);margin-bottom:14px;line-height:1.8}
-.step p{font-size:12px;line-height:2.2;color:var(--ink-light)}
+.step h3{font-family:var(--serif-jp);font-size:14px;font-weight:500;color:var(--ink);margin-bottom:14px;line-height:1.7;letter-spacing:.04em}
+.step p{font-size:11px;line-height:2.1;color:var(--ink-light);letter-spacing:.04em}
 .step::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:32px;height:2px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
+.step-time{display:inline-flex;align-items:center;gap:6px;font-family:var(--serif);font-size:10px;font-style:italic;color:var(--gold);letter-spacing:.2em;margin-top:14px;padding:5px 12px;border:1px solid var(--gold-rule);border-radius:100px;background:rgba(255,255,255,.7);box-shadow:0 1px 3px rgba(154,123,62,.06)}
+.step-time svg{width:11px;height:11px;flex-shrink:0}
+.step-connector{position:absolute;top:50%;right:-8px;transform:translateY(-50%);z-index:3;display:flex;align-items:center;justify-content:center;width:18px;height:18px;background:var(--cream);border-radius:50%;animation:flowPulse 2.4s ease-in-out infinite}
+.step-connector svg{width:11px;height:11px}
+.process-flow-note{max-width:900px;margin:32px auto 0;padding:18px 24px;text-align:center;background:rgba(154,123,62,.04);border:1px solid var(--gold-rule);font-family:var(--serif-jp);font-size:12px;line-height:2;color:var(--ink-mid);letter-spacing:.08em}
+.process-flow-note em{font-style:normal;color:var(--gold);font-weight:600}
 .process-tagline{max-width:640px;margin:72px auto 0;text-align:center;padding:48px 40px;border-top:1px solid var(--gold-rule);position:relative}
 .process-tagline::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
 .process-tagline p{font-family:var(--serif-jp);font-size:clamp(16px,2vw,22px);font-weight:500;color:var(--ink);line-height:2.2;letter-spacing:.1em}
@@ -116,55 +122,63 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .line-desc{font-family:var(--serif-jp);font-size:14px;line-height:2.4;letter-spacing:.06em;color:var(--ink-mid);margin-bottom:36px}
 .line-highlight{display:inline-block;font-family:var(--serif-jp);font-size:clamp(18px,2.2vw,24px);font-weight:500;color:var(--ink);background:linear-gradient(transparent 60%,rgba(154,123,62,.18) 60%);padding:0 4px;letter-spacing:.05em}
 .line-chat-wrap{position:relative;display:flex;justify-content:center;align-items:center;padding:60px 80px}
-/* PHONE FRAME - Enhanced */
-.phone-frame{width:min(100%,320px);background:#1C1917;border-radius:44px;padding:10px;box-shadow:0 30px 60px rgba(154,123,62,.22),0 6px 20px rgba(28,25,23,.12);position:relative;z-index:2}
-.phone-frame::before{content:'';position:absolute;left:-3px;top:100px;width:3px;height:30px;background:#1C1917;border-radius:2px 0 0 2px}
-.phone-frame::after{content:'';position:absolute;left:-3px;top:145px;width:3px;height:50px;background:#1C1917;border-radius:2px 0 0 2px;box-shadow:0 70px 0 #1C1917,0 70px 0 0 #1C1917}
-.phone-power{position:absolute;right:-3px;top:130px;width:3px;height:60px;background:#1C1917;border-radius:0 2px 2px 0}
-.phone-notch{width:110px;height:28px;background:#1C1917;border-radius:0 0 18px 18px;position:absolute;top:10px;left:50%;transform:translateX(-50%);z-index:3}
-.phone-screen{background:#F7F7F7;border-radius:34px;overflow:hidden;position:relative}
-.phone-status-bar{background:#fff;padding:10px 24px 6px;display:flex;justify-content:space-between;align-items:center;font-size:10px;font-weight:700;color:#111;border-bottom:none;padding-top:16px}
-.phone-status-time{letter-spacing:.02em}
-.phone-status-icons{display:flex;align-items:center;gap:5px}
-.phone-status-icons svg{width:13px;height:13px}
-.chat-header{background:#fff;padding:10px 16px 12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #eee}
-.chat-avatar{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#9A7B3E,#B8965A);display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:13px;font-weight:500}
-.chat-header-info{flex:1}
-.chat-header-name{font-size:11px;font-weight:600;color:#333;letter-spacing:.04em}
-.chat-header-status{font-size:9px;color:#06C755;margin-top:2px}
-.chat-body{background:#8CACD1;padding:14px 10px 18px;height:440px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:6px;position:relative}
-.chat-body::-webkit-scrollbar{width:0;display:none}
-.chat-body{scrollbar-width:none}
-.chat-msg{max-width:82%;display:flex;flex-direction:column;opacity:0;animation:msgIn .5s ease forwards;align-self:flex-end;align-items:flex-end}
-.chat-msg.d1{animation-delay:.2s}
-.chat-msg.d2{animation-delay:.8s}
-.chat-msg.d3{animation-delay:1.4s}
-.chat-msg.d4{animation-delay:2s}
-.chat-msg.d5{animation-delay:2.7s}
-.chat-msg.d6{animation-delay:3.3s}
-.chat-msg.d7{animation-delay:4s}
-.chat-msg.d8{animation-delay:4.6s}
-.chat-bubble{background:#87E55E;padding:7px 11px;border-radius:12px;font-size:10.5px;line-height:1.55;color:#111;letter-spacing:.02em}
-.chat-time{font-size:8px;color:#fff;margin-top:2px;padding:0 6px;opacity:.85}
-.chat-photo{width:120px;height:88px;border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.chat-photo.p1{background:linear-gradient(135deg,#D4B483,#9A7B3E)}
-.chat-photo.p2{background:linear-gradient(135deg,#8CACD1,#5678A0)}
-.chat-photo.p3{background:linear-gradient(135deg,#E8A87C,#C38D5E)}
-.chat-photo.p4{background:linear-gradient(135deg,#A8C5A0,#6B8E5E)}
-.chat-photo svg{width:24px;height:24px;opacity:.85}
-.chat-video{width:120px;height:88px;background:linear-gradient(135deg,#7A7168,#3D3530);border-radius:10px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
-.chat-video::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.15)}
-.chat-video svg{width:26px;height:26px;fill:#fff;z-index:1;position:relative}
-.chat-photo-row{display:flex;gap:4px}
-.chat-photo-row .chat-photo{width:74px;height:74px}
-.chat-typing-indicator{align-self:flex-start;padding:7px 12px;background:rgba(255,255,255,.7);border-radius:100px;font-size:9px;color:#666;display:flex;align-items:center;gap:6px;opacity:0;animation:msgIn .5s ease 5.3s forwards;margin-top:4px;letter-spacing:.04em}
-.chat-typing-indicator span{width:4px;height:4px;background:#999;border-radius:50%;animation:typingDot 1.2s ease-in-out infinite}
-.chat-typing-indicator span:nth-child(2){animation-delay:.2s}
-.chat-typing-indicator span:nth-child(3){animation-delay:.4s}
-.phone-home-bar{background:#1C1917;width:110px;height:4px;border-radius:100px;margin:10px auto 8px;opacity:.9}
 /* POINT CALLOUTS */
 @media(max-width:1100px){.line-chat-wrap{padding:40px 40px}}
 @media(max-width:960px){.line-chat-wrap{padding:20px}}
+/* Gift Recipe — 3-screen cascade mockup */
+.recipe-mockup-wrap{display:flex;justify-content:center;align-items:center;position:relative;perspective:1200px}
+.recipe-mockup-stack{position:relative;width:280px;height:520px}
+.recipe-mockup-frame{width:240px;background:#1C1917;border-radius:36px;padding:7px;box-shadow:0 24px 48px rgba(154,123,62,.22),0 6px 18px rgba(28,25,23,.12);position:absolute;transition:transform .6s cubic-bezier(.4,0,.2,1)}
+.recipe-mockup-frame.fr-1{top:0;left:0;transform:rotate(-6deg) translateY(0);z-index:1;opacity:.9}
+.recipe-mockup-frame.fr-2{top:24px;left:24px;transform:rotate(-1deg);z-index:2;opacity:.95}
+.recipe-mockup-frame.fr-3{top:48px;left:48px;transform:rotate(4deg);z-index:3}
+.recipe-mockup-stack:hover .fr-1{transform:rotate(-9deg) translateY(-6px)}
+.recipe-mockup-stack:hover .fr-3{transform:rotate(7deg) translateY(-4px)}
+.recipe-mockup-screen{background:#FAF8F4;border-radius:30px;overflow:hidden;position:relative;aspect-ratio:9/19}
+.rm-status{display:flex;justify-content:space-between;align-items:center;padding:10px 18px 4px;font-size:8px;color:#1C1917;font-weight:600;font-family:-apple-system,sans-serif}
+.rm-progress-row{padding:10px 16px 6px;display:flex;align-items:center;gap:8px}
+.rm-progress-track{flex:1;height:2px;background:rgba(154,123,62,.15);border-radius:2px;overflow:hidden}
+.rm-progress-fill{height:100%;background:var(--gold);border-radius:2px}
+.rm-progress-text{font-family:var(--serif);font-size:8px;font-style:italic;color:var(--gold);letter-spacing:.15em}
+.rm-header{padding:10px 16px 14px;text-align:center;border-bottom:1px solid var(--gold-rule)}
+.rm-eyebrow{font-family:var(--serif);font-size:7px;font-style:italic;color:var(--gold);letter-spacing:.35em;display:block;margin-bottom:4px;text-transform:uppercase}
+.rm-title{font-family:var(--serif-jp);font-size:11px;font-weight:500;color:var(--ink);letter-spacing:.06em;line-height:1.5}
+.rm-body{padding:12px 12px;display:flex;flex-direction:column;gap:6px}
+.rm-card{background:#fff;border:1px solid var(--gold-rule);padding:10px 12px;text-align:left;position:relative;animation:rmFade .6s ease forwards;opacity:0}
+.rm-card:nth-child(1){animation-delay:.3s}
+.rm-card:nth-child(2){animation-delay:.5s;border-color:var(--gold);background:linear-gradient(180deg,#FDFBF6 0%,#fff 100%);box-shadow:0 3px 8px rgba(154,123,62,.08)}
+.rm-card:nth-child(3){animation-delay:.7s}
+.rm-card-name{font-family:var(--serif-jp);font-size:10px;font-weight:500;color:var(--ink);letter-spacing:.06em;line-height:1.5;margin-bottom:3px}
+.rm-card-desc{font-family:var(--serif-jp);font-size:8px;color:var(--ink-light);line-height:1.5;letter-spacing:.04em}
+.rm-card-check{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:12px;height:12px;border-radius:50%;border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;background:var(--gold)}
+.rm-card-check::after{content:'';width:4px;height:7px;border:solid #fff;border-width:0 1.2px 1.2px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.rm-card:not(.selected) .rm-card-check{display:none}
+.rm-q-block{padding:8px 12px;background:#fff;border:1px solid var(--gold-rule)}
+.rm-q-num{font-family:var(--serif);font-size:7px;font-style:italic;color:var(--gold);letter-spacing:.25em;display:block;margin-bottom:5px;text-transform:uppercase}
+.rm-q-label{font-family:var(--serif-jp);font-size:9px;color:var(--ink-mid);letter-spacing:.06em;display:block;margin-bottom:7px;font-weight:500;line-height:1.4}
+.rm-q-line{height:1px;background:repeating-linear-gradient(to right,rgba(154,123,62,.25) 0,rgba(154,123,62,.25) 3px,transparent 3px,transparent 6px);margin-bottom:5px}
+.rm-q-line.short{width:60%}
+.rm-q-handwrite{font-family:'Shippori Mincho',serif;font-size:9px;color:var(--ink);font-style:italic;line-height:1.5;margin-bottom:3px}
+.rm-photo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;padding:8px}
+.rm-photo-cell{aspect-ratio:1;background:linear-gradient(135deg,#D4B483,#9A7B3E);border-radius:4px;display:flex;align-items:center;justify-content:center}
+.rm-photo-cell:nth-child(2){background:linear-gradient(135deg,#A8C5A0,#6B8E5E)}
+.rm-photo-cell:nth-child(3){background:linear-gradient(135deg,#E8A87C,#C38D5E)}
+.rm-photo-cell:nth-child(4){background:linear-gradient(135deg,#8CACD1,#5678A0)}
+.rm-photo-cell:nth-child(5){background:linear-gradient(135deg,#C9A0DC,#8A6B9C)}
+.rm-photo-cell svg{width:12px;height:12px;opacity:.6;fill:#fff}
+.rm-photo-add{aspect-ratio:1;background:rgba(154,123,62,.06);border:1px dashed rgba(154,123,62,.35);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--gold);font-weight:300}
+.rm-home-bar{background:#1C1917;width:80px;height:3px;border-radius:100px;margin:6px auto 5px;opacity:.85}
+@keyframes rmFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.recipe-time{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:24px;padding:10px 18px;background:rgba(154,123,62,.06);border:1px solid var(--gold-rule);border-radius:100px;width:fit-content;margin-left:auto;margin-right:auto}
+.recipe-time-icon{display:flex;align-items:center;justify-content:center}
+.recipe-time-text{font-family:var(--serif-jp);font-size:11px;color:var(--ink-mid);letter-spacing:.12em;font-weight:500}
+.recipe-time-text em{font-style:normal;color:var(--gold);font-weight:600}
+@media(max-width:960px){.recipe-mockup-stack{width:240px;height:480px}.recipe-mockup-frame{width:200px}.recipe-mockup-frame.fr-1{transform:rotate(-5deg)}.recipe-mockup-frame.fr-2{top:20px;left:20px}.recipe-mockup-frame.fr-3{top:40px;left:40px;transform:rotate(3deg)}}
+/* Scroll-to-top floating button */
+.scroll-top-btn{position:fixed;right:32px;bottom:32px;width:48px;height:48px;border-radius:50%;background:var(--ink);color:var(--white);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;opacity:0;visibility:hidden;transition:all .4s ease;z-index:60;box-shadow:0 6px 20px rgba(28,25,23,.18)}
+.scroll-top-btn.visible{opacity:1;visibility:visible}
+.scroll-top-btn:hover{background:var(--gold);transform:translateY(-3px)}
+.scroll-top-btn svg{width:14px;height:14px}
 .pricing-sec{scroll-margin-top:80px;padding:var(--pad) 56px;background:var(--cream-mid);border-top:1px solid var(--gold-rule);border-bottom:1px solid var(--gold-rule)}
 .pricing-inner{max-width:920px;margin:0 auto;text-align:center}
 .pricing-header{margin-bottom:52px}
@@ -329,10 +343,10 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 @keyframes gLidFloat{0%,100%{transform:rotate(-18deg) translate(0,-48px)}50%{transform:rotate(-19deg) translate(0,-54px)}}
 @keyframes gTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.75;transform:scale(1)}}
 @keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-@keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
-@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:repeat(2,1fr)}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.price-main{padding:48px 32px 44px}.price-main .price-amount{font-size:40px}.series-sec{padding:72px 24px}.series-grid{grid-template-columns:1fr;gap:20px}.series-card{padding:44px 32px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}.reviews-grid{display:flex;grid-template-columns:none;max-width:none;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:0 24px 12px;margin:0 -24px;scrollbar-width:none}.reviews-grid::-webkit-scrollbar{display:none}.review-card{flex:0 0 85%;scroll-snap-align:center;min-width:0}.reviews-swipe-hint{display:block;text-align:center;font-family:var(--serif);font-size:11px;font-style:italic;color:var(--ink-light);letter-spacing:.3em;margin-top:18px;opacity:.6}.story-review{margin-top:64px;padding-top:56px}.story-review-title{margin-bottom:36px}.story-review-card{grid-template-columns:1fr;gap:0;padding:10px}.story-review-photo{min-height:0;aspect-ratio:4/3}.story-review-content{padding:32px 24px 28px}.story-review-content .review-stars{justify-content:center}.story-review-content .review-meta{justify-content:center}}
-@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(22px,6.2vw,34px);margin-bottom:28px;line-height:1.45}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-main{padding:60px 28px 48px}.price-main .price-amount{font-size:46px}.price-main .price-amount sup{font-size:32px}.price-main .price-eyebrow{font-size:11px;letter-spacing:.32em}.price-badge{font-size:10px;letter-spacing:.32em;padding:6px 18px 6px 22px}.price-feature{margin-bottom:24px}.price-feature-label{font-size:9px;letter-spacing:.28em;margin-bottom:14px}.usecase-group{margin-bottom:26px}.usecase-cat{font-size:11px;letter-spacing:.2em;margin-bottom:14px;padding-bottom:8px}.usecase-item{margin-bottom:14px}.usecase-title{font-size:14px;line-height:1.45;margin-bottom:5px}.usecase-desc{font-size:11px;line-height:1.7}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(20px,5.8vw,30px);line-height:1.6}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.phone-frame{width:min(100%,290px)}.process-tagline p{font-size:15px}.chat-body{height:410px}.chat-bubble{font-size:10px}br.pc-br{display:none}.review-card{padding:52px 28px 44px}.review-text{font-size:15px;line-height:2.05;letter-spacing:.04em;margin-bottom:32px}.review-stars{margin-bottom:24px;gap:4px}.review-stars span{font-size:14px}.review-name{font-size:13px}.review-name-sub{font-size:10px}.story-review-eyebrow{font-size:10px;letter-spacing:.25em}.story-review-title{font-size:clamp(18px,5vw,24px);line-height:1.7}.story-review-text{font-size:13px;line-height:1.95;letter-spacing:.05em}.story-review-content{padding:28px 20px 24px}}
+@keyframes flowPulse{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes stepReveal{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:960px){nav{padding:20px 24px}nav.scrolled{padding:14px 24px}.hamburger{display:flex}.hero{padding:0 24px;align-items:flex-start}.hero-inner{flex-direction:column;padding-top:100px;align-items:flex-start;gap:0}.hero-gift{display:none}.hero-scroll{display:none}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{scroll-margin-top:80px;padding:72px 24px}.intro-points{grid-template-columns:1fr;gap:20px}.scenes-grid{grid-template-columns:1fr 1fr}.scene-card.wide{grid-column:span 2;aspect-ratio:16/9}.process-grid{grid-template-columns:1fr 1fr;gap:8px}.step{padding:32px 18px}.step h3{font-size:14px}.step p{font-size:11px}.process-grid .step:nth-child(5){grid-column:span 2}.process-flow-note{padding:16px 20px;font-size:11.5px;line-height:1.9;margin-top:24px}.step-connector{display:none}.pricing-grid{grid-template-columns:1fr;gap:16px}.price-card{padding:40px 28px}.price-main{padding:48px 32px 44px}.price-main .price-amount{font-size:40px}.series-sec{padding:72px 24px}.series-grid{grid-template-columns:1fr;gap:20px}.series-card{padding:44px 32px}.coming-soon-card{padding:72px 40px}.cta-sec{padding:80px 24px;min-height:480px}.line-inner{grid-template-columns:1fr;gap:48px;text-align:center}footer{padding:40px 24px;gap:24px}.footer-legal-links{gap:20px}.process-tagline{margin-top:52px;padding:36px 24px}.hero-pain{justify-content:flex-start}.reviews-grid{display:flex;grid-template-columns:none;max-width:none;gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:x mandatory;padding:0 24px 12px;margin:0 -24px;scrollbar-width:none}.reviews-grid::-webkit-scrollbar{display:none}.review-card{flex:0 0 85%;scroll-snap-align:center;min-width:0}.reviews-swipe-hint{display:block;text-align:center;font-family:var(--serif);font-size:11px;font-style:italic;color:var(--ink-light);letter-spacing:.3em;margin-top:18px;opacity:.6}.story-review{margin-top:64px;padding-top:56px}.story-review-title{margin-bottom:36px}.story-review-card{grid-template-columns:1fr;gap:0;padding:10px}.story-review-photo{min-height:0;aspect-ratio:4/3}.story-review-content{padding:32px 24px 28px}.story-review-content .review-stars{justify-content:center}.story-review-content .review-meta{justify-content:center}}
+@media(max-width:600px){nav{padding:16px 20px}nav.scrolled{padding:12px 20px}.logo-text-words{font-size:9px;letter-spacing:.25em}.logo-tagline{display:none}.nav-cta{padding:9px 18px;font-size:9px}.hero{padding:0 20px;min-height:100svh}.hero-inner{padding-top:80px}.hero h1{font-size:clamp(22px,6.2vw,34px);margin-bottom:28px;line-height:1.45}.hero-pain span{font-size:11px;padding:6px 12px}.hero-cta-text{font-size:13px;margin-bottom:30px}.hero-actions{flex-direction:column;align-items:flex-start;gap:20px}.btn-dark{padding:14px 32px;font-size:9px}.intro-sec,.scenes-sec,.process-sec,.pricing-sec,.reviews-sec,.line-sec{padding:56px 20px}.intro-heading{margin-bottom:40px}.sp-br{display:block}.intro-heading .sec-title{font-size:clamp(20px,5vw,30px);word-break:keep-all}.intro-points{gap:16px}.intro-point{padding:28px 20px}.sec-title{font-size:clamp(22px,5.5vw,34px)}.scenes-grid{grid-template-columns:1fr}.scene-card.wide{grid-column:span 1;aspect-ratio:4/5}.scene-name{font-size:16px}.process-grid{grid-template-columns:1fr}.step{padding:32px 20px}.pricing-sec{padding:56px 20px}.pricing-inner{max-width:100%}.price-card{padding:36px 24px}.price-amount{font-size:30px}.price-amount sup{font-size:24px}.price-main{padding:60px 28px 48px}.price-main .price-amount{font-size:46px}.price-main .price-amount sup{font-size:32px}.price-main .price-eyebrow{font-size:11px;letter-spacing:.32em}.price-badge{font-size:10px;letter-spacing:.32em;padding:6px 18px 6px 22px}.price-feature{margin-bottom:24px}.price-feature-label{font-size:9px;letter-spacing:.28em;margin-bottom:14px}.usecase-group{margin-bottom:26px}.usecase-cat{font-size:11px;letter-spacing:.2em;margin-bottom:14px;padding-bottom:8px}.usecase-item{margin-bottom:14px}.usecase-title{font-size:14px;line-height:1.45;margin-bottom:5px}.usecase-desc{font-size:11px;line-height:1.7}.price-list li{font-size:12px}.plans-label{font-size:clamp(32px,9vw,44px);letter-spacing:.25em}.coming-soon-card{padding:56px 28px}.coming-soon-label{letter-spacing:.2em}.coming-soon-title{font-size:14px}.coming-soon-desc{font-size:12px;line-height:2.2}.cta-sec{padding:72px 20px;min-height:420px}.cta-inner h2{font-size:clamp(20px,5.8vw,30px);line-height:1.6}.cta-inner p{font-size:13px;margin-bottom:36px}.btn-white{padding:14px 32px;font-size:9px}footer{padding:32px 20px;gap:20px}.footer-legal-links{gap:16px}.footer-link,.footer-note{font-size:9px}.footer-logo .logo-text-words{font-size:9px;letter-spacing:.25em}.line-title{font-size:clamp(22px,6vw,30px)}.process-tagline p{font-size:15px}br.pc-br{display:none}.process-flow-note{padding:14px 18px;font-size:11px;line-height:1.85;letter-spacing:.04em;margin-top:20px}.process-flow-note br.pc-br{display:none}.step-time{font-size:9.5px;padding:3px 9px;margin-top:8px}.recipe-mockup-frame{width:min(100%,240px)}.recipe-time{margin-top:18px;padding:8px 14px}.recipe-time-text{font-size:10.5px;letter-spacing:.08em}.scroll-top-btn{right:20px;bottom:20px;width:42px;height:42px}.review-card{padding:52px 28px 44px}.review-text{font-size:15px;line-height:2.05;letter-spacing:.04em;margin-bottom:32px}.review-stars{margin-bottom:24px;gap:4px}.review-stars span{font-size:14px}.review-name{font-size:13px}.review-name-sub{font-size:10px}.story-review-eyebrow{font-size:10px;letter-spacing:.25em}.story-review-title{font-size:clamp(18px,5vw,24px);line-height:1.7}.story-review-text{font-size:13px;line-height:1.95;letter-spacing:.05em}.story-review-content{padding:28px 20px 24px}}
 </style>
 </head>
 <body>
@@ -360,7 +374,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
     <li><a href="#process">注文の流れ</a></li>
     <li><a href="#pricing">プラン</a></li>
   </ul>
-  <a href="https://lin.ee/7d2v7ga" class="nav-cta"><span>LINEでギフトを作る</span></a>
+  <a href="https://lin.ee/7d2v7ga" class="nav-cta"><span>ギフトを作りはじめる</span></a>
   </div>
   <button class="hamburger" id="hamburger" aria-label="メニュー"><span></span><span></span><span></span></button>
 </nav>
@@ -371,7 +385,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <a href="#scenes" class="mobile-nav-link">シーン</a>
   <a href="#process" class="mobile-nav-link">注文の流れ</a>
   <a href="#pricing" class="mobile-nav-link">プラン</a>
-  <a href="https://lin.ee/7d2v7ga" class="mobile-cta">LINEでギフトを作る</a>
+  <a href="https://lin.ee/7d2v7ga" class="mobile-cta">ギフトを作りはじめる</a>
 </div>
 
 <section class="hero">
@@ -379,15 +393,15 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <div class="hero-inner">
     <div class="hero-content">
       <span class="hero-eyebrow">Only One Delivery — Photobook Gift Service</span>
-      <h1><em>誰でも、かんたんに、</em><br>想いが伝わる、<br>ギフトが作れる。</h1>
+      <h1><em>あなたの想いを、</em><br>一生忘れない、<br><em>宝物の一冊に。</em></h1>
       <div class="hero-pain">
+        <span>納得できるギフトが渡せていない</span>
         <span>時間がない</span>
-        <span>言葉にできない</span>
-        <span>自分で作る自信がない</span>
+        <span>もっと想いを伝えればよかった</span>
       </div>
-      <p class="hero-cta-text">そんなあなたも、<br><em>LINEでつぶやくだけ。</em></p>
+      <p class="hero-cta-text"><em>想いを、形に。</em><br>一緒に、宝物の一冊を。</p>
       <div class="hero-actions">
-        <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>LINEでギフトを作る</span></a>
+        <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>ギフトを作りはじめる</span></a>
         <a href="#process" class="btn-ghost">How it works</a>
       </div>
     </div>
@@ -501,7 +515,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <div class="intro-grid">
     <div class="intro-heading reveal">
       <span class="sec-label">The Gift</span>
-      <h2 class="sec-title" style="font-size:clamp(28px,3.5vw,50px)">気付いたら、<span class="sp-br"></span><em>ギフトができてる。</em><br>それが、<span class="sp-br"></span><em>Only One Delivery。</em></h2>
+      <h2 class="sec-title" style="font-size:clamp(28px,3.5vw,50px)">あなたの想いを、<span class="sp-br"></span><em>一冊に編む。</em><br>それが、<span class="sp-br"></span><em>Only One Delivery。</em></h2>
     </div>
     <div class="intro-points">
       <div class="intro-point reveal">
@@ -513,8 +527,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
             <circle cx="23" cy="15" r="1.5" fill="#9A7B3E"/>
           </svg>
         </div>
-        <h3>LINEで気軽にスタート</h3>
-        <p>アプリ不要。いつも使っているLINEから気軽にスタート。難しい操作は一切ありません。</p>
+        <h3>想いを綴る、ギフトレシピ</h3>
+        <p>所要時間 約30分。一枚のレシピに沿って、あなたの想いを丁寧に綴っていきます。</p>
       </div>
       <div class="intro-point reveal reveal-delay-1">
         <div class="intro-icon">
@@ -525,8 +539,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
             <circle cx="18" cy="18" r="2.5" fill="white" stroke="#9A7B3E" stroke-width="1.1"/>
           </svg>
         </div>
-        <h3>世界にひとつの一冊</h3>
-        <p>写真とエピソードを送るだけで、プロが丁寧に仕上げるオリジナルフォトブック。</p>
+        <h3>世界にひとつの、宝物の一冊</h3>
+        <p>あなたの言葉と写真を、プロが心を込めて編む、世界にひとつだけのフォトブック。</p>
       </div>
       <div class="intro-point reveal reveal-delay-2">
         <div class="intro-icon">
@@ -535,8 +549,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
             <polyline points="18,10 18,18 23,22" stroke="#9A7B3E" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
           </svg>
         </div>
-        <h3>約2週間でお届け</h3>
-        <p>ご注文から最短2週間。大切な記念日に間に合うよう、心を込めて仕上げてお届けします。</p>
+        <h3>受け取った瞬間、涙する一冊</h3>
+        <p>受け取った方の心に深く残る、特別な時間を。一生忘れない、宝物の贈り物として。</p>
       </div>
     </div>
   </div>
@@ -593,13 +607,19 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
       <div><span class="sec-label">How it works</span><h2 class="sec-title"><em>4つ</em>のステップ。</h2></div>
     </div>
     <div class="process-grid">
-      <div class="step reveal"><div class="step-num">Step 01</div><h3>LINEで<br>ギフトを作る</h3><p>アプリ不要。<br>LINEを追加して<br>写真や想いを送るだけで<br>ご注文がスタート。</p></div>
-      <div class="step reveal reveal-delay-1"><div class="step-num">Step 02</div><h3>写真と想いを<br>送る</h3><p>写真とエピソード、<br>雰囲気の希望を<br>自由に送ってください。</p></div>
-      <div class="step reveal reveal-delay-2"><div class="step-num">Step 03</div><h3>プレビューを<br>確認する</h3><p>数ページのプレビューを<br>お送りします。<br>ご確認後、<br>お支払いへ。</p></div>
-      <div class="step reveal reveal-delay-3"><div class="step-num">Step 04</div><h3>約2週間で<br>お届け</h3><p>心を込めて仕上げた一冊を、<br>丁寧にお届けします。</p></div>
+      <div class="step reveal"><div class="step-num">Step 01</div><h3>ギフトレシピを<br>記入する</h3><p>レシピに沿って想いを綴ります。<br>写真もここで<br>お送りいただきます。</p><span class="step-time"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><polyline points="12,7 12,12 15,14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>約30分</span><span class="step-connector"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="9,6 15,12 9,18" stroke="#9A7B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></div>
+      <div class="step reveal reveal-delay-1"><div class="step-num">Step 02</div><h3>プレビュー<br>3ページが届く</h3><p>本の方向性が伝わる<br>3ページのプレビューと<br>決済リンクをLINEで<br>お送りします。</p><span class="step-time"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><polyline points="12,7 12,12 15,14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>約3日後</span><span class="step-connector"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="9,6 15,12 9,18" stroke="#9A7B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></div>
+      <div class="step reveal reveal-delay-2"><div class="step-num">Step 03</div><h3>ご確認後、<br>お支払い</h3><p>方向性にご納得いただけたら、<br>決済リンクから<br>お支払いへお進みください。</p><span class="step-connector"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="9,6 15,12 9,18" stroke="#9A7B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></div>
+      <div class="step reveal reveal-delay-3"><div class="step-num">Step 04</div><h3>完成原稿の<br>最終確認</h3><p>完成した原稿を画像で<br>お送りします。<br>誤字脱字やお名前を<br>ご確認ください。</p><span class="step-connector"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><polyline points="9,6 15,12 9,18" stroke="#9A7B3E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span></div>
+      <div class="step reveal reveal-delay-3"><div class="step-num">Step 05</div><h3>心を込めた<br>一冊をお届け</h3><p>ご承認後、印刷・製本へ。<br>世界にひとつの一冊を、<br>大切にお届けします。</p></div>
+    </div>
+    <div class="process-flow-note reveal">
+      納得のいく一冊にするため、<br class="pc-br">
+      <em>プレビュー段階での方向性のご確認</em>をお願いしております。<br>
+      ご記入から納品までの目安は <em>約3〜4週間</em>です。
     </div>
     <div class="process-tagline reveal">
-      <p>LINEで送るだけ。<br><em>気付いたら、ギフトができてる。</em></p>
+      <p>想いを綴って、写真を送るだけ。<br><em>あとは、心を込めて編みます。</em></p>
       <small>That's Only One Delivery.</small>
     </div>
   </div>
@@ -608,73 +628,98 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 <section class="line-sec">
   <div class="line-inner">
     <div class="line-text reveal">
-      <span class="line-label">Just Like a Tweet</span>
-      <h2 class="line-title">写真と、ひとこと。<br><em>それだけで、完成。</em></h2>
+      <span class="line-label">Gift Recipe</span>
+      <h2 class="line-title">想いを綴る、<br><em>一枚のレシピ。</em></h2>
       <p class="line-desc">
-        撮った写真を送る。<br>
-        「この写真に"ありがとう"って入れて」<br>
-        「温かい感じで」——<br>
-        思いついたままつぶやくだけで、<br>
-        一冊のフォトブックが形になっていきます。
+        ご用意したレシピに沿って、<br>
+        質問に順番に答えていただくだけ。<br>
+        全14ステップ・所要時間 約30分で、<br>
+        あなたの大切な人への想いが、<br>
+        一冊の本に編まれていきます。
       </p>
-      <span class="line-highlight">忙しくても、想いは伝わる。</span>
+      <span class="line-highlight">難しい操作は、ありません。</span>
     </div>
     <div class="line-chat-wrap reveal reveal-delay-1">
-      <!-- Phone Frame -->
-      <div class="phone-frame">
-        <div class="phone-power"></div>
-        <div class="phone-notch"></div>
-        <div class="phone-screen">
-          <div class="phone-status-bar">
-            <span class="phone-status-time">9:41</span>
-            <div class="phone-status-icons">
-              <svg viewBox="0 0 18 12" xmlns="http://www.w3.org/2000/svg"><path d="M1 10h2v1H1zm3-2h2v3H4zm3-2h2v5H7zm3-2h2v7h-2zm3-2h2v9h-2z" fill="#111"/></svg>
-              <svg viewBox="0 0 16 12" xmlns="http://www.w3.org/2000/svg"><path d="M8 2C4.5 2 2 4 1 5l1 1c1-1 3-2.5 6-2.5S13 5 14 6l1-1c-1-1-3.5-3-7-3z" fill="#111"/><circle cx="8" cy="9" r="1.5" fill="#111"/></svg>
-              <svg viewBox="0 0 24 12" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="2" width="20" height="8" rx="1.5" stroke="#111" fill="none"/><rect x="3" y="4" width="14" height="4" fill="#111"/><rect x="21.5" y="4.5" width="1.5" height="3" rx=".5" fill="#111"/></svg>
-            </div>
-          </div>
-          <div class="chat-header">
-            <div class="chat-avatar">O</div>
-            <div class="chat-header-info">
-              <div class="chat-header-name">Only One Delivery</div>
-              <div class="chat-header-status">● オンライン</div>
-            </div>
-          </div>
-          <div class="chat-body">
-            <div class="chat-msg d1">
-              <div class="chat-photo p1"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
-              <span class="chat-time">13:42</span>
-            </div>
-            <div class="chat-msg d2">
-              <div class="chat-bubble">これ表紙にしたい!</div>
-              <span class="chat-time">13:43</span>
-            </div>
-            <div class="chat-msg d3">
-              <div class="chat-photo p2"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
-              <span class="chat-time">13:44</span>
-            </div>
-            <div class="chat-msg d4">
-              <div class="chat-bubble">これに「いつもありがとう」<br>って入れて🙏</div>
-              <span class="chat-time">13:45</span>
-            </div>
-            <div class="chat-msg d5">
-              <div class="chat-photo-row">
-                <div class="chat-photo p3"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
-                <div class="chat-photo p4"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+      <div class="recipe-mockup-wrap">
+        <div class="recipe-mockup-stack">
+          <!-- 奥:写真追加画面 -->
+          <div class="recipe-mockup-frame fr-1">
+            <div class="recipe-mockup-screen">
+              <div class="rm-status"><span>9:41</span><span style="font-size:7px;letter-spacing:.05em;">●●● 100%</span></div>
+              <div class="rm-progress-row"><span class="rm-progress-text">8 / 14</span><div class="rm-progress-track"><div class="rm-progress-fill" style="width:57%"></div></div></div>
+              <div class="rm-header">
+                <span class="rm-eyebrow">— Step 08 —</span>
+                <h4 class="rm-title">第3章<br>大切な瞬間たち</h4>
               </div>
-              <span class="chat-time">13:47</span>
-            </div>
-            <div class="chat-msg d6">
-              <div class="chat-bubble">この2枚、見開きで並べて!</div>
-              <span class="chat-time">13:48</span>
-            </div>
-            <div class="chat-typing-indicator">
-              <span></span><span></span><span></span>
-              <span style="background:none;animation:none;margin-left:4px">入力中…</span>
+              <div class="rm-photo-grid">
+                <div class="rm-photo-cell"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+                <div class="rm-photo-cell"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+                <div class="rm-photo-cell"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+                <div class="rm-photo-cell"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+                <div class="rm-photo-cell"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="14" rx="1" stroke="#fff" fill="none" stroke-width="1.5"/><circle cx="9" cy="11" r="1.5" fill="#fff"/><path d="M3 17L8 13L13 17L21 10" stroke="#fff" stroke-width="1.5" fill="none" stroke-linejoin="round"/></svg></div>
+                <div class="rm-photo-add">+</div>
+              </div>
+              <div class="rm-home-bar"></div>
             </div>
           </div>
-          <div class="phone-home-bar"></div>
+          <!-- 中央:質問記入画面 -->
+          <div class="recipe-mockup-frame fr-2">
+            <div class="recipe-mockup-screen">
+              <div class="rm-status"><span>9:41</span><span style="font-size:7px;letter-spacing:.05em;">●●● 100%</span></div>
+              <div class="rm-progress-row"><span class="rm-progress-text">5 / 14</span><div class="rm-progress-track"><div class="rm-progress-fill" style="width:36%"></div></div></div>
+              <div class="rm-header">
+                <span class="rm-eyebrow">— Step 05 —</span>
+                <h4 class="rm-title">本に込めたい<br>想いは?</h4>
+              </div>
+              <div class="rm-body" style="padding:14px 14px">
+                <div class="rm-q-block">
+                  <span class="rm-q-num">Q. 想い</span>
+                  <span class="rm-q-label">どんな気持ちを伝えたいですか?</span>
+                  <div class="rm-q-handwrite">いつも支えてくれた</div>
+                  <div class="rm-q-handwrite">母への、感謝を。</div>
+                  <div class="rm-q-line short"></div>
+                </div>
+              </div>
+              <div class="rm-home-bar"></div>
+            </div>
+          </div>
+          <!-- 手前:ジャンル選択画面 -->
+          <div class="recipe-mockup-frame fr-3">
+            <div class="recipe-mockup-screen">
+              <div class="rm-status"><span>9:41</span><span style="font-size:7px;letter-spacing:.05em;">●●● 100%</span></div>
+              <div class="rm-progress-row"><span class="rm-progress-text">2 / 14</span><div class="rm-progress-track"><div class="rm-progress-fill" style="width:14%"></div></div></div>
+              <div class="rm-header">
+                <span class="rm-eyebrow">— Step 02 —</span>
+                <h4 class="rm-title">どんなギフトを<br>お考えですか?</h4>
+              </div>
+              <div class="rm-body">
+                <div class="rm-card">
+                  <div class="rm-card-name">還暦・長寿祝い</div>
+                  <div class="rm-card-desc">60歳・70歳・米寿など</div>
+                </div>
+                <div class="rm-card selected">
+                  <div class="rm-card-name">敬老ギフト</div>
+                  <div class="rm-card-desc">祖父母・両親への感謝</div>
+                  <div class="rm-card-check"></div>
+                </div>
+                <div class="rm-card">
+                  <div class="rm-card-name">退職祝い</div>
+                  <div class="rm-card-desc">お世話になった方へ</div>
+                </div>
+              </div>
+              <div class="rm-home-bar"></div>
+            </div>
+          </div>
         </div>
+      </div>
+      <div class="recipe-time">
+        <div class="recipe-time-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="9" stroke="#9A7B3E" stroke-width="1.4" fill="none"/>
+            <polyline points="12,7 12,12 15,14" stroke="#9A7B3E" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </svg>
+        </div>
+        <span class="recipe-time-text">所要時間 <em>約30分</em>・全14ステップ</span>
       </div>
     </div>
   </div>
@@ -802,7 +847,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
     </div>
     <span class="price-delivery">ご注文から約2週間でお届け</span>
     <div class="pricing-cta">
-      <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>LINEでギフトを作る</span></a>
+      <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>ギフトを作りはじめる</span></a>
     </div>
   </div>
 </section>
@@ -814,9 +859,9 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   </div>
   <div class="cta-inner reveal">
     <span class="cta-label">Start Now</span>
-    <h2>気付いたら、<br><em>ギフトができてる。</em><br>それが、<br><em>Only One Delivery。</em></h2>
-    <p>あとは全部、Only One Deliveryにおまかせ。</p>
-    <a href="https://lin.ee/7d2v7ga" class="btn-white"><span>LINEでギフトを作る</span></a>
+    <h2>あなたの想いを、<br><em>形にしませんか。</em><br>一緒に、<br><em>感動する一冊を。</em></h2>
+    <p>Only One Deliveryが、あなたの想いを編みます。</p>
+    <a href="https://lin.ee/7d2v7ga" class="btn-white"><span>ギフトを作りはじめる</span></a>
   </div>
 </section>
 
@@ -829,6 +874,12 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   </div>
   <div class="footer-note">© 2026 Only One Delivery. All rights reserved.</div>
 </footer>
+
+<button class="scroll-top-btn" id="scrollTopBtn" aria-label="ページトップへ">
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <polyline points="6,14 12,8 18,14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
 
 </div>
 
@@ -847,7 +898,15 @@ document.querySelectorAll('.mobile-nav-link,.mobile-cta').forEach(function(link)
 });
 window.addEventListener('scroll',function(){
   document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60);
+  var btn = document.getElementById('scrollTopBtn');
+  if(btn) btn.classList.toggle('visible',window.scrollY>800);
 });
+var scrollTopBtn = document.getElementById('scrollTopBtn');
+if(scrollTopBtn){
+  scrollTopBtn.addEventListener('click',function(){
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+}
 setTimeout(function(){
   var intro = document.getElementById('intro');
   var main = document.getElementById('main');
