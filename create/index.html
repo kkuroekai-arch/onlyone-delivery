@@ -517,6 +517,68 @@ button {
 }
 
 /* ===========================
+   ジャンル選択カード(画像付き)
+=========================== */
+.genre-card-image {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+}
+
+.genre-card-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #f3eee5;
+}
+
+.genre-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(.4, 0, .2, 1);
+}
+
+.genre-card-image:hover .genre-card-img {
+  transform: scale(1.05);
+}
+
+.genre-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 50%, rgba(28, 25, 23, 0.18) 100%);
+  pointer-events: none;
+}
+
+.genre-card-text {
+  padding: 18px 22px 22px;
+  position: relative;
+  z-index: 2;
+  background: #fff;
+}
+
+.genre-card-image::before {
+  display: none;
+}
+
+.genre-card-image:hover .genre-card-text {
+  background: #fdfbf6;
+}
+
+@media (max-width: 380px) {
+  .genre-card-img-wrap {
+    aspect-ratio: 4 / 3;
+  }
+  .genre-card-text {
+    padding: 16px 18px 18px;
+  }
+}
+
+/* ===========================
    フォーム要素
 =========================== */
 .form-section {
@@ -2158,14 +2220,40 @@ function onResetAfterComplete() {
 /* ========================================
    ジャンル選択
 ======================================== */
+// ジャンル画像マッピング(images/ フォルダ内のファイル名)
+const GENRE_IMAGES = {
+  kanreki: 'images/pexels-mikhail-nilov-8307717.jpg',
+  wedding: 'images/pexels-quang-vuong-724225078-33509676.jpg',
+  growth: 'images/raymart-arnino-pqfyq0Iur-U-unsplash.jpg',
+  pet: 'images/wade-austin-ellis-FtuJIuBbUhI-unsplash.jpg',
+  memorial: 'images/panyawat-auitpol-eq254Cqvmk8-unsplash.jpg'
+};
+
+// 画像の object-position 微調整(各画像のベスト見せ場)
+const GENRE_IMAGE_POSITIONS = {
+  kanreki: 'center 30%',
+  wedding: 'center 30%',
+  growth: 'center 40%',
+  pet: 'center 35%',
+  memorial: 'center center'
+};
+
 function renderGenres() {
   const list = document.getElementById('genre-list');
   let html = '';
   Object.keys(GENRES_DATA).forEach(id => {
+    const imgSrc = GENRE_IMAGES[id] || '';
+    const imgPos = GENRE_IMAGE_POSITIONS[id] || 'center';
     html += `
-      <button class="card-select" onclick="onGenreSelect('${id}')">
-        <div class="card-select-title serif">${GENRE_LABELS[id]}</div>
-        <div class="card-select-desc">${GENRE_DESCRIPTIONS[id]}</div>
+      <button class="card-select genre-card-image" onclick="onGenreSelect('${id}')">
+        <div class="genre-card-img-wrap">
+          <img class="genre-card-img" src="${imgSrc}" alt="${GENRE_LABELS[id]}" style="object-position:${imgPos}" loading="lazy">
+          <div class="genre-card-overlay"></div>
+        </div>
+        <div class="genre-card-text">
+          <div class="card-select-title serif">${GENRE_LABELS[id]}</div>
+          <div class="card-select-desc">${GENRE_DESCRIPTIONS[id]}</div>
+        </div>
       </button>
     `;
   });
@@ -5036,23 +5124,21 @@ GENRES_DATA = {
             ]
           }
         ],
-        "closing": {
-          "candidates": [
-            {
-              "title": "ありがとう、私たちの家族",
-              "text": "あなたが家族になってくれて、本当によかった。\nたくさんの幸せな時間を、ありがとう。\nまたいつか、必ず会おうね。"
-            },
-            {
-              "title": "心の中で、いつも",
-              "text": "あなたはもう、目の前にはいないけれど、\n心の中では、いつも一緒にいてくれます。\nありがとう、私たちの大切な家族。"
-            },
-            {
-              "title": "あなたが教えてくれたこと",
-              "text": "あなたは、命の輝きを、毎日教えてくれました。\n小さな喜びも、何気ない日々も、すべてが宝物だと。\nこの本は、あなたへの、家族からの感謝の本です。"
-            }
-          ],
-          "closingFreeTextExample": "あなたが家族になってくれた日々は、私たちの宝物です。心の中で、いつまでも一緒にいようね。ありがとう。"
-        }
+        "closingMessages": [
+          {
+            "title": "ありがとう、私たちの家族",
+            "text": "あなたが家族になってくれて、本当によかった。\nたくさんの幸せな時間を、ありがとう。\nまたいつか、必ず会おうね。"
+          },
+          {
+            "title": "心の中で、いつも",
+            "text": "あなたはもう、目の前にはいないけれど、\n心の中では、いつも一緒にいてくれます。\nありがとう、私たちの大切な家族。"
+          },
+          {
+            "title": "あなたが教えてくれたこと",
+            "text": "あなたは、命の輝きを、毎日教えてくれました。\n小さな喜びも、何気ない日々も、すべてが宝物だと。\nこの本は、あなたへの、家族からの感謝の本です。"
+          }
+        ],
+        "closingFreeTextExample": "あなたが家族になってくれた日々は、私たちの宝物です。心の中で、いつまでも一緒にいようね。ありがとう。"
       }
     ]
   },
@@ -5259,23 +5345,21 @@ GENRES_DATA = {
             ]
           }
         ],
-        "closing": {
-          "candidates": [
-            {
-              "title": "あなたが歩んでくれた、人生",
-              "text": "あなたが歩んでこられた人生は、\nご家族にとって、何よりの財産です。\nこの本に、あなたの物語を、永遠に残します。"
-            },
-            {
-              "title": "心の中で、いつも",
-              "text": "あなたはもう、目の前にはいないけれど、\nふとした瞬間に、いつもそばにいてくれます。\nあなたが教えてくれたことを、私たちはこれからも、大切に生きていきます。"
-            },
-            {
-              "title": "あなたが遺してくれたもの",
-              "text": "あなたが遺してくれた言葉、姿勢、生き方を、\n私たちは、これからも胸に刻んで生きていきます。\nあなたと出会えたことを、家族みんなが誇りに思います。"
-            }
-          ],
-          "closingFreeTextExample": "あなたが歩んでくれた人生を、私たち家族は誇りに思います。あなたが遺してくれた優しさを、これからも受け継いでいきます。"
-        }
+        "closingMessages": [
+          {
+            "title": "あなたが歩んでくれた、人生",
+            "text": "あなたが歩んでこられた人生は、\nご家族にとって、何よりの財産です。\nこの本に、あなたの物語を、永遠に残します。"
+          },
+          {
+            "title": "心の中で、いつも",
+            "text": "あなたはもう、目の前にはいないけれど、\nふとした瞬間に、いつもそばにいてくれます。\nあなたが教えてくれたことを、私たちはこれからも、大切に生きていきます。"
+          },
+          {
+            "title": "あなたが遺してくれたもの",
+            "text": "あなたが遺してくれた言葉、姿勢、生き方を、\n私たちは、これからも胸に刻んで生きていきます。\nあなたと出会えたことを、家族みんなが誇りに思います。"
+          }
+        ],
+        "closingFreeTextExample": "あなたが歩んでくれた人生を、私たち家族は誇りに思います。あなたが遺してくれた優しさを、これからも受け継いでいきます。"
       }
     ]
   }
