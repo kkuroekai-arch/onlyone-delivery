@@ -387,6 +387,12 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .samples-header{text-align:center;margin-bottom:64px}
 .samples-intro{font-family:var(--serif-jp);font-size:14px;line-height:2.2;color:var(--ink-light);margin-top:24px;letter-spacing:.06em;max-width:560px;margin-left:auto;margin-right:auto}
 .samples-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
+.samples-grid--story{grid-template-columns:repeat(2,1fr);gap:32px;max-width:920px;margin:0 auto}
+.samples-grid--story .sample-img-wrap{aspect-ratio:auto;height:auto;background:var(--paper, #faf8f3)}
+.samples-grid--story .sample-img-wrap img{width:100%;height:auto;object-fit:contain;display:block}
+.samples-grid--story .sample-card{position:relative}
+.samples-grid--story .sample-card .sample-page-num{position:absolute;top:14px;right:18px;font-family:var(--serif);font-size:10px;font-style:italic;color:var(--gold);letter-spacing:.3em;z-index:3;background:rgba(255,255,255,.85);padding:4px 10px;border-radius:1px}
+.story-section-eyebrow{display:block;font-family:var(--serif);font-size:11px;font-style:italic;color:var(--gold);letter-spacing:.32em;text-transform:uppercase;margin-bottom:18px}
 .sample-card{background:var(--white);border:1px solid var(--gold-rule);transition:all .5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;position:relative;overflow:hidden}
 .sample-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);z-index:2}
 .sample-card:hover{border-color:rgba(154,123,62,.4);transform:translateY(-6px);box-shadow:0 16px 40px rgba(154,123,62,.12)}
@@ -696,28 +702,36 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
     <span class="showcase-corner tr"></span>
     <span class="showcase-corner bl"></span>
     <span class="showcase-corner br"></span>
-    <div class="showcase-page active" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「20歳で始まった、子育て。」">
-      <img src="images/story-page-05.png" alt="お父さんへの還暦祝い・ページ1" loading="eager">
+    <div class="showcase-page active" data-tag="A Story — 還暦 / 両親へ" data-subtitle="「ふたりのもとに生まれて。」">
+      <img src="images/sample-01.png" alt="両親への還暦祝い" loading="eager">
     </div>
-    <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「家族は、またひとつ大きくなった。」">
-      <img src="images/story-page-06.png" alt="お父さんへの還暦祝い・ページ2" loading="lazy">
+    <div class="showcase-page" data-tag="A Story — 還暦 / 海外で暮らす家族から" data-subtitle="「離れていても、想いは届く。」">
+      <img src="images/sample-02.png" alt="海外から両親への還暦祝い" loading="lazy">
     </div>
-    <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「22歳で、二人の子を育てる父に。」">
-      <img src="images/story-page-07.png" alt="お父さんへの還暦祝い・ページ3" loading="lazy">
+    <div class="showcase-page" data-tag="A Story — 喜寿 / 両親へ" data-subtitle="「ここまで、育ててくれた感謝。」">
+      <img src="images/sample-03.png" alt="両親への喜寿祝い" loading="lazy">
     </div>
-    <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「それでも、力強く、守り抜いてきた。」">
-      <img src="images/story-page-08.png" alt="お父さんへの還暦祝い・ページ4" loading="lazy">
+    <div class="showcase-page" data-tag="A Story — 還暦 / お母さんへ" data-subtitle="「たくさんの愛情に、感謝を。」">
+      <img src="images/sample-04.png" alt="お母さんへの還暦祝い" loading="lazy">
+    </div>
+    <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「変わらない優しさを、ありがとう。」">
+      <img src="images/sample-05.png" alt="お父さんへの還暦祝い" loading="lazy">
+    </div>
+    <div class="showcase-page" data-tag="A Story — 古希 / お父さんへ" data-subtitle="「家族を支えた、七十年に。」">
+      <img src="images/sample-06.png" alt="お父さんへの古希祝い" loading="lazy">
     </div>
   </div>
   <div class="showcase-meta">
-    <span class="showcase-tag visible" id="showcase-tag">A Story — 還暦 / お父さんへ</span>
-    <p class="showcase-subtitle visible" id="showcase-subtitle">「20歳で始まった、子育て。」</p>
+    <span class="showcase-tag visible" id="showcase-tag">A Story — 還暦 / 両親へ</span>
+    <p class="showcase-subtitle visible" id="showcase-subtitle">「ふたりのもとに生まれて。」</p>
   </div>
   <div class="showcase-dots" id="showcase-dots">
-    <button class="showcase-dot active" data-index="0" aria-label="ページ1へ"></button>
-    <button class="showcase-dot" data-index="1" aria-label="ページ2へ"></button>
-    <button class="showcase-dot" data-index="2" aria-label="ページ3へ"></button>
-    <button class="showcase-dot" data-index="3" aria-label="ページ4へ"></button>
+    <button class="showcase-dot active" data-index="0" aria-label="ストーリー1へ"></button>
+    <button class="showcase-dot" data-index="1" aria-label="ストーリー2へ"></button>
+    <button class="showcase-dot" data-index="2" aria-label="ストーリー3へ"></button>
+    <button class="showcase-dot" data-index="3" aria-label="ストーリー4へ"></button>
+    <button class="showcase-dot" data-index="4" aria-label="ストーリー5へ"></button>
+    <button class="showcase-dot" data-index="5" aria-label="ストーリー6へ"></button>
   </div>
   <div class="hero-bottom">
     <p class="hero-tagline">還暦・古希・喜寿に、<em>フォトブックストーリーを。</em></p>
@@ -933,68 +947,54 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
 <section class="samples-sec" id="samples">
   <div class="samples-inner">
     <div class="samples-header reveal">
-      <span class="sec-label">Story Gallery</span>
-      <h2 class="sec-title">家族の数だけ、<em>物語がある。</em></h2>
-      <p class="samples-intro">両親へ。お母さんへ。お父さんへ。<br>還暦、古希、喜寿——<br>ひとつとして同じ物語はありません。</p>
+      <span class="sec-label">A Story</span>
+      <h2 class="sec-title">ある家族の、<em>ひとつの物語。</em></h2>
+      <p class="samples-intro">お父さんへ、還暦のお祝いに——<br>家族から贈られた、4ページの物語。<br>これが、Only One Deliveryが編む一冊です。</p>
     </div>
-    <div class="samples-grid">
+    <div class="samples-grid samples-grid--story">
       <div class="sample-card reveal">
+        <span class="sample-page-num">— Page 01 —</span>
         <div class="sample-img-wrap">
-          <img src="images/sample-01.png" alt="両親への還暦祝い" loading="lazy">
+          <img src="images/story-page-05.png" alt="お父さんへの還暦祝い・ページ1" loading="lazy">
         </div>
         <div class="sample-meta">
-          <span class="sample-tag">— 還暦 / ご両親へ —</span>
-          <p class="sample-title">「たくさんの愛情で、育ててくれてありがとう。」</p>
+          <span class="sample-tag">— Chapter 1 —</span>
+          <p class="sample-title">「20歳で始まった、子育て。」</p>
         </div>
       </div>
       <div class="sample-card reveal reveal-delay-1">
+        <span class="sample-page-num">— Page 02 —</span>
         <div class="sample-img-wrap">
-          <img src="images/sample-02.png" alt="海外から両親への還暦祝い" loading="lazy">
+          <img src="images/story-page-06.png" alt="お父さんへの還暦祝い・ページ2" loading="lazy">
         </div>
         <div class="sample-meta">
-          <span class="sample-tag">— 還暦 / 海外で暮らす家族から —</span>
-          <p class="sample-title">「いつも、ふたりのことを想っています。」</p>
+          <span class="sample-tag">— Chapter 2 —</span>
+          <p class="sample-title">「家族は、またひとつ大きくなった。」</p>
         </div>
       </div>
       <div class="sample-card reveal reveal-delay-2">
+        <span class="sample-page-num">— Page 03 —</span>
         <div class="sample-img-wrap">
-          <img src="images/sample-03.png" alt="両親への喜寿祝い" loading="lazy">
+          <img src="images/story-page-07.png" alt="お父さんへの還暦祝い・ページ3" loading="lazy">
         </div>
         <div class="sample-meta">
-          <span class="sample-tag">— 喜寿 / ご両親へ —</span>
-          <p class="sample-title">「これからも、元気でいてください。」</p>
+          <span class="sample-tag">— Chapter 3 —</span>
+          <p class="sample-title">「22歳で、二人の子を育てる父に。」</p>
         </div>
       </div>
-      <div class="sample-card reveal">
+      <div class="sample-card reveal reveal-delay-3">
+        <span class="sample-page-num">— Page 04 —</span>
         <div class="sample-img-wrap">
-          <img src="images/sample-04.png" alt="お母さんへの還暦祝い" loading="lazy">
+          <img src="images/story-page-08.png" alt="お父さんへの還暦祝い・ページ4" loading="lazy">
         </div>
         <div class="sample-meta">
-          <span class="sample-tag">— 還暦 / お母さんへ —</span>
-          <p class="sample-title">「たくさんの愛情に、感謝しています。」</p>
-        </div>
-      </div>
-      <div class="sample-card reveal reveal-delay-1">
-        <div class="sample-img-wrap">
-          <img src="images/sample-05.png" alt="お父さんへの還暦祝い" loading="lazy">
-        </div>
-        <div class="sample-meta">
-          <span class="sample-tag">— 還暦 / お父さんへ —</span>
-          <p class="sample-title">「六十年間、変わらない優しさをありがとう。」</p>
-        </div>
-      </div>
-      <div class="sample-card reveal reveal-delay-2">
-        <div class="sample-img-wrap">
-          <img src="images/sample-06.png" alt="お父さんへの古希祝い" loading="lazy">
-        </div>
-        <div class="sample-meta">
-          <span class="sample-tag">— 古希 / お父さんへ —</span>
-          <p class="sample-title">「家族を支えた七十年に、感謝を込めて。」</p>
+          <span class="sample-tag">— Chapter 4 —</span>
+          <p class="sample-title">「それでも、力強く、守り抜いてきた。」</p>
         </div>
       </div>
     </div>
     <div class="samples-footer reveal">
-      <p class="samples-footer-text">あなたの家族には、<em>あなたの家族だけの物語</em>があります。<br>一冊の本に、家族の感謝を、編んでみませんか。</p>
+      <p class="samples-footer-text">家族の数だけ、<em>物語があります。</em><br>あなたの家族の一冊を、編んでみませんか。</p>
       <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>あなたの物語を作る</span></a>
     </div>
   </div>
