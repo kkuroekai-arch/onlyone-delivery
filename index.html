@@ -322,13 +322,13 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .showcase-page.active{opacity:1;transform:scale(1) translateY(0)}
 .showcase-page::before{content:'';position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,rgba(142,111,58,.06),rgba(142,111,58,.18),rgba(142,111,58,.06));pointer-events:none;z-index:2}
 .showcase-page::after{content:'';position:absolute;left:0;top:0;bottom:0;width:8%;background:linear-gradient(to right,rgba(28,25,23,.04),transparent);pointer-events:none}
-.showcase-page img{width:100%;height:100%;object-fit:cover;display:block}
+.showcase-page img{width:100%;height:100%;object-fit:contain;display:block;background:var(--paper)}
 .showcase-corner{position:absolute;width:18px;height:18px;border:1px solid var(--gold);pointer-events:none;z-index:5;opacity:.7}
 .showcase-corner.tl{top:-19px;left:-19px;border-right:none;border-bottom:none}
 .showcase-corner.tr{top:-19px;right:-19px;border-left:none;border-bottom:none}
 .showcase-corner.bl{bottom:-19px;left:-19px;border-right:none;border-top:none}
 .showcase-corner.br{bottom:-19px;right:-19px;border-left:none;border-top:none}
-.showcase-meta{position:relative;z-index:2;margin:0 auto 22px;text-align:center;max-width:480px;padding:0 24px;min-height:66px}
+.showcase-meta{position:relative;z-index:2;margin:0 auto 22px;text-align:center;max-width:520px;padding:0 24px;min-height:80px}
 .showcase-tag{font-family:var(--serif);font-size:10px;font-style:italic;color:var(--gold);letter-spacing:.36em;text-transform:uppercase;display:block;margin-bottom:14px;opacity:0;transition:opacity 1s ease}
 .showcase-tag.visible{opacity:1}
 .showcase-subtitle{font-family:var(--serif-jp);font-size:clamp(15px,1.6vw,18px);font-weight:500;color:var(--ink);letter-spacing:.18em;line-height:1.7;opacity:0;transition:opacity 1s ease .15s}
@@ -511,9 +511,9 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   /* Hero — tighter vertical rhythm */
   .hero-eyebrow-top{top:80px;font-size:9px;letter-spacing:.4em;gap:10px;white-space:nowrap}
   .hero-eyebrow-top::before,.hero-eyebrow-top::after{width:16px}
-  .showcase-meta{min-height:48px;margin-bottom:12px;padding:0 16px}
+  .showcase-meta{min-height:64px;margin-bottom:14px;padding:0 12px}
   .showcase-tag{font-size:9px;letter-spacing:.3em;margin-bottom:8px}
-  .showcase-subtitle{font-size:14.5px;letter-spacing:.12em;line-height:1.65}
+  .showcase-subtitle{font-size:14px;letter-spacing:.06em;line-height:1.75}
   .showcase-dots{margin-bottom:24px;gap:8px}
   .showcase-dot.active{width:24px}
   
@@ -696,36 +696,28 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
     <span class="showcase-corner tr"></span>
     <span class="showcase-corner bl"></span>
     <span class="showcase-corner br"></span>
-    <div class="showcase-page active" data-tag="還暦 / 両親へ" data-subtitle="ふたりのもとに生まれて。">
-      <img src="images/sample-01.png" alt="両親への還暦祝い" loading="eager">
+    <div class="showcase-page active" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「男手ひとつで、ここまで育ててくれてありがとう。」">
+      <img src="images/story-page-01.png" alt="お父さんへの還暦祝い・ページ1" loading="eager">
     </div>
-    <div class="showcase-page" data-tag="還暦 / 海外で暮らす家族から" data-subtitle="離れていても、想いは届く。">
-      <img src="images/sample-02.png" alt="海外から両親への還暦祝い" loading="lazy">
+    <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「きっと、大変なことばかりだったと思います。」">
+      <img src="images/story-page-02.png" alt="お父さんへの還暦祝い・ページ2" loading="lazy">
     </div>
-    <div class="showcase-page" data-tag="喜寿 / 両親へ" data-subtitle="ここまで、育ててくれた感謝。">
-      <img src="images/sample-03.png" alt="両親への喜寿祝い" loading="lazy">
+    <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「いつもそばに、いてくれたこと。」">
+      <img src="images/story-page-03.png" alt="お父さんへの還暦祝い・ページ3" loading="lazy">
     </div>
-    <div class="showcase-page" data-tag="還暦 / お母さんへ" data-subtitle="たくさんの愛情に、感謝を。">
-      <img src="images/sample-04.png" alt="お母さんへの還暦祝い" loading="lazy">
-    </div>
-    <div class="showcase-page" data-tag="還暦 / お父さんへ" data-subtitle="変わらない優しさを、ありがとう。">
-      <img src="images/sample-05.png" alt="お父さんへの還暦祝い" loading="lazy">
-    </div>
-    <div class="showcase-page" data-tag="古希 / お父さんへ" data-subtitle="家族を支えた、七十年に。">
-      <img src="images/sample-06.png" alt="お父さんへの古希祝い" loading="lazy">
+    <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「不器用でも、全力で守ってくれたこと。」">
+      <img src="images/story-page-04.png" alt="お父さんへの還暦祝い・ページ4" loading="lazy">
     </div>
   </div>
   <div class="showcase-meta">
-    <span class="showcase-tag visible" id="showcase-tag">還暦 / 両親へ</span>
-    <p class="showcase-subtitle visible" id="showcase-subtitle">ふたりのもとに生まれて。</p>
+    <span class="showcase-tag visible" id="showcase-tag">A Story — 還暦 / お父さんへ</span>
+    <p class="showcase-subtitle visible" id="showcase-subtitle">「男手ひとつで、ここまで育ててくれてありがとう。」</p>
   </div>
   <div class="showcase-dots" id="showcase-dots">
-    <button class="showcase-dot active" data-index="0" aria-label="ストーリー1へ"></button>
-    <button class="showcase-dot" data-index="1" aria-label="ストーリー2へ"></button>
-    <button class="showcase-dot" data-index="2" aria-label="ストーリー3へ"></button>
-    <button class="showcase-dot" data-index="3" aria-label="ストーリー4へ"></button>
-    <button class="showcase-dot" data-index="4" aria-label="ストーリー5へ"></button>
-    <button class="showcase-dot" data-index="5" aria-label="ストーリー6へ"></button>
+    <button class="showcase-dot active" data-index="0" aria-label="ページ1へ"></button>
+    <button class="showcase-dot" data-index="1" aria-label="ページ2へ"></button>
+    <button class="showcase-dot" data-index="2" aria-label="ページ3へ"></button>
+    <button class="showcase-dot" data-index="3" aria-label="ページ4へ"></button>
   </div>
   <div class="hero-bottom">
     <p class="hero-tagline">還暦・古希・喜寿に、<em>フォトブックストーリーを。</em></p>
@@ -951,8 +943,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
           <img src="images/sample-01.png" alt="両親への還暦祝い" loading="lazy">
         </div>
         <div class="sample-meta">
-          <span class="sample-tag">— 還暦 / 両親へ —</span>
-          <p class="sample-title">ふたりのもとに生まれて。</p>
+          <span class="sample-tag">— 還暦 / ご両親へ —</span>
+          <p class="sample-title">「たくさんの愛情で、育ててくれてありがとう。」</p>
         </div>
       </div>
       <div class="sample-card reveal reveal-delay-1">
@@ -960,8 +952,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
           <img src="images/sample-02.png" alt="海外から両親への還暦祝い" loading="lazy">
         </div>
         <div class="sample-meta">
-          <span class="sample-tag">— 還暦 / 離れて暮らす家族から —</span>
-          <p class="sample-title">離れていても、想いは届く。</p>
+          <span class="sample-tag">— 還暦 / 海外で暮らす家族から —</span>
+          <p class="sample-title">「いつも、ふたりのことを想っています。」</p>
         </div>
       </div>
       <div class="sample-card reveal reveal-delay-2">
@@ -969,8 +961,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
           <img src="images/sample-03.png" alt="両親への喜寿祝い" loading="lazy">
         </div>
         <div class="sample-meta">
-          <span class="sample-tag">— 喜寿 / 両親へ —</span>
-          <p class="sample-title">ここまで、育ててくれた感謝。</p>
+          <span class="sample-tag">— 喜寿 / ご両親へ —</span>
+          <p class="sample-title">「これからも、元気でいてください。」</p>
         </div>
       </div>
       <div class="sample-card reveal">
@@ -979,7 +971,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
         </div>
         <div class="sample-meta">
           <span class="sample-tag">— 還暦 / お母さんへ —</span>
-          <p class="sample-title">たくさんの愛情に、感謝を。</p>
+          <p class="sample-title">「たくさんの愛情に、感謝しています。」</p>
         </div>
       </div>
       <div class="sample-card reveal reveal-delay-1">
@@ -988,7 +980,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
         </div>
         <div class="sample-meta">
           <span class="sample-tag">— 還暦 / お父さんへ —</span>
-          <p class="sample-title">変わらない優しさを、ありがとう。</p>
+          <p class="sample-title">「六十年間、変わらない優しさをありがとう。」</p>
         </div>
       </div>
       <div class="sample-card reveal reveal-delay-2">
@@ -997,7 +989,7 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
         </div>
         <div class="sample-meta">
           <span class="sample-tag">— 古希 / お父さんへ —</span>
-          <p class="sample-title">家族を支えた、七十年に。</p>
+          <p class="sample-title">「家族を支えた七十年に、感謝を込めて。」</p>
         </div>
       </div>
     </div>
@@ -1378,8 +1370,9 @@ document.getElementById('hamburger').addEventListener('click',function(){
   
   var current = 0;
   var timer = null;
-  var INTERVAL = 6000;
+  var INTERVAL = 4000;
   var isPaused = false;
+  var hasStarted = false;
   
   function goTo(idx){
     if(idx === current) return;
@@ -1425,6 +1418,7 @@ document.getElementById('hamburger').addEventListener('click',function(){
     timer = setInterval(function(){
       if(!isPaused) next();
     }, INTERVAL);
+    hasStarted = true;
   }
   
   function stopTimer(){
@@ -1444,11 +1438,11 @@ document.getElementById('hamburger').addEventListener('click',function(){
   stage.addEventListener('mouseenter', function(){ isPaused = true; });
   stage.addEventListener('mouseleave', function(){ isPaused = false; });
   
-  // Pause when scrolled out of view (saves CPU)
+  // Pause when scrolled out of view (only after we've started)
   var io = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
       if(e.isIntersecting){
-        startTimer();
+        if(hasStarted) startTimer();
       } else {
         stopTimer();
       }
@@ -1456,8 +1450,8 @@ document.getElementById('hamburger').addEventListener('click',function(){
   },{threshold:0.2});
   io.observe(stage);
   
-  // Start after intro animation
-  setTimeout(startTimer, 6000);
+  // Start after intro animation completes (~5.5s)
+  setTimeout(startTimer, 5800);
 })();
 document.querySelectorAll('.mobile-nav-link,.mobile-cta').forEach(function(link){
   link.addEventListener('click',function(){
