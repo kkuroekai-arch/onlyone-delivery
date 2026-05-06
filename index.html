@@ -387,12 +387,20 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .samples-header{text-align:center;margin-bottom:64px}
 .samples-intro{font-family:var(--serif-jp);font-size:14px;line-height:2.2;color:var(--ink-light);margin-top:24px;letter-spacing:.06em;max-width:560px;margin-left:auto;margin-right:auto}
 .samples-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:36px}
-.samples-grid--story{grid-template-columns:repeat(2,1fr);gap:32px;max-width:920px;margin:0 auto}
-.samples-grid--story .sample-img-wrap{aspect-ratio:auto;height:auto;background:var(--paper, #faf8f3)}
-.samples-grid--story .sample-img-wrap img{width:100%;height:auto;object-fit:contain;display:block}
-.samples-grid--story .sample-card{position:relative}
-.samples-grid--story .sample-card .sample-page-num{position:absolute;top:14px;right:18px;font-family:var(--serif);font-size:10px;font-style:italic;color:var(--gold);letter-spacing:.3em;z-index:3;background:rgba(255,255,255,.85);padding:4px 10px;border-radius:1px}
-.story-section-eyebrow{display:block;font-family:var(--serif);font-size:11px;font-style:italic;color:var(--gold);letter-spacing:.32em;text-transform:uppercase;margin-bottom:18px}
+.samples-grid--story{grid-template-columns:repeat(2,1fr);gap:40px;max-width:1080px;margin:0 auto}
+.story-card{background:var(--white);border:1px solid var(--gold-rule);transition:all .5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.story-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);z-index:4}
+.story-card:hover{border-color:rgba(154,123,62,.4);transform:translateY(-6px);box-shadow:0 16px 40px rgba(154,123,62,.12)}
+.story-card-stage{position:relative;aspect-ratio:3/4;overflow:hidden;background:var(--paper, #faf8f3)}
+.story-card-page{position:absolute;inset:0;opacity:0;transform:scale(.98);transition:opacity 1.4s cubic-bezier(.4,0,.2,1),transform 1.4s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center}
+.story-card-page.active{opacity:1;transform:scale(1);z-index:2}
+.story-card-page img{width:100%;height:100%;object-fit:contain;display:block;background:var(--paper, #faf8f3)}
+.story-card-meta{padding:24px 28px 28px;text-align:center;border-top:1px solid var(--gold-rule);background:var(--white);position:relative}
+.story-card-tag{font-family:var(--serif);font-size:10px;font-style:italic;color:var(--gold);letter-spacing:.3em;text-transform:uppercase;display:block;margin-bottom:10px}
+.story-card-title{font-family:var(--serif-jp);font-size:14px;font-weight:500;color:var(--ink);letter-spacing:.1em;line-height:1.7;margin-bottom:14px;min-height:2.4em}
+.story-card-dots{display:flex;justify-content:center;gap:6px}
+.story-card-dot{width:5px;height:5px;border-radius:50%;background:rgba(154,123,62,.25);transition:all .5s ease;border:0;padding:0}
+.story-card-dot.active{width:18px;border-radius:3px;background:var(--gold)}
 .sample-card{background:var(--white);border:1px solid var(--gold-rule);transition:all .5s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;position:relative;overflow:hidden}
 .sample-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent);z-index:2}
 .sample-card:hover{border-color:rgba(154,123,62,.4);transform:translateY(-6px);box-shadow:0 16px 40px rgba(154,123,62,.12)}
@@ -711,8 +719,8 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
     <div class="showcase-page" data-tag="A Story — 喜寿 / 両親へ" data-subtitle="「ここまで、育ててくれた感謝。」">
       <img src="images/sample-03.png" alt="両親への喜寿祝い" loading="lazy">
     </div>
-    <div class="showcase-page" data-tag="A Story — 還暦 / お母さんへ" data-subtitle="「たくさんの愛情に、感謝を。」">
-      <img src="images/sample-04.png" alt="お母さんへの還暦祝い" loading="lazy">
+    <div class="showcase-page" data-tag="A Story — 還暦 / 両親へ" data-subtitle="「たくさんの愛情で、ありがとう。」">
+      <img src="images/sample-04.png" alt="両親への還暦祝い" loading="lazy">
     </div>
     <div class="showcase-page" data-tag="A Story — 還暦 / お父さんへ" data-subtitle="「変わらない優しさを、ありがとう。」">
       <img src="images/sample-05.png" alt="お父さんへの還暦祝い" loading="lazy">
@@ -948,53 +956,70 @@ footer{padding:52px 56px;background:var(--cream);border-top:1px solid var(--gold
   <div class="samples-inner">
     <div class="samples-header reveal">
       <span class="sec-label">A Story</span>
-      <h2 class="sec-title">ある家族の、<em>ひとつの物語。</em></h2>
-      <p class="samples-intro">お父さんへ、還暦のお祝いに——<br>家族から贈られた、4ページの物語。<br>これが、Only One Deliveryが編む一冊です。</p>
+      <h2 class="sec-title">家族の数だけ、<em>物語がある。</em></h2>
+      <p class="samples-intro">両親へ。お母さんへ。お父さんへ。<br>還暦、古希、喜寿——<br>ひとつとして同じ物語はありません。</p>
     </div>
     <div class="samples-grid samples-grid--story">
-      <div class="sample-card reveal">
-        <span class="sample-page-num">— Page 01 —</span>
-        <div class="sample-img-wrap">
-          <img src="images/story-page-05.png" alt="お父さんへの還暦祝い・ページ1" loading="lazy">
+
+      <!-- Story 1 -->
+      <div class="story-card reveal" data-story="1">
+        <div class="story-card-stage">
+          <div class="story-card-page active">
+            <img src="images/story-page-01.png" alt="お父さんへの還暦祝い・物語1・ページ1" loading="lazy">
+          </div>
+          <div class="story-card-page">
+            <img src="images/story-page-02.png" alt="お父さんへの還暦祝い・物語1・ページ2" loading="lazy">
+          </div>
+          <div class="story-card-page">
+            <img src="images/story-page-03.png" alt="お父さんへの還暦祝い・物語1・ページ3" loading="lazy">
+          </div>
+          <div class="story-card-page">
+            <img src="images/story-page-04.png" alt="お父さんへの還暦祝い・物語1・ページ4" loading="lazy">
+          </div>
         </div>
-        <div class="sample-meta">
-          <span class="sample-tag">— Chapter 1 —</span>
-          <p class="sample-title">「20歳で始まった、子育て。」</p>
-        </div>
-      </div>
-      <div class="sample-card reveal reveal-delay-1">
-        <span class="sample-page-num">— Page 02 —</span>
-        <div class="sample-img-wrap">
-          <img src="images/story-page-06.png" alt="お父さんへの還暦祝い・ページ2" loading="lazy">
-        </div>
-        <div class="sample-meta">
-          <span class="sample-tag">— Chapter 2 —</span>
-          <p class="sample-title">「家族は、またひとつ大きくなった。」</p>
-        </div>
-      </div>
-      <div class="sample-card reveal reveal-delay-2">
-        <span class="sample-page-num">— Page 03 —</span>
-        <div class="sample-img-wrap">
-          <img src="images/story-page-07.png" alt="お父さんへの還暦祝い・ページ3" loading="lazy">
-        </div>
-        <div class="sample-meta">
-          <span class="sample-tag">— Chapter 3 —</span>
-          <p class="sample-title">「22歳で、二人の子を育てる父に。」</p>
+        <div class="story-card-meta">
+          <span class="story-card-tag">— Story 1 / 還暦・お父さんへ —</span>
+          <p class="story-card-title">「男手ひとつで、育ててくれた。」</p>
+          <div class="story-card-dots">
+            <button class="story-card-dot active" aria-label="ページ1"></button>
+            <button class="story-card-dot" aria-label="ページ2"></button>
+            <button class="story-card-dot" aria-label="ページ3"></button>
+            <button class="story-card-dot" aria-label="ページ4"></button>
+          </div>
         </div>
       </div>
-      <div class="sample-card reveal reveal-delay-3">
-        <span class="sample-page-num">— Page 04 —</span>
-        <div class="sample-img-wrap">
-          <img src="images/story-page-08.png" alt="お父さんへの還暦祝い・ページ4" loading="lazy">
+
+      <!-- Story 2 -->
+      <div class="story-card reveal reveal-delay-1" data-story="2">
+        <div class="story-card-stage">
+          <div class="story-card-page active">
+            <img src="images/story-page-05.png" alt="お父さんへの還暦祝い・物語2・ページ1" loading="lazy">
+          </div>
+          <div class="story-card-page">
+            <img src="images/story-page-06.png" alt="お父さんへの還暦祝い・物語2・ページ2" loading="lazy">
+          </div>
+          <div class="story-card-page">
+            <img src="images/story-page-07.png" alt="お父さんへの還暦祝い・物語2・ページ3" loading="lazy">
+          </div>
+          <div class="story-card-page">
+            <img src="images/story-page-08.png" alt="お父さんへの還暦祝い・物語2・ページ4" loading="lazy">
+          </div>
         </div>
-        <div class="sample-meta">
-          <span class="sample-tag">— Chapter 4 —</span>
-          <p class="sample-title">「それでも、力強く、守り抜いてきた。」</p>
+        <div class="story-card-meta">
+          <span class="story-card-tag">— Story 2 / 還暦・お父さんへ —</span>
+          <p class="story-card-title">「20歳で始まった、子育て。」</p>
+          <div class="story-card-dots">
+            <button class="story-card-dot active" aria-label="ページ1"></button>
+            <button class="story-card-dot" aria-label="ページ2"></button>
+            <button class="story-card-dot" aria-label="ページ3"></button>
+            <button class="story-card-dot" aria-label="ページ4"></button>
+          </div>
         </div>
       </div>
+
     </div>
     <div class="samples-footer reveal">
-      <p class="samples-footer-text">家族の数だけ、<em>物語があります。</em><br>あなたの家族の一冊を、編んでみませんか。</p>
+      <p class="samples-footer-text">あなたの家族には、<em>あなたの家族だけの物語</em>があります。<br>一冊の本に、家族の感謝を、編んでみませんか。</p>
       <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>あなたの物語を作る</span></a>
     </div>
   </div>
@@ -1452,6 +1477,79 @@ document.getElementById('hamburger').addEventListener('click',function(){
   
   // Start after intro animation completes (~5.5s)
   setTimeout(startTimer, 5800);
+})();
+
+// Story Cards Autoplay (samples-sec gallery)
+(function(){
+  var cards = document.querySelectorAll('.story-card');
+  if(!cards.length) return;
+
+  cards.forEach(function(card, cardIdx){
+    var pages = card.querySelectorAll('.story-card-page');
+    var dots = card.querySelectorAll('.story-card-dot');
+    if(pages.length === 0) return;
+
+    var current = 0;
+    var timer = null;
+    var INTERVAL = 4500;
+    var isPaused = false;
+    var hasStarted = false;
+
+    function goTo(idx){
+      if(idx === current) return;
+      pages[current].classList.remove('active');
+      pages[idx].classList.add('active');
+      dots.forEach(function(d, i){
+        d.classList.toggle('active', i === idx);
+      });
+      current = idx;
+    }
+
+    function next(){
+      goTo((current + 1) % pages.length);
+    }
+
+    function startTimer(){
+      stopTimer();
+      timer = setInterval(function(){
+        if(!isPaused) next();
+      }, INTERVAL);
+      hasStarted = true;
+    }
+
+    function stopTimer(){
+      if(timer){ clearInterval(timer); timer = null; }
+    }
+
+    // Dot clicks
+    dots.forEach(function(d, i){
+      d.addEventListener('click', function(){
+        goTo(i);
+        startTimer();
+      });
+    });
+
+    // Pause on hover
+    card.addEventListener('mouseenter', function(){ isPaused = true; });
+    card.addEventListener('mouseleave', function(){ isPaused = false; });
+
+    // Pause when out of view, start when in view (staggered by card index)
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          if(!hasStarted){
+            // Stagger initial start by 2s per card
+            setTimeout(startTimer, cardIdx * 2000);
+          } else {
+            startTimer();
+          }
+        } else {
+          stopTimer();
+        }
+      });
+    }, {threshold: 0.25});
+    io.observe(card);
+  });
 })();
 document.querySelectorAll('.mobile-nav-link,.mobile-cta').forEach(function(link){
   link.addEventListener('click',function(){
