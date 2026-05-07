@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#f5f0e8">
 
 <!-- ページ説明 -->
@@ -483,11 +483,88 @@ button {
   to { opacity: 1; transform: translateY(0); }
 }
 
+@media (max-width: 480px) {
+  .welcome {
+    padding: 32px 18px 48px;
+    padding-top: calc(28px + env(safe-area-inset-top));
+    padding-bottom: calc(48px + env(safe-area-inset-bottom));
+    min-height: 100svh; /* 動的ビューポート(モバイルブラウザのアドレスバー考慮) */
+  }
+  .welcome-eyebrow {
+    font-size: 9.5px;
+    letter-spacing: 0.36em;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+  .welcome-eyebrow::before, .welcome-eyebrow::after { width: 22px; }
+  .welcome-hero-frame {
+    width: min(200px, 56vw);
+    margin-bottom: 14px;
+  }
+  .welcome-hero-meta { min-height: 44px; margin-bottom: 10px; }
+  .welcome-hero-tag { font-size: 9px; letter-spacing: 0.24em; margin-bottom: 6px; }
+  .welcome-hero-sub { font-size: 13px; line-height: 1.65; padding: 0 12px; }
+  .welcome-hero-dots { margin-bottom: 12px; gap: 7px; }
+  .welcome-hero-dot { width: 4.5px; height: 4.5px; }
+  .welcome-hero-dot.active { width: 16px; }
+  .welcome-privacy-note { font-size: 9.5px; max-width: 280px; margin-bottom: 24px; padding: 0 8px; }
+  .welcome-divider-ornament { margin-bottom: 20px; }
+  .welcome-divider-ornament svg { width: 50px; height: 12px; }
+  .welcome-headline {
+    font-size: clamp(18px, 5.2vw, 22px);
+    line-height: 1.85;
+    margin-bottom: 20px;
+    padding: 0 6px;
+  }
+  .welcome-desc {
+    font-size: 13px;
+    line-height: 2;
+    margin-bottom: 22px;
+    padding: 0 8px;
+  }
+  .welcome-meta-line { font-size: 11px; gap: 6px; }
+  .welcome-meta-pair em { font-size: 14px; }
+  .welcome-note { font-size: 10px; margin-bottom: 28px; }
+  .welcome-cta {
+    width: 100%;
+    max-width: 320px;
+    padding: 17px 24px !important;
+    font-size: 14px !important;
+    letter-spacing: 0.16em !important;
+    min-height: 56px !important;
+  }
+  .btn-resume {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px 24px;
+    font-size: 13px;
+    min-height: 50px;
+  }
+}
+
+/* iPhone SE / 360px 以下対応 */
 @media (max-width: 380px) {
-  .welcome-hero-frame { width: min(200px, 56vw); }
-  .welcome-headline { font-size: clamp(18px, 5vw, 22px); }
-  .welcome-eyebrow { font-size: 9px; letter-spacing: 0.32em; gap: 10px; }
-  .welcome-eyebrow::before, .welcome-eyebrow::after { width: 20px; }
+  .welcome { padding: 24px 16px 40px; }
+  .welcome-hero-frame { width: min(180px, 54vw); margin-bottom: 12px; }
+  .welcome-hero-tag { font-size: 8.5px; letter-spacing: 0.2em; }
+  .welcome-hero-sub { font-size: 12.5px; }
+  .welcome-headline { font-size: clamp(17px, 5vw, 20px); line-height: 1.8; }
+  .welcome-desc { font-size: 12.5px; line-height: 1.95; }
+  .welcome-eyebrow { font-size: 8.5px; letter-spacing: 0.28em; gap: 9px; margin-bottom: 18px; }
+  .welcome-eyebrow::before, .welcome-eyebrow::after { width: 18px; }
+}
+
+/* 横画面 / 短い画面対応 */
+@media (max-height: 720px) and (max-width: 480px) {
+  .welcome { padding: 20px 18px 36px; min-height: auto; }
+  .welcome-hero-frame { width: min(170px, 48vw); margin-bottom: 10px; }
+  .welcome-headline { font-size: clamp(17px, 4.8vw, 20px); margin-bottom: 16px; }
+  .welcome-desc { margin-bottom: 18px; }
+  .welcome-note { margin-bottom: 22px; }
+  .welcome-meta-line { margin-bottom: 4px; }
+  .welcome-eyebrow { margin-bottom: 16px; }
+  .welcome-privacy-note { margin-bottom: 18px; }
+  .welcome-divider-ornament { margin-bottom: 16px; }
 }
 
 .welcome-message {
@@ -1674,6 +1751,78 @@ input[type="date"].form-input {
   }
   .action-bar-inner .btn-tertiary {
     width: 100%;
+  }
+
+  /* ── 追加:長寿祝い専用化に伴うスマホ最適化 ── */
+  /* シーン選択カード */
+  .card-select {
+    padding: 18px 18px;
+    min-height: 60px;
+    border-radius: 6px;
+  }
+  .card-select-title { font-size: 15.5px; margin-bottom: 4px; letter-spacing: 0.03em; }
+  .card-select-desc { font-size: 12px; line-height: 1.65; }
+  .card-list { gap: 8px; }
+
+  /* ジャンル画像カード(残存しているがスキップされている) */
+  .genre-card-img-wrap { aspect-ratio: 16/9; }
+
+  /* 選択肢の真下に展開する追加記述 */
+  .choice-with-followup {
+    padding: 0;
+  }
+  .choice-item {
+    padding: 14px 4px;
+    min-height: 52px;
+  }
+  .choice-item-text { font-size: 14.5px; line-height: 1.6; }
+  .choice-followup {
+    padding: 0 4px 0 36px;
+  }
+  .choice-followup.visible {
+    padding: 12px 4px 14px 36px;
+    max-height: 280px;
+  }
+  .choice-followup .form-textarea {
+    font-size: 14px;
+    min-height: 80px;
+    padding: 12px;
+  }
+  .choice-followup .form-hint {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  /* フォーム見出し */
+  .form-label {
+    font-size: 14px;
+  }
+  .form-hint {
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  /* アクションバー(下部固定)の影と高さ調整 */
+  .action-bar {
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 16px rgba(28,25,23,0.04);
+  }
+  .action-bar .btn-primary,
+  .action-bar .btn-secondary {
+    min-height: 52px;
+    font-size: 14px;
+    letter-spacing: 0.14em;
+  }
+
+  /* iOS スクロール慣性を有効に */
+  body, .screen {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+
+  /* タップ時の青ハイライトを除去(iOS) */
+  button, a, label {
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
