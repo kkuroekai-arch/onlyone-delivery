@@ -286,7 +286,7 @@ button {
 /* === Hero showcase: 物語の表紙が流れる === */
 .welcome-hero-frame {
   position: relative;
-  width: min(220px, 58vw);
+  width: min(280px, 70vw);
   aspect-ratio: 707/1000;
   margin: 0 auto 18px;
   border: 1px solid rgba(142, 111, 58, 0.28);
@@ -371,15 +371,28 @@ button {
 
 .welcome-privacy-note {
   font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
-  font-size: 10px;
+  font-size: clamp(9px, 2.4vw, 11px);
   font-style: italic;
   color: #888;
   letter-spacing: 0.04em;
   opacity: 0.6;
   margin: 0 auto 28px;
-  max-width: 320px;
+  max-width: none;
   line-height: 1.7;
   animation: welcomeFadeIn 1s ease .7s both;
+  text-align: center;
+  padding: 0 16px;
+}
+.welcome-privacy-note .wpn-a,
+.welcome-privacy-note .wpn-b {
+  display: inline;
+  white-space: nowrap;
+}
+/* 狭い画面では「のため、」の後で改行 */
+@media (max-width: 420px) {
+  .welcome-privacy-note .wpn-a {
+    display: block;
+  }
 }
 
 .welcome-divider-ornament {
@@ -498,7 +511,7 @@ button {
   }
   .welcome-eyebrow::before, .welcome-eyebrow::after { width: 22px; }
   .welcome-hero-frame {
-    width: min(200px, 56vw);
+    width: min(260px, 70vw);
     margin-bottom: 14px;
   }
   .welcome-hero-meta { min-height: 44px; margin-bottom: 10px; }
@@ -545,7 +558,7 @@ button {
 /* iPhone SE / 360px 以下対応 */
 @media (max-width: 380px) {
   .welcome { padding: 24px 16px 40px; }
-  .welcome-hero-frame { width: min(180px, 54vw); margin-bottom: 12px; }
+  .welcome-hero-frame { width: min(230px, 68vw); margin-bottom: 12px; }
   .welcome-hero-tag { font-size: 8.5px; letter-spacing: 0.2em; }
   .welcome-hero-sub { font-size: 12.5px; }
   .welcome-headline { font-size: clamp(17px, 5vw, 20px); line-height: 1.8; }
@@ -557,7 +570,7 @@ button {
 /* 横画面 / 短い画面対応 */
 @media (max-height: 720px) and (max-width: 480px) {
   .welcome { padding: 20px 18px 36px; min-height: auto; }
-  .welcome-hero-frame { width: min(170px, 48vw); margin-bottom: 10px; }
+  .welcome-hero-frame { width: min(200px, 56vw); margin-bottom: 10px; }
   .welcome-headline { font-size: clamp(17px, 4.8vw, 20px); margin-bottom: 16px; }
   .welcome-desc { margin-bottom: 18px; }
   .welcome-note { margin-bottom: 22px; }
@@ -1898,7 +1911,7 @@ input[type="date"].form-input {
         <button class="welcome-hero-dot" data-index="3" aria-label="ストーリー4へ"></button>
       </div>
 
-      <p class="welcome-privacy-note">※ 個人情報保護のため、デザインなどを変更して掲載しております。</p>
+      <p class="welcome-privacy-note"><span class="wpn-a">※ 個人情報保護のため、</span><span class="wpn-b">デザインなどを変更して掲載しております。</span></p>
 
       <div class="welcome-divider-ornament" aria-hidden="true">
         <svg width="60" height="14" viewBox="0 0 60 14" xmlns="http://www.w3.org/2000/svg">
@@ -1911,8 +1924,7 @@ input[type="date"].form-input {
 
       <h1 class="welcome-headline serif">
         還暦などの長寿祝いに、<br>
-        <em>泣いて喜んでもらえる</em><br>
-        ギフトレシピ。
+        <em>泣いて喜んでもらえるギフト</em>。
       </h1>
 
       <p class="welcome-desc">
@@ -4651,7 +4663,7 @@ GENRES_DATA = {
             ]
           }
         ],
-        "closingOptions": [
+        "closingMessages": [
           {
             "title": "ありがとう、お父さん、お母さん",
             "text": "二人で力を合わせて、私たち家族を、ここまで育ててくれて、ありがとう。\n言葉にしきれない感謝を、この一冊に込めました。\nこれからは、どうかご自分たちの時間を、ゆっくり楽しんでください。"
