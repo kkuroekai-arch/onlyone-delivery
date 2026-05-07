@@ -358,10 +358,12 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .milestones-header{text-align:center;margin-bottom:80px}
 .milestones-intro{font-family:var(--serif-jp);font-size:14px;line-height:2.2;color:var(--ink-light);margin-top:28px;letter-spacing:.08em;max-width:600px;margin-left:auto;margin-right:auto}
 .milestones-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
-.milestone-card{background:radial-gradient(ellipse at top left,rgba(255,250,235,.7) 0%,transparent 55%),radial-gradient(ellipse at bottom right,rgba(220,200,165,.35) 0%,transparent 55%),linear-gradient(155deg,#FBF7EE 0%,var(--cream) 50%,#EFE6CD 100%);padding:64px 36px 56px;text-align:center;border:1px solid var(--gold-rule);position:relative;transition:all .6s cubic-bezier(.4,0,.2,1);overflow:hidden;box-shadow:inset 0 0 80px rgba(255,253,243,.5),inset 0 0 0 1px rgba(255,255,255,.4),0 4px 16px rgba(154,123,62,.08)}
-.milestone-card::before{content:'';position:absolute;top:22px;left:50%;transform:translateX(-50%);width:60px;height:14px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 14'><line x1='0' y1='7' x2='22' y2='7' stroke='%238E6F3A' stroke-width='.6' opacity='.8'/><line x1='38' y1='7' x2='60' y2='7' stroke='%238E6F3A' stroke-width='.6' opacity='.8'/><path d='M30 2 L34 7 L30 12 L26 7 Z' fill='none' stroke='%238E6F3A' stroke-width='.7'/><circle cx='30' cy='7' r='1' fill='%238E6F3A'/></svg>");background-repeat:no-repeat;background-size:contain;background-position:center}
-.milestone-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-48%);font-family:var(--serif-jp);font-size:clamp(180px,28vw,280px);font-weight:300;color:rgba(142,111,58,.055);line-height:1;letter-spacing:0;pointer-events:none;user-select:none;z-index:0;display:block}
+.milestone-card{background:radial-gradient(circle at 18% 22%,rgba(212,184,110,.13) 0%,transparent 4%),radial-gradient(circle at 78% 18%,rgba(212,184,110,.10) 0%,transparent 3%),radial-gradient(circle at 32% 65%,rgba(212,184,110,.09) 0%,transparent 3%),radial-gradient(circle at 84% 72%,rgba(212,184,110,.11) 0%,transparent 4%),radial-gradient(circle at 50% 92%,rgba(212,184,110,.08) 0%,transparent 3%),linear-gradient(178deg,#FBF7EE 0%,#F8F1DF 100%);padding:64px 36px 56px;text-align:center;border:1px solid rgba(154,123,62,.32);position:relative;transition:all .6s cubic-bezier(.4,0,.2,1);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.6),inset 0 0 0 7px rgba(248,241,223,.5),inset 0 0 0 8px rgba(154,123,62,.15),0 4px 18px rgba(154,123,62,.08)}
+.milestone-card::before{content:'';position:absolute;top:24px;left:50%;transform:translateX(-50%);width:54px;height:10px;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 54 10'><line x1='0' y1='5' x2='22' y2='5' stroke='%238E6F3A' stroke-width='.6' opacity='.7'/><line x1='32' y1='5' x2='54' y2='5' stroke='%238E6F3A' stroke-width='.6' opacity='.7'/><circle cx='27' cy='5' r='1.6' fill='none' stroke='%238E6F3A' stroke-width='.6'/><circle cx='27' cy='5' r='.6' fill='%238E6F3A'/></svg>");background-repeat:no-repeat;background-size:contain;background-position:center}
+.milestone-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-48%);font-family:var(--serif-jp);font-size:clamp(180px,28vw,280px);font-weight:300;color:rgba(142,111,58,.06);line-height:1;letter-spacing:0;pointer-events:none;user-select:none;z-index:0;display:block}
 .milestone-card > *:not(.milestone-watermark){position:relative;z-index:1}
+/* milestone-corner は新デザインに合わせて非表示 */
+.milestone-corner{display:none !important}
 .milestone-card::after{content:'';position:absolute;top:14px;left:14px;right:14px;bottom:14px;border:1px solid rgba(142,111,58,.1);pointer-events:none;transition:border-color .6s ease}
 /* Corner ornaments */
 .milestone-corner{position:absolute;width:14px;height:14px;border:1px solid var(--gold);opacity:.5;pointer-events:none;transition:opacity .5s ease}
@@ -793,9 +795,9 @@ html{scroll-behavior:smooth}
   /* 5. Milestones intro on 1 line + good spacing */
   .milestones-intro{font-size:11.5px;letter-spacing:.04em;line-height:2;padding:0 4px}
 
-  /* Privacy note on mobile */
-  .samples-privacy-note{font-size:10px;letter-spacing:.04em;margin-top:14px;max-width:340px;line-height:1.7}
-  .hero-privacy-note{font-size:9.5px;letter-spacing:.03em;margin:-12px auto 22px;max-width:300px;padding:0 16px;line-height:1.6}
+  /* Privacy note on mobile - clamp font for any phone width */
+  .samples-privacy-note{font-size:clamp(8px,2.5vw,10px) !important;letter-spacing:.02em !important;margin-top:14px;max-width:none;line-height:1.7;white-space:nowrap;overflow:hidden}
+  .hero-privacy-note{font-size:clamp(8px,2.4vw,10px) !important;letter-spacing:.02em !important;margin:-12px auto 22px;max-width:none;padding:0 8px;line-height:1.6;white-space:nowrap;overflow:hidden}
 
   /* 6/7/8. Milestone cards more visual richness on mobile */
   .milestone-card{padding:48px 28px 42px;background:linear-gradient(160deg,#FAF6EC 0%,var(--cream) 55%,#F0E8D2 100%);box-shadow:inset 0 0 40px rgba(255,255,255,.5),0 4px 16px rgba(154,123,62,.07)}
@@ -823,10 +825,13 @@ html{scroll-behavior:smooth}
   .recipe-mockup-frame.fr-3{top:48px;left:192px}
 
   /* 13. plans-sub on 2 lines (the <br> already breaks it) */
-  .plans-sub{font-size:12px !important;letter-spacing:.04em !important;line-height:1.95 !important}
+  .plans-sub{font-size:clamp(9px,2.8vw,12px) !important;letter-spacing:.02em !important;line-height:1.95 !important;word-break:keep-all}
+  .plans-sub em{font-size:inherit !important}
 
   /* 14. Compare conclusion on 2 lines */
   .compare-conclusion{font-size:11px;letter-spacing:.02em;line-height:2;padding:22px 6px;word-break:keep-all;overflow-wrap:break-word}
+  /* compare-summary も同程度に */
+  .compare-summary{font-size:11px !important;line-height:1.95 !important;letter-spacing:.02em !important}
 }
 
 /* Smaller phones (<420px) - keep 1-col + further refinements */
@@ -1525,8 +1530,7 @@ html{scroll-behavior:smooth}
         </ul>
         <div class="compare-summary">
           価格は手頃。<br>
-          一方で、想いを言葉にする工程は<br>
-          すべてご自身で。
+          一方で、想いを言葉にする工程はすべてご自身で。
         </div>
       </div>
 
