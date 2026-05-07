@@ -357,7 +357,9 @@ nav.scrolled{background:rgba(250,248,244,.96);backdrop-filter:blur(20px);padding
 .milestones-header{text-align:center;margin-bottom:80px}
 .milestones-intro{font-family:var(--serif-jp);font-size:14px;line-height:2.2;color:var(--ink-light);margin-top:28px;letter-spacing:.08em;max-width:600px;margin-left:auto;margin-right:auto}
 .milestones-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
-.milestone-card{background:var(--cream);padding:64px 36px 56px;text-align:center;border:1px solid var(--gold-rule);position:relative;transition:all .6s cubic-bezier(.4,0,.2,1);overflow:hidden}
+.milestone-card{background:linear-gradient(165deg,#FAF6EC 0%,var(--cream) 50%,#F2EBD8 100%);padding:64px 36px 56px;text-align:center;border:1px solid var(--gold-rule);position:relative;transition:all .6s cubic-bezier(.4,0,.2,1);overflow:hidden;box-shadow:inset 0 0 60px rgba(255,255,255,.4),0 2px 12px rgba(154,123,62,.05)}
+.milestone-watermark{position:absolute;top:50%;left:50%;transform:translate(-50%,-48%);font-family:var(--serif-jp);font-size:clamp(180px,28vw,280px);font-weight:300;color:rgba(142,111,58,.045);line-height:1;letter-spacing:0;pointer-events:none;user-select:none;z-index:0;display:block}
+.milestone-card > *:not(.milestone-watermark){position:relative;z-index:1}
 .milestone-card::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
 .milestone-card::after{content:'';position:absolute;top:14px;left:14px;right:14px;bottom:14px;border:1px solid rgba(142,111,58,.1);pointer-events:none;transition:border-color .6s ease}
 /* Corner ornaments */
@@ -772,6 +774,89 @@ html{scroll-behavior:smooth}
   .showcase-page,.story-card-page{opacity:1 !important;position:relative !important}
 }
 
+/* ============================================
+   FINAL MOBILE FINE-TUNING (user-requested)
+   ============================================ */
+@media(max-width:600px){
+  /* 1. Hero "ONLY ONE DELIVERY" lowered for breathing room */
+  .hero-eyebrow-top{top:108px;font-size:8.5px;letter-spacing:.32em}
+
+  /* 2. Hero tagline on 1 line */
+  .hero-tagline{font-size:12.5px;letter-spacing:.04em;line-height:1.7;white-space:nowrap;text-align:center}
+  .hero-tagline-sub{font-size:10.5px;letter-spacing:.1em;line-height:1.7}
+
+  /* 3. Intro paragraph compacted to 2 lines */
+  .intro-heading > p[style]{font-size:12px !important;line-height:2 !important;letter-spacing:.04em !important}
+
+  /* 5. Milestones intro on 1 line + good spacing */
+  .milestones-intro{font-size:11.5px;letter-spacing:.04em;line-height:2;padding:0 4px}
+
+  /* 6/7/8. Milestone cards more visual richness on mobile */
+  .milestone-card{padding:48px 28px 42px;background:linear-gradient(160deg,#FAF6EC 0%,var(--cream) 55%,#F0E8D2 100%);box-shadow:inset 0 0 40px rgba(255,255,255,.5),0 4px 16px rgba(154,123,62,.07)}
+  .milestone-watermark{font-size:200px}
+  .milestone-card::after{top:10px;left:10px;right:10px;bottom:10px;border-color:rgba(142,111,58,.14)}
+
+  /* 9. Milestones secondary list — fit 5 items in 1 line */
+  .milestones-secondary-list{font-size:11px;gap:10px;letter-spacing:.06em;flex-wrap:nowrap;white-space:nowrap;justify-content:space-around;padding:0 4px}
+  .milestones-secondary-list span{gap:3px}
+  .milestones-secondary-list em{font-size:14px}
+
+  /* 10. Story cards: 1 column on mobile so subtitles fit on 1 line */
+  .samples-grid--story{grid-template-columns:1fr !important;gap:18px;max-width:380px;padding:0}
+  .story-card-stage{aspect-ratio:707/1000}
+  .story-card-meta{padding:18px 22px 22px}
+  .story-card-tag{font-size:9.5px;letter-spacing:.24em;margin-bottom:7px}
+  .story-card-title{font-size:13.5px;letter-spacing:.04em;line-height:1.7;margin-bottom:14px;min-height:auto;white-space:normal}
+  .story-card-dot{width:5px;height:5px}
+  .story-card-dot.active{width:18px}
+
+  /* 12. Phone mockups bigger so inner content is readable */
+  .recipe-mockup-stack{width:340px;height:480px}
+  .recipe-mockup-frame{width:172px}
+  .recipe-mockup-frame.fr-2{top:24px;left:96px}
+  .recipe-mockup-frame.fr-3{top:48px;left:192px}
+
+  /* 13. plans-sub on 2 lines (the <br> already breaks it) */
+  .plans-sub{font-size:12px !important;letter-spacing:.04em !important;line-height:1.95 !important}
+
+  /* 14. Compare conclusion on 2 lines */
+  .compare-conclusion{font-size:12px;letter-spacing:.04em;line-height:2;padding:24px 8px}
+}
+
+/* Smaller phones (<420px) - keep 1-col + further refinements */
+@media(max-width:420px){
+  /* Override earlier 2-col rule */
+  .samples-grid--story{grid-template-columns:1fr !important;gap:16px;max-width:340px}
+
+  /* Hero tagline tighter */
+  .hero-tagline{font-size:11.5px;letter-spacing:.03em}
+  .hero-tagline-sub{font-size:10px}
+
+  /* Milestones secondary list even tighter for 5 items */
+  .milestones-secondary-list{font-size:10px;gap:6px;letter-spacing:.04em}
+  .milestones-secondary-list em{font-size:13px}
+
+  /* Phone mockups slightly smaller */
+  .recipe-mockup-stack{width:300px;height:435px}
+  .recipe-mockup-frame{width:152px}
+  .recipe-mockup-frame.fr-2{top:22px;left:84px}
+  .recipe-mockup-frame.fr-3{top:44px;left:168px}
+
+  /* Story card titles slightly smaller but still 1 line */
+  .story-card-title{font-size:12.5px}
+  .story-card-tag{font-size:9px;letter-spacing:.2em}
+}
+
+/* Extra small (<=360px iPhone SE) */
+@media(max-width:360px){
+  .hero-tagline{font-size:11px;letter-spacing:.02em}
+  .milestones-secondary-list{font-size:9.5px;gap:4px}
+  .recipe-mockup-stack{width:280px;height:410px}
+  .recipe-mockup-frame{width:142px}
+  .recipe-mockup-frame.fr-2{left:78px}
+  .recipe-mockup-frame.fr-3{left:156px}
+}
+
 </style>
 </head>
 <body>
@@ -937,7 +1022,7 @@ html{scroll-behavior:smooth}
   <div class="intro-grid">
     <div class="intro-heading reveal">
       <span class="sec-label">The Gift</span>
-      <h2 class="sec-title" style="font-size:clamp(28px,3.5vw,50px)">家族の感謝を、<span class="sp-br"></span><em>一冊の本に。</em><br>それが、<span class="sp-br"></span><em>Only One Delivery。</em></h2>
+      <h2 class="sec-title" style="font-size:clamp(28px,3.5vw,50px)">還暦などの長寿祝いに、<span class="sp-br"></span><em>泣いて喜んでもらえる。</em><br>それが、<span class="sp-br"></span><em>Only One Delivery。</em></h2>
       <p style="font-family:var(--serif-jp);font-size:14px;line-height:2.2;color:var(--ink-light);letter-spacing:.06em;max-width:580px;margin:24px auto 0">市販の還暦・長寿祝いギフトでは伝えきれない想いを、<br>一冊の本に編んで届ける、新しい贈り物のかたち。</p>
     </div>
     <div class="intro-points">
@@ -997,6 +1082,7 @@ html{scroll-behavior:smooth}
     </div>
     <div class="milestones-grid">
       <div class="milestone-card reveal">
+        <span class="milestone-watermark" aria-hidden="true">還</span>
         <span class="milestone-corner tl"></span>
         <span class="milestone-corner tr"></span>
         <span class="milestone-corner bl"></span>
@@ -1013,6 +1099,7 @@ html{scroll-behavior:smooth}
         </p>
       </div>
       <div class="milestone-card reveal reveal-delay-1">
+        <span class="milestone-watermark" aria-hidden="true">古</span>
         <span class="milestone-corner tl"></span>
         <span class="milestone-corner tr"></span>
         <span class="milestone-corner bl"></span>
@@ -1029,6 +1116,7 @@ html{scroll-behavior:smooth}
         </p>
       </div>
       <div class="milestone-card reveal reveal-delay-2">
+        <span class="milestone-watermark" aria-hidden="true">喜</span>
         <span class="milestone-corner tl"></span>
         <span class="milestone-corner tr"></span>
         <span class="milestone-corner bl"></span>
@@ -1202,7 +1290,7 @@ html{scroll-behavior:smooth}
 
     </div>
     <div class="samples-footer reveal">
-      <p class="samples-footer-text">あなたの家族には、<em>あなたの家族だけの物語</em>があります。<br>一冊の本に、家族の感謝を、編んでみませんか。</p>
+      <p class="samples-footer-text"><em>「ありがとう」</em>のひと言を、<br>世界でひとつの一冊に。</p>
       <a href="https://lin.ee/7d2v7ga" class="btn-dark"><span>あなたの物語を作る</span></a>
     </div>
   </div>
